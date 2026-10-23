@@ -23,7 +23,7 @@
       ],
       "exit_code": 0,
       "expected_exit_code": 0,
-      "elapsed_seconds": 18.61,
+      "elapsed_seconds": 19.19,
       "tests_run": 131,
       "skipped": 0
     },
@@ -33,11 +33,11 @@
         "agent_construction_lab.fixed_model",
         "smoke",
         "--out",
-        "runs\\local-reconstruction\\final-20261024\\smoke"
+        "runs\\local-reconstruction\\windows-path-fix\\smoke"
       ],
       "exit_code": 0,
       "expected_exit_code": 0,
-      "elapsed_seconds": 2.8
+      "elapsed_seconds": 2.42
     },
     "frozen_verify": {
       "command": [
@@ -45,11 +45,11 @@
         "agent_construction_lab.fixed_model",
         "verify-run",
         "--run",
-        "runs\\local-reconstruction\\final-20261024\\smoke"
+        "runs\\local-reconstruction\\windows-path-fix\\smoke"
       ],
       "exit_code": 0,
       "expected_exit_code": 0,
-      "elapsed_seconds": 0.67
+      "elapsed_seconds": 0.83
     },
     "simulator_cli": {
       "command": [
@@ -151,7 +151,7 @@
     "agent_construction_lab/experiments.py": "68a9058ad2ccc4f3c7ffd79200701b51f2d5832dabc21a76317a4bcfba1c2521",
     "agent_construction_lab/fixed_model/__init__.py": "c84c2d073aa476ddd2f9460dcf60c863a014dcc51f021b7689b5a585460d613a",
     "agent_construction_lab/fixed_model/__main__.py": "6f0dc68e797987483371db98d867adfeccfaabb43740e7296ea936dcab2fbe05",
-    "agent_construction_lab/fixed_model/appworld_process.py": "b6fd681a6f650576b6a0515c7fb9bcd57400e49ee5f8e8fb932a1d84414237e1",
+    "agent_construction_lab/fixed_model/appworld_process.py": "0eb1454a48e24ca8c123cca781944b85eadddf831845356f2600465f48dd6a58",
     "agent_construction_lab/fixed_model/client.py": "9d2dd25f72b8bea59a7c4429bb328cacf70bfddec0303c05c393731f6a6419a3",
     "agent_construction_lab/fixed_model/code_policy.py": "139852c584674356f57df763ad5d456ce17887cc73e50502d71df35df7c6ccb3",
     "agent_construction_lab/fixed_model/constructors.py": "05f16479019c581cd1195db0cde4ffca830423424ad026a8c686e6d7c34e5c16",
@@ -170,15 +170,25 @@
   },
   "packaging": {
     "wheel": "agent_construction_lab-0.3.0-py3-none-any.whl",
-    "sha256": "10f417fcf40adf48b27c641fe074d569f3863082491ced53eb2e4f16feb432aa",
+    "sha256": "22ab2a73e023816fa4b78e02202d2c33bdd191df6f66a00434c20fc5e1ecfabe",
     "isolated_wheel_install": {
       "version": "0.3.0",
       "source_tasks": 32,
       "installed_wheel_executed": true,
       "task_id": "source.invoice_reconciliation.00"
     },
-    "build_command": "uv build --wheel"
+    "build_command": "uv build --wheel",
+    "corrected_wheel_verification": {
+      "source_tasks": 32,
+      "installed_wheel_imported": true,
+      "appworld_process_sha256": "0eb1454a48e24ca8c123cca781944b85eadddf831845356f2600465f48dd6a58"
+    }
   },
   "original_core_paths_reimplemented": 23,
-  "original_test_files_modified": false
+  "original_test_files_modified": false,
+  "windows_short_path_regression": {
+    "result": "passed",
+    "method": "GetShortPathNameW root passed through the original worker environment/cache identity test"
+  },
+  "ci_followup": "Initial Ubuntu CI passed. Windows CI exposed 8.3 root normalization, reproduced with GetShortPathNameW and corrected. Per-commit CI results: https://github.com/Ivanbeethoven/agent-construction-lab/actions"
 }

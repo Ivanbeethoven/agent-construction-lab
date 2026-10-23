@@ -61,7 +61,9 @@ class AppWorldProcessEnvironment:
         self._request_id = 0
         self._process = None
         self._thread = None
-        root = Path(appworld_root).resolve()
+        # Keep the caller's root spelling, including Windows 8.3 paths. Resolving
+        # it expands aliases and makes child cache/root identities inconsistent.
+        root = Path(appworld_root).absolute()
         root.mkdir(parents=True, exist_ok=True)
         self._cache = tempfile.TemporaryDirectory(prefix="acl-worker-", dir=root)
         self._stderr = tempfile.TemporaryFile(mode="w+b")

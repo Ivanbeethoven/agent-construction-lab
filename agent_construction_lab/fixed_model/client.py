@@ -110,6 +110,9 @@ class ModelConfig:
     output_price_per_million: float | None = None
     cached_input_price_per_million: float | None = None
     pricing_version: str | None = None
+    max_model_calls: int | None = None
+    max_total_tokens: int | None = None
+    request_token_reserve: int | None = None
 
     def __post_init__(self):
         if not isinstance(self.model, str) or not self.model.strip():
@@ -131,6 +134,14 @@ class ModelConfig:
                 raise ValueError(f"{name} must be a finite nonnegative rate")
         if self.request_seed is not None and type(self.request_seed) is not int:
             raise ValueError("request_seed must be an integer or None")
+        for name in ("max_model_calls", "max_total_tokens", "request_token_reserve"):
+            value = getattr(self, name)
+            if value is not None and (type(value) is not int or value < 1):
+                raise ValueError(f"{name} must be a positive integer or None")
+        if self.max_total_tokens is not None and self.request_token_reserve is None:
+            raise ValueError("A token limit requires an explicit per-request token upper bound")
+        if self.request_token_reserve is not None and self.request_token_reserve < self.max_output_tokens:
+            raise ValueError("request_token_reserve must cover the maximum output tokens")
 
     def to_dict(self):
         return asdict(self)
@@ -183,6 +194,15 @@ class UsageLedger:
     def totals(self, rows=None):
         return aggregate_usage(self.snapshot() if rows is None else rows)
 
+    def budget_status(self, config):
+        rows = [row for row in self.snapshot() if row.get("request_sent")]
+        unknown = [row for row in rows if row.get("total_tokens") is None]
+        known = sum(row["total_tokens"] for row in rows if row.get("total_tokens") is not None)
+        return {"max_model_calls": config.max_model_calls, "max_total_tokens": config.max_total_tokens,
+                "request_token_reserve": config.request_token_reserve, "model_calls": len(rows),
+                "known_total_tokens": known, "unknown_usage_attempts": len(unknown),
+                "conservatively_reserved_tokens": known + sum(row.get("request_token_reserve") or 0 for row in unknown)}
+
 
 class ModelCallError(RuntimeError):
     def __init__(self, error_type, message=None, *, attempt_ids=(), http_status=None):
@@ -212,13 +232,31 @@ def _usage(payload, config):
     inputs, outputs, total = (_count(usage.get(name)) for name in ("prompt_tokens", "completion_tokens", "total_tokens"))
     input_details = usage.get("prompt_tokens_details") or {}
     output_details = usage.get("completion_tokens_details") or {}
-    cached = _count(input_details.get("cached_tokens", 0)) if isinstance(input_details, dict) and inputs is not None else None
-    reasoning = _count(output_details.get("reasoning_tokens", 0)) if isinstance(output_details, dict) and outputs is not None else None
+    cached = _count(input_details.get("cached_tokens")) if isinstance(input_details, dict) and inputs is not None else None
+    reasoning = _count(output_details.get("reasoning_tokens")) if isinstance(output_details, dict) and outputs is not None else None
+    violations = []
+    cache_source = "prompt_tokens_details.cached_tokens" if cached is not None else "unknown"
+    if "prompt_cache_hit_tokens" in usage:
+        hit = _count(usage["prompt_cache_hit_tokens"])
+        if hit is None or cached is not None and hit != cached:
+            violations.append("invalid_or_conflicting_cache_hit_tokens")
+        else:
+            cached, cache_source = hit, "prompt_cache_hit_tokens"
+    miss = _count(usage.get("prompt_cache_miss_tokens"))
+    if "prompt_cache_miss_tokens" in usage:
+        if miss is None or inputs is not None and cached is not None and inputs != cached + miss:
+            violations.append("invalid_or_conflicting_cache_miss_tokens")
+    if cached is not None and inputs is not None and cached > inputs:
+        violations.append("cached_tokens_exceed_input")
+    if reasoning is not None and outputs is not None and reasoning > outputs:
+        violations.append("reasoning_tokens_exceed_output")
+    if inputs is not None and outputs is not None and total is not None and total != inputs + outputs:
+        violations.append("total_tokens_disagree_with_parts")
     source = "provider" if total is not None else "unknown"
     if total is None and inputs is not None and outputs is not None:
         total, source = inputs + outputs, "sum_of_input_and_output"
     cost = None
-    if inputs is not None and outputs is not None and config.input_price_per_million is not None and config.output_price_per_million is not None:
+    if not violations and inputs is not None and outputs is not None and config.input_price_per_million is not None and config.output_price_per_million is not None:
         input_cost = inputs * config.input_price_per_million
         if config.cached_input_price_per_million is not None:
             if cached is None or cached > inputs:
@@ -229,7 +267,9 @@ def _usage(payload, config):
             cost = (input_cost + outputs * config.output_price_per_million) / 1_000_000
     values = dict(input_tokens=inputs, output_tokens=outputs, total_tokens=total,
                   cached_input_tokens=cached, reasoning_tokens=reasoning, cost_usd=cost,
-                  total_tokens_source=source)
+                  total_tokens_source=source, cached_input_tokens_source=cache_source,
+                  uncached_input_tokens=miss if miss is not None else inputs-cached if inputs is not None and cached is not None else None,
+                  usage_consistent=not violations, usage_errors=violations)
     values["usage_status"] = "complete" if all(values[key] is not None for key in TOKEN_FIELDS) else "partial" if usage else "unknown"
     return values
 
@@ -248,6 +288,33 @@ class OpenAICompatibleClient:
 
     def complete(self, messages, *, phase="execution", role="executor", domain=None,
                  task_id=None, seed=None, tools=None, tool_choice=None):
+        # One ledger is one spending pool. Serialize its admissions, including
+        # clients sharing the same ledger, so concurrent calls cannot overshoot.
+        with self.ledger._lock:
+            return self._complete(messages, phase=phase, role=role, domain=domain,
+                                  task_id=task_id, seed=seed, tools=tools, tool_choice=tool_choice)
+
+    def _budget_error(self, encoded):
+        config = self.config
+        state = self.ledger.budget_status(config)
+        if config.max_model_calls is not None and state["model_calls"] >= config.max_model_calls:
+            return "model_call_budget_exhausted"
+        if config.max_total_tokens is not None:
+            if state["unknown_usage_attempts"]:
+                return "budget_usage_unknown"
+            if state["known_total_tokens"] + config.request_token_reserve > config.max_total_tokens:
+                return "token_budget_exhausted"
+        # The caller must configure a documented model context-window bound.
+        # This additional conservative byte check also stops oversized builder
+        # prompts before dispatch; it is not an exact tokenizer claim.
+        if config.request_token_reserve is not None and len(encoded) + config.max_output_tokens > config.request_token_reserve:
+            return "request_token_reservation_exceeded"
+        if any(row.get("error_type") == "token_reservation_exceeded" for row in self.ledger.snapshot()):
+            return "token_reservation_exceeded"
+        return None
+
+    def _complete(self, messages, *, phase="execution", role="executor", domain=None,
+                  task_id=None, seed=None, tools=None, tool_choice=None):
         config = self.config
         seed = config.request_seed if seed is None else seed
         if seed is not None and type(seed) is not int:
@@ -284,11 +351,17 @@ class OpenAICompatibleClient:
                    "retry_scheduled": False, "response_model": None, "provider_request_id": None,
                    "finish_reason": None, "pricing_version": config.pricing_version,
                    "cost_is_estimate": True,
+                   "request_token_reserve": config.request_token_reserve,
                    "cost_basis": "configured token rates; does not include unpriced external charges"}
             row.update(_usage({}, config))
             payload, message, retryable = None, None, False
             if config.api_key_env and not credential:
                 row["error_type"] = "missing_api_key"
+            elif (budget_error := self._budget_error(encoded)) is not None:
+                row["error_type"] = budget_error
+                row.update({key: 0 for key in TOKEN_FIELDS})
+                row.update(cost_usd=0.0, usage_status="not_sent", total_tokens_source="no_http_request",
+                           budget_blocked=True, budget=self.ledger.budget_status(config))
             else:
                 req = request.Request(config.base_url.rstrip("/") + "/chat/completions", data=encoded, headers=headers, method="POST")
                 try:
@@ -303,7 +376,9 @@ class OpenAICompatibleClient:
                         row["error_type"] = "invalid_response_json"
                     if row["error_type"] is None:
                         row.update(_usage(payload, config))
-                        if not isinstance(payload, dict):
+                        if not row["usage_consistent"]:
+                            row["error_type"] = "invalid_provider_usage"
+                        elif not isinstance(payload, dict):
                             row["error_type"] = "invalid_response_schema"
                         else:
                             row["response_model"] = payload.get("model")
@@ -314,7 +389,9 @@ class OpenAICompatibleClient:
                                 choice = choices[0] if isinstance(choices, list) and choices and isinstance(choices[0], dict) else {}
                                 message = choice.get("message")
                                 row["finish_reason"] = choice.get("finish_reason")
-                                if (not isinstance(message, dict) or
+                                if row["finish_reason"] in {"insufficient_system_resource", "aborted"}:
+                                    row["error_type"] = "provider_generation_interrupted"
+                                elif (not isinstance(message, dict) or
                                         message.get("content") is not None and not isinstance(message["content"], str) or
                                         message.get("tool_calls") is not None and not isinstance(message["tool_calls"], list) or
                                         isinstance(message, dict) and message.get("content") is None and not message.get("tool_calls")):
@@ -335,6 +412,14 @@ class OpenAICompatibleClient:
                 except (error.URLError, TimeoutError, socket.timeout, OSError, http.client.HTTPException):
                     row["error_type"] = "transport_error"
                     retryable = True
+            if row["request_sent"] and config.request_token_reserve is not None and row["total_tokens"] is not None and row["total_tokens"] > config.request_token_reserve:
+                row["underlying_error_type"] = row["error_type"]
+                row["success"], row["error_type"], retryable = False, "token_reservation_exceeded", False
+            if row["request_sent"] and config.max_total_tokens is not None and row["total_tokens"] is None:
+                # Even a successful response with missing usage makes further
+                # spending unauditable. Preserve null usage and abort now.
+                row["underlying_error_type"] = row["error_type"]
+                row["success"], row["error_type"], retryable = False, "budget_usage_unknown", False
             row["retry_scheduled"] = retryable and index < config.retries
             row["latency_seconds"] = max(0.0, REAL_CLOCK.monotonic() - started)
             attempt_ids.append(self.ledger.record(row))

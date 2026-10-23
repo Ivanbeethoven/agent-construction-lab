@@ -269,9 +269,21 @@ def run_study(manifest, model, out, *, config=None, mock=False, progress=None, a
             raise StudyExecutionError("Physical attempt ownership is incomplete or duplicated")
         summary=summarize(queries,episodes,constructions,usage.snapshot(),config,mock)
         write_json(root/"summary.json",summary)
-        write_json(root/"run_status.json",dict(completed=True,stage="complete",usage=usage.totals(),mock_model=mock,run_id=run_id))
+        write_json(root/"run_status.json",dict(completed=True,stage="complete",usage=usage.totals(),mock_model=mock,run_id=run_id,
+            spending_limits=usage.budget_status(model)))
         return summary
     except Exception as error:
-        write_json(root/"run_status.json",dict(completed=False,stage="failed",error=str(error),usage=usage.totals(),mock_model=mock,run_id=run_id))
+        # Failed builder/reflection calls never produce a frozen harness. Give
+        # their attempts an explicit failure owner instead of inventing one.
+        owned={a for row in episodes+constructions for a in row["attempt_ids"]}
+        orphaned=[row for row in usage.snapshot() if row["attempt_id"] not in owned]
+        if orphaned:
+            append_json(root/"failed_operations.jsonl",dict(operation="interrupted_construction_or_reflection",
+                attempt_ids=[row["attempt_id"] for row in orphaned],error=str(error),valid_task_outcome=False))
+        blocked=[row for row in usage.snapshot() if row.get("budget_blocked") or row.get("error_type") in
+            {"budget_usage_unknown","token_reservation_exceeded"}]
+        write_json(root/"run_status.json",dict(completed=False,stage="failed",error=str(error),usage=usage.totals(),mock_model=mock,run_id=run_id,
+            spending_limits=usage.budget_status(model),stopped_for_budget=bool(blocked),
+            stop_reason=blocked[-1]["error_type"] if blocked else type(error).__name__))
         if isinstance(error,StudyExecutionError): raise
         raise StudyExecutionError(f"Study aborted ({type(error).__name__}); no synthetic fallback or replacement result") from error

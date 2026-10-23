@@ -8,11 +8,14 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
-from importlib.metadata import version
+from importlib.metadata import distributions, version
+import hashlib
 import json
 import os
 from pathlib import Path
 import sys
+import platform
+import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -25,6 +28,9 @@ def main():
     parser.add_argument("--appworld-root", required=True)
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
+    destination = Path(args.out)
+    if destination.exists():
+        parser.error("Output already exists; use a new path to preserve validation evidence")
     root = str(Path(args.appworld_root).resolve())
     os.environ.setdefault("APPWORLD_CACHE", str(Path(root) / ".cache"))
     from appworld import load_task_ids, update_root
@@ -35,9 +41,10 @@ def main():
     task = {"task_id": task_id}
     readings = []
     started = real_monotonic()
+    experiment_prefix = "acl-environment-check-" + uuid.uuid4().hex[:12]
     for repeat in range(2):
         env = create_environment("appworld", task, appworld_root=root,
-            experiment_name=f"acl-environment-check-{repeat}", seed=101,
+            experiment_name=f"{experiment_prefix}-{repeat}", seed=101,
             max_steps=6, timeout_seconds=30, initialization_timeout_seconds=60)
         try:
             docs = env.execute("print(apis.api_docs.show_app_descriptions())")
@@ -54,9 +61,12 @@ def main():
         finally:
             env.close()
     results = {
+        "schema_version": 2,
         "completed": True, "timestamp_utc": real_timestamp_utc(), "model_calls": 0,
         "validation_scope": "Real AppWorld adapter only; no LLM, no task-solution claim",
         "appworld_version": version("appworld"), "gepa_version": version("gepa"),
+        "python_version": platform.python_version(), "platform_system": platform.system(),
+        "platform_release": platform.release(),
         "source_subset": "train", "task_id": task_id, "fresh_worlds": 2,
         "official_scoring_observed": all(r["result"]["details"].get("official_terminal_evaluator") for r in readings),
         "initial_score": readings[0]["result"]["score"],
@@ -68,12 +78,19 @@ def main():
         "public_context_characters": [r["context_characters"] for r in readings],
         "custom_manifest_counts": dict(Counter(task["split"] for task in manifest["tasks"])),
         "official_split_membership_verified": True,
+        "official_split_inventory": {
+            name: {"task_count": len(load_task_ids(name)),
+                   "membership_file_sha256": hashlib.sha256(
+                       (Path(root) / "data" / "datasets" / (name + ".txt")).read_bytes()).hexdigest()}
+            for name in ("train", "dev", "test_normal", "test_challenge")
+        },
+        "dependency_versions": dict(sorted((dist.metadata["Name"], dist.version) for dist in distributions())),
+        "validation_source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "elapsed_seconds": real_monotonic() - started,
         "benchmark_data_or_solutions_in_report": False,
     }
     checks = ("official_scoring_observed", "public_api_execution_nonempty", "public_state_changed", "reset_restored_initial_public_state", "reset_restored_same_score", "host_file_read_rejected")
     results["completed"] = all(results[key] for key in checks)
-    destination = Path(args.out)
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(results, ensure_ascii=False, indent=2))

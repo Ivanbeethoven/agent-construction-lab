@@ -25,7 +25,9 @@ PRIVATE = "PRIVATE_MARKER_MUST_NEVER_BE_PUBLISHED"
 class AppWorldExportTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name)
+        # Windows CI may return an 8.3 alias for the temp directory. Compare
+        # canonical paths in the guarded-read assertion, as the exporter does.
+        self.root = Path(self.temp.name).resolve()
         self.run, self.out = self.root / "local-run", self.root / "public-out"
         self.run.mkdir()
         self.public_path = self.root / "public-manifest.json"

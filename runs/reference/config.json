@@ -1,0 +1,31 @@
+{
+  "beam_width": 2,
+  "bootstrap_samples": 500,
+  "bootstrap_seed": 2027,
+  "candidate_budget": 6,
+  "construction_seeds": [
+    17,
+    29
+  ],
+  "cost_weight": 0.005,
+  "include_ablations": true,
+  "max_mechanisms": 2,
+  "query_execution_seeds": [
+    1009,
+    1013,
+    1019
+  ],
+  "ridge_alpha": 2.0,
+  "source_execution_seeds": [
+    101,
+    211,
+    307
+  ],
+  "split_seed": 43,
+  "support_execution_seeds": [
+    503,
+    509
+  ],
+  "support_per_family": 2,
+  "uncertainty_penalty": 0.05
+}

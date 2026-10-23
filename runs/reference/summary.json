@@ -1,0 +1,1579 @@
+{
+  "accounting": {
+    "all_physical_executions": {
+      "cost_units": 124508.0,
+      "executions": 11692,
+      "tool_steps": 107775
+    },
+    "artifacts_built": 1040,
+    "construction_environment_executions": 0,
+    "cost_unit": "simulator operations; tool_steps and cost_units logged separately; no currency or token claim",
+    "cost_units_equal_tool_steps_in_this_run": false,
+    "initializer_cost_allocation": "RSI reuses its initializer's computed selection; actual shared computation is logged once, each final artifact is separately built",
+    "positive_control_query": {
+      "cost_units": 126.0,
+      "executions": 12,
+      "tool_steps": 107
+    },
+    "positive_control_support": {
+      "cost_units": 594.0,
+      "executions": 64,
+      "tool_steps": 523
+    },
+    "query": {
+      "cost_units": 28702.0,
+      "executions": 3120,
+      "tool_steps": 23788
+    },
+    "source_cost_allocation": "shared offline dataset charged once globally, not zeroed or duplicated per method",
+    "source_seconds": 0.059634471999743255,
+    "source_shared_offline": {
+      "cost_units": 10252.0,
+      "executions": 960,
+      "tool_steps": 9131
+    },
+    "support": {
+      "cost_units": 84834.0,
+      "executions": 7536,
+      "tool_steps": 74226
+    }
+  },
+  "actor": "simulated_finite_state_actor",
+  "config": {
+    "beam_width": 2,
+    "bootstrap_samples": 500,
+    "bootstrap_seed": 2027,
+    "candidate_budget": 6,
+    "construction_seeds": [
+      17,
+      29
+    ],
+    "cost_weight": 0.005,
+    "include_ablations": true,
+    "max_mechanisms": 2,
+    "query_execution_seeds": [
+      1009,
+      1013,
+      1019
+    ],
+    "ridge_alpha": 2.0,
+    "source_execution_seeds": [
+      101,
+      211,
+      307
+    ],
+    "split_seed": 43,
+    "support_execution_seeds": [
+      503,
+      509
+    ],
+    "support_per_family": 2,
+    "uncertainty_penalty": 0.05
+  },
+  "dataset": {
+    "dev_tasks_not_used_for_training_or_tuning": 24,
+    "dev_tasks_used_only_in_positive_control": 2,
+    "negative_effect_rows": 108,
+    "no_op_rows": 96,
+    "paired_source_rows": 960,
+    "positive_effect_rows": 147,
+    "query_families": 4,
+    "query_tasks": 40,
+    "source_families": 4,
+    "source_tasks": 32,
+    "support_tasks": 8
+  },
+  "elapsed_seconds": 9.355135339999833,
+  "experiment": "synthetic construction-time intervention pilot",
+  "four_cells": [
+    {
+      "artifacts_built": 80,
+      "construction": false,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.10010063300069305,
+      "constructor_candidates_scored": 0,
+      "deployment_rsi": false,
+      "deployment_tool_steps": 1384,
+      "method": "generic",
+      "optimizer": "greedy",
+      "query_cost_units": 1384.0,
+      "query_executions": 240,
+      "query_mean_score": 0.5020833333333333,
+      "query_mean_tool_steps": 5.766666666666667,
+      "query_success_rate": 0.43333333333333335,
+      "query_tool_steps": 1384,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction": false,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.31629397500091727,
+      "constructor_candidates_scored": 0,
+      "deployment_rsi": true,
+      "deployment_tool_steps": 19110,
+      "method": "generic+greedy_rsi",
+      "optimizer": "greedy",
+      "query_cost_units": 1702.0,
+      "query_executions": 240,
+      "query_mean_score": 0.5145833333333333,
+      "query_mean_tool_steps": 6.366666666666666,
+      "query_success_rate": 0.4583333333333333,
+      "query_tool_steps": 1528,
+      "support_cost_units": 19104.0,
+      "support_executions": 1808,
+      "support_tool_steps": 17582
+    },
+    {
+      "artifacts_built": 80,
+      "construction": true,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5823959910039775,
+      "constructor_candidates_scored": 816,
+      "deployment_rsi": false,
+      "deployment_tool_steps": 1872,
+      "method": "conditional_uplift",
+      "optimizer": "greedy",
+      "query_cost_units": 2378.0,
+      "query_executions": 240,
+      "query_mean_score": 0.7520833333333333,
+      "query_mean_tool_steps": 7.8,
+      "query_success_rate": 0.6916666666666667,
+      "query_tool_steps": 1872,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction": true,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5360145020013078,
+      "constructor_candidates_scored": 0,
+      "deployment_rsi": true,
+      "deployment_tool_steps": 20873,
+      "method": "conditional_uplift+greedy_rsi",
+      "optimizer": "greedy",
+      "query_cost_units": 2340.0,
+      "query_executions": 240,
+      "query_mean_score": 0.6958333333333333,
+      "query_mean_tool_steps": 7.7125,
+      "query_success_rate": 0.6125,
+      "query_tool_steps": 1851,
+      "support_cost_units": 22416.0,
+      "support_executions": 1888,
+      "support_tool_steps": 19022
+    },
+    {
+      "artifacts_built": 80,
+      "construction": false,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.10010063300069305,
+      "constructor_candidates_scored": 0,
+      "deployment_rsi": false,
+      "deployment_tool_steps": 1384,
+      "method": "generic",
+      "optimizer": "beam",
+      "query_cost_units": 1384.0,
+      "query_executions": 240,
+      "query_mean_score": 0.5020833333333333,
+      "query_mean_tool_steps": 5.766666666666667,
+      "query_success_rate": 0.43333333333333335,
+      "query_tool_steps": 1384,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction": false,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.4274118709927279,
+      "constructor_candidates_scored": 0,
+      "deployment_rsi": true,
+      "deployment_tool_steps": 19830,
+      "method": "generic+beam_rsi",
+      "optimizer": "beam",
+      "query_cost_units": 1858.0,
+      "query_executions": 240,
+      "query_mean_score": 0.53125,
+      "query_mean_tool_steps": 6.216666666666667,
+      "query_success_rate": 0.45,
+      "query_tool_steps": 1492,
+      "support_cost_units": 20548.0,
+      "support_executions": 1920,
+      "support_tool_steps": 18338
+    },
+    {
+      "artifacts_built": 80,
+      "construction": true,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5823959910039775,
+      "constructor_candidates_scored": 816,
+      "deployment_rsi": false,
+      "deployment_tool_steps": 1872,
+      "method": "conditional_uplift",
+      "optimizer": "beam",
+      "query_cost_units": 2378.0,
+      "query_executions": 240,
+      "query_mean_score": 0.7520833333333333,
+      "query_mean_tool_steps": 7.8,
+      "query_success_rate": 0.6916666666666667,
+      "query_tool_steps": 1872,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction": true,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5231931749958676,
+      "constructor_candidates_scored": 0,
+      "deployment_rsi": true,
+      "deployment_tool_steps": 21099,
+      "method": "conditional_uplift+beam_rsi",
+      "optimizer": "beam",
+      "query_cost_units": 2340.0,
+      "query_executions": 240,
+      "query_mean_score": 0.6708333333333333,
+      "query_mean_tool_steps": 7.5625,
+      "query_success_rate": 0.5625,
+      "query_tool_steps": 1815,
+      "support_cost_units": 22766.0,
+      "support_executions": 1920,
+      "support_tool_steps": 19284
+    }
+  ],
+  "limitations": [
+    "Finite-state actor and a shared synthetic world; family names do not establish real domain transfer.",
+    "Fault categories are explicit public contracts; public_contract_rule is a strong hand-written sanity control.",
+    "Greedy and beam RSI search a fixed four-mechanism vocabulary, not unrestricted generated agent code.",
+    "all_compatible means maximum compatible cardinality capped at two, using preregistered mechanism order.",
+    "Endpoint and scalar controls are simplified research baselines, not reproductions of MetaSkills, JIT, or SHIFT.",
+    "Uncertainty penalty is a sparse-support residual heuristic, not a calibrated predictive confidence interval.",
+    "Selection utility is success minus a tool-call penalty; cost_units also counts local operations and is separately reported, not optimized directly.",
+    "Four query families and correlated synthetic cases do not establish power or justify eliminating RSI claims.",
+    "Support outcomes select RSI candidates; query outcomes only produce final evaluation and reporting.",
+    "The frozen constructor is instance-conditioned but RSI optimizes a fixed harness on heterogeneous family support. Its degradation can reflect support/query profile mismatch; these four cells cannot test RSI redundancy or elimination.",
+    "A separate positive repair control uses independent dev tasks with matched public profiles to check whether beam search can discover a synergistic pair.",
+    "Support is restricted by public API capabilities; query retains interface-restricted and unseen-composition cases.",
+    "Failure-feature and interaction ablations are diagnostics; no performance win is enforced by the implementation."
+  ],
+  "methods": [
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.6593035509959009,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 1642,
+      "method": "all_compatible",
+      "query_cost_units": 2208.0,
+      "query_executions": 240,
+      "query_mean_score": 0.5875,
+      "query_mean_tool_steps": 6.841666666666667,
+      "query_success_rate": 0.55,
+      "query_tool_steps": 1642,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5823959910039775,
+      "constructor_candidates_scored": 816,
+      "deployment_tool_steps": 1872,
+      "method": "conditional_uplift",
+      "query_cost_units": 2378.0,
+      "query_executions": 240,
+      "query_mean_score": 0.7520833333333333,
+      "query_mean_tool_steps": 7.8,
+      "query_success_rate": 0.6916666666666667,
+      "query_tool_steps": 1872,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5231931749958676,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 21099,
+      "method": "conditional_uplift+beam_rsi",
+      "query_cost_units": 2340.0,
+      "query_executions": 240,
+      "query_mean_score": 0.6708333333333333,
+      "query_mean_tool_steps": 7.5625,
+      "query_success_rate": 0.5625,
+      "query_tool_steps": 1815,
+      "support_cost_units": 22766.0,
+      "support_executions": 1920,
+      "support_tool_steps": 19284
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5360145020013078,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 20873,
+      "method": "conditional_uplift+greedy_rsi",
+      "query_cost_units": 2340.0,
+      "query_executions": 240,
+      "query_mean_score": 0.6958333333333333,
+      "query_mean_tool_steps": 7.7125,
+      "query_success_rate": 0.6125,
+      "query_tool_steps": 1851,
+      "support_cost_units": 22416.0,
+      "support_executions": 1888,
+      "support_tool_steps": 19022
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.10010063300069305,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 1384,
+      "method": "generic",
+      "query_cost_units": 1384.0,
+      "query_executions": 240,
+      "query_mean_score": 0.5020833333333333,
+      "query_mean_tool_steps": 5.766666666666667,
+      "query_success_rate": 0.43333333333333335,
+      "query_tool_steps": 1384,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.4274118709927279,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 19830,
+      "method": "generic+beam_rsi",
+      "query_cost_units": 1858.0,
+      "query_executions": 240,
+      "query_mean_score": 0.53125,
+      "query_mean_tool_steps": 6.216666666666667,
+      "query_success_rate": 0.45,
+      "query_tool_steps": 1492,
+      "support_cost_units": 20548.0,
+      "support_executions": 1920,
+      "support_tool_steps": 18338
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.31629397500091727,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 19110,
+      "method": "generic+greedy_rsi",
+      "query_cost_units": 1702.0,
+      "query_executions": 240,
+      "query_mean_score": 0.5145833333333333,
+      "query_mean_tool_steps": 6.366666666666666,
+      "query_success_rate": 0.4583333333333333,
+      "query_tool_steps": 1528,
+      "support_cost_units": 19104.0,
+      "support_executions": 1808,
+      "support_tool_steps": 17582
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.4243158889994447,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 1680,
+      "method": "nearest_good_endpoint",
+      "query_cost_units": 1898.0,
+      "query_executions": 240,
+      "query_mean_score": 0.6791666666666667,
+      "query_mean_tool_steps": 7.0,
+      "query_success_rate": 0.65,
+      "query_tool_steps": 1680,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.3601666539980215,
+      "constructor_candidates_scored": 0,
+      "deployment_tool_steps": 2340,
+      "method": "public_contract_rule",
+      "query_cost_units": 2494.0,
+      "query_executions": 240,
+      "query_mean_score": 0.9,
+      "query_mean_tool_steps": 9.75,
+      "query_success_rate": 0.9,
+      "query_tool_steps": 2340,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5376715939983114,
+      "constructor_candidates_scored": 816,
+      "deployment_tool_steps": 2568,
+      "method": "scalar_final_value",
+      "query_cost_units": 3064.0,
+      "query_executions": 240,
+      "query_mean_score": 0.9729166666666667,
+      "query_mean_tool_steps": 10.7,
+      "query_success_rate": 0.9416666666666667,
+      "query_tool_steps": 2568,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5643763980015137,
+      "constructor_candidates_scored": 816,
+      "deployment_tool_steps": 1872,
+      "method": "uplift_no_failure",
+      "query_cost_units": 2448.0,
+      "query_executions": 240,
+      "query_mean_score": 0.7520833333333333,
+      "query_mean_tool_steps": 7.8,
+      "query_success_rate": 0.6916666666666667,
+      "query_tool_steps": 1872,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.43758110200178635,
+      "constructor_candidates_scored": 816,
+      "deployment_tool_steps": 1872,
+      "method": "uplift_no_interactions",
+      "query_cost_units": 2210.0,
+      "query_executions": 240,
+      "query_mean_score": 0.7520833333333333,
+      "query_mean_tool_steps": 7.8,
+      "query_success_rate": 0.6916666666666667,
+      "query_tool_steps": 1872,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    },
+    {
+      "artifacts_built": 80,
+      "construction_environment_executions": 0,
+      "construction_seconds": 0.5442884389995015,
+      "constructor_candidates_scored": 816,
+      "deployment_tool_steps": 1872,
+      "method": "uplift_no_uncertainty",
+      "query_cost_units": 2378.0,
+      "query_executions": 240,
+      "query_mean_score": 0.7520833333333333,
+      "query_mean_tool_steps": 7.8,
+      "query_success_rate": 0.6916666666666667,
+      "query_tool_steps": 1872,
+      "support_cost_units": 0,
+      "support_executions": 0,
+      "support_tool_steps": 0
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": -0.175,
+      "ci_low": -0.3333333333333333,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": -0.25833333333333336,
+      "method_a": "generic",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": -0.10833333333333334,
+      "ci_low": -0.18333333333333332,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": -0.14166666666666666,
+      "method_a": "all_compatible",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": -0.03333333333333333,
+      "ci_low": -0.058333333333333334,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": -0.041666666666666664,
+      "method_a": "nearest_good_endpoint",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.2916666666666667,
+      "ci_low": 0.21666666666666667,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.25,
+      "method_a": "scalar_final_value",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.25,
+      "ci_low": 0.175,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.20833333333333334,
+      "method_a": "public_contract_rule",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.0,
+      "method_a": "uplift_no_failure",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.0,
+      "method_a": "uplift_no_interactions",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.0,
+      "method_a": "uplift_no_uncertainty",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.07083333333333333,
+      "ci_low": -0.21666666666666667,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": -0.07916666666666666,
+      "method_a": "conditional_uplift+greedy_rsi",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": -0.029166666666666667,
+      "ci_low": -0.21666666666666667,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": -0.12916666666666668,
+      "method_a": "conditional_uplift+beam_rsi",
+      "method_b": "conditional_uplift",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.03333333333333333,
+      "ci_low": 0.008333333333333333,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.025,
+      "method_a": "generic+greedy_rsi",
+      "method_b": "generic",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.03333333333333333,
+      "ci_low": 0.0,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.016666666666666666,
+      "method_a": "generic+beam_rsi",
+      "method_b": "generic",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.31666666666666665,
+      "ci_low": 0.14166666666666666,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.23333333333333334,
+      "method_a": "conditional_uplift",
+      "method_b": "generic+greedy_rsi",
+      "metric": "success",
+      "paired_observations": 240
+    },
+    {
+      "bootstrap_samples": 500,
+      "bootstrap_seed": 2027,
+      "ci_high": 0.325,
+      "ci_low": 0.15,
+      "confidence_level": 0.95,
+      "family_clusters": 4,
+      "interpretation": "descriptive family-cluster bootstrap; toy clusters do not establish statistical power",
+      "mean_delta": 0.24166666666666667,
+      "method_a": "conditional_uplift",
+      "method_b": "generic+beam_rsi",
+      "metric": "success",
+      "paired_observations": 240
+    }
+  ],
+  "positive_repair_control": {
+    "construction_seed": 71,
+    "public_profile": {
+      "budget": 35,
+      "persistent_storage": true,
+      "restart_risk": false,
+      "schema_discovery": true,
+      "schema_variant": "standard",
+      "structured_errors": true,
+      "supports_idempotency": true,
+      "transient_faults": "write_after_commit",
+      "workload_size": 4
+    },
+    "purpose": "sanity check for searchable synergistic pair repair; no training or parameter selection",
+    "query_execution_seeds": [
+      7001,
+      7003,
+      7013,
+      7019
+    ],
+    "rows": [
+      {
+        "baseline_query_success_rate": 0.25,
+        "baseline_query_tool_steps": 34,
+        "candidate_budget": 11,
+        "candidates_evaluated": 5,
+        "optimizer": "greedy",
+        "query_executions": 4,
+        "query_task_id": "dev.lab_sample_registration.02",
+        "repaired_query_success_rate": 0.25,
+        "repaired_query_tool_steps": 34,
+        "selected_mechanisms": [],
+        "support_executions": 20,
+        "support_task_id": "dev.event_checkin.02",
+        "support_tool_steps": 146
+      },
+      {
+        "baseline_query_success_rate": 0.25,
+        "baseline_query_tool_steps": 34,
+        "candidate_budget": 11,
+        "candidates_evaluated": 11,
+        "optimizer": "beam",
+        "query_executions": 4,
+        "query_task_id": "dev.lab_sample_registration.02",
+        "repaired_query_success_rate": 1.0,
+        "repaired_query_tool_steps": 39,
+        "selected_mechanisms": [
+          "retry",
+          "idempotency"
+        ],
+        "support_executions": 44,
+        "support_task_id": "dev.event_checkin.02",
+        "support_tool_steps": 377
+      }
+    ],
+    "searches": [
+      {
+        "candidate_budget": 11,
+        "candidates_evaluated": 5,
+        "construction_seed": 71,
+        "evaluations": [
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 6.0,
+            "mechanisms": [],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 9
+              }
+            ],
+            "tool_steps": 24,
+            "utility": 0.22
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 6.0,
+            "mechanisms": [
+              "idempotency"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 9
+              }
+            ],
+            "tool_steps": 24,
+            "utility": 0.22
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 7.75,
+            "mechanisms": [
+              "checkpoint"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 13
+              }
+            ],
+            "tool_steps": 31,
+            "utility": 0.21125
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 7.0,
+            "mechanisms": [
+              "schema_adapter"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              }
+            ],
+            "tool_steps": 28,
+            "utility": 0.215
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 9.75,
+            "mechanisms": [
+              "retry"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 9
+              }
+            ],
+            "tool_steps": 39,
+            "utility": 0.20124999999999998
+          }
+        ],
+        "execution_seeds": [
+          6007,
+          6011,
+          6019,
+          6029
+        ],
+        "initial_mechanisms": [],
+        "mechanisms": [],
+        "optimizer": "greedy",
+        "stop_reason": "local_optimum",
+        "support_executions": 20,
+        "support_tool_steps": 146
+      },
+      {
+        "candidate_budget": 11,
+        "candidates_evaluated": 11,
+        "construction_seed": 71,
+        "evaluations": [
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 6.0,
+            "mechanisms": [],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 9
+              }
+            ],
+            "tool_steps": 24,
+            "utility": 0.22
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 6.0,
+            "mechanisms": [
+              "idempotency"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 5
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 9
+              }
+            ],
+            "tool_steps": 24,
+            "utility": 0.22
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 7.75,
+            "mechanisms": [
+              "checkpoint"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 13
+              }
+            ],
+            "tool_steps": 31,
+            "utility": 0.21125
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 7.0,
+            "mechanisms": [
+              "schema_adapter"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              }
+            ],
+            "tool_steps": 28,
+            "utility": 0.215
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 9.75,
+            "mechanisms": [
+              "retry"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 9
+              }
+            ],
+            "tool_steps": 39,
+            "utility": 0.20124999999999998
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 7.75,
+            "mechanisms": [
+              "idempotency",
+              "checkpoint"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 13
+              }
+            ],
+            "tool_steps": 31,
+            "utility": 0.21125
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 1.0,
+            "mean_tool_steps": 9.75,
+            "mechanisms": [
+              "retry",
+              "idempotency"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 9
+              }
+            ],
+            "tool_steps": 39,
+            "utility": 0.95125
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 7.0,
+            "mechanisms": [
+              "idempotency",
+              "schema_adapter"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 6
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              }
+            ],
+            "tool_steps": 28,
+            "utility": 0.215
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 10.75,
+            "mechanisms": [
+              "retry",
+              "schema_adapter"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 11
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 11
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 11
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 10
+              }
+            ],
+            "tool_steps": 43,
+            "utility": 0.19625
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 8.75,
+            "mechanisms": [
+              "checkpoint",
+              "schema_adapter"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 7
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 7
+              },
+              {
+                "failure_type": "transient_tool_error",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 7
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 14
+              }
+            ],
+            "tool_steps": 35,
+            "utility": 0.20625
+          },
+          {
+            "execution_count": 4,
+            "mean_success": 0.25,
+            "mean_tool_steps": 13.75,
+            "mechanisms": [
+              "retry",
+              "checkpoint"
+            ],
+            "outcomes": [
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6007,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 14
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6011,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 14
+              },
+              {
+                "failure_type": "duplicate_effect",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6019,
+                "success": false,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 14
+              },
+              {
+                "failure_type": "None",
+                "family": "event_checkin",
+                "role": "support",
+                "seed": 6029,
+                "success": true,
+                "task_id": "dev.event_checkin.02",
+                "tool_steps": 13
+              }
+            ],
+            "tool_steps": 55,
+            "utility": 0.18125
+          }
+        ],
+        "execution_seeds": [
+          6007,
+          6011,
+          6019,
+          6029
+        ],
+        "initial_mechanisms": [],
+        "mechanisms": [
+          "retry",
+          "idempotency"
+        ],
+        "optimizer": "beam",
+        "stop_reason": "budget_exhausted",
+        "support_executions": 44,
+        "support_tool_steps": 377
+      }
+    ],
+    "support_execution_seeds": [
+      6007,
+      6011,
+      6019,
+      6029
+    ]
+  },
+  "protocol": "instance_conditioned_initialization_with_heterogeneous_family_support",
+  "real_llm_evidence": false,
+  "schema_version": 1,
+  "source_data_sha256": "b47a33f9f8a4cc3763c63c10057b7699fda6599431ee9655a3602b0f66d19eaf",
+  "training": [
+    {
+      "construction_seed": 17,
+      "models_fitted": 3,
+      "seconds": 0.19169880199933687,
+      "source_data_sha256": "b47a33f9f8a4cc3763c63c10057b7699fda6599431ee9655a3602b0f66d19eaf"
+    },
+    {
+      "construction_seed": 29,
+      "models_fitted": 3,
+      "seconds": 0.20417353100037872,
+      "source_data_sha256": "b47a33f9f8a4cc3763c63c10057b7699fda6599431ee9655a3602b0f66d19eaf"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "api_key_env": null,
+  "base_url": "http://127.0.0.1:43173/v1",
+  "cached_input_price_per_million": null,
+  "expected_response_model": "mock-fixed-model-v1",
+  "input_price_per_million": null,
+  "max_output_tokens": 1024,
+  "max_tokens_parameter": "max_tokens",
+  "model": "mock-fixed-model-v1",
+  "model_snapshot": "mock-fixed-model-v1",
+  "output_price_per_million": null,
+  "pricing_version": null,
+  "reasoning_effort": null,
+  "request_seed": null,
+  "retries": 0,
+  "send_seed": true,
+  "temperature": 0,
+  "timeout": 60.0,
+  "top_p": null,
+  "use_tools": true
+}

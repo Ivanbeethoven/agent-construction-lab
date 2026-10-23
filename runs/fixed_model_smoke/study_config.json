@@ -1,0 +1,36 @@
+{
+  "ablations": [],
+  "appworld_initialization_timeout_seconds": 120,
+  "appworld_timeout_seconds": 60,
+  "bootstrap_samples": 100,
+  "construction_seeds": [
+    17
+  ],
+  "cost_weight": 0.0,
+  "execution_seeds": [
+    101
+  ],
+  "max_context_chars": 60000,
+  "max_modules": 2,
+  "max_steps": 4,
+  "methods": [
+    "G",
+    "D",
+    "S",
+    "V",
+    "F",
+    "G+R",
+    "F+R"
+  ],
+  "remote_environment_url": null,
+  "require_complete_token_usage": true,
+  "ridge_alpha": 2.0,
+  "rsi_budgets": [
+    4
+  ],
+  "source_seeds": [
+    101
+  ],
+  "source_summary_max_chars": 24000,
+  "support_feedback_max_chars": 24000
+}

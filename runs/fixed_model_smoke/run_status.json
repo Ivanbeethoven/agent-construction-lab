@@ -1,0 +1,41 @@
+{
+  "actual_episode_counts": {
+    "query": 28,
+    "source": 22,
+    "support": 14
+  },
+  "completed": true,
+  "mock_model": true,
+  "stage": "done",
+  "usage": {
+    "attempts": 232,
+    "cached_input_tokens": 0,
+    "cost_is_estimate": true,
+    "cost_usd": null,
+    "failed_attempts": 0,
+    "input_tokens": 185157,
+    "known_cached_input_tokens": 0,
+    "known_cost_usd": 0,
+    "known_input_tokens": 185157,
+    "known_output_tokens": 4650,
+    "known_reasoning_tokens": 0,
+    "known_total_tokens": 189807,
+    "latency_seconds": 0.17693513798440108,
+    "logical_calls": 232,
+    "model_calls": 232,
+    "output_tokens": 4650,
+    "reasoning_tokens": 0,
+    "response_models": [
+      "mock-fixed-model-v1"
+    ],
+    "seed_determinism_guaranteed": false,
+    "successful_attempts": 232,
+    "total_tokens": 189807,
+    "unknown_cached_input_tokens_attempts": 0,
+    "unknown_cost_usd_attempts": 232,
+    "unknown_input_tokens_attempts": 0,
+    "unknown_output_tokens_attempts": 0,
+    "unknown_reasoning_tokens_attempts": 0,
+    "unknown_total_tokens_attempts": 0
+  }
+}

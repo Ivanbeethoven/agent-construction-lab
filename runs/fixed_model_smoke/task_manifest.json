@@ -1,0 +1,150 @@
+{
+  "benchmark": "builtin",
+  "domains": {
+    "dev.storage": {
+      "features": {
+        "requires_write": 1.0,
+        "workflow_size": 0.6
+      },
+      "profile": {
+        "description": "Inventory quantity changes using a documented stateful API",
+        "fixture_only": true
+      }
+    },
+    "source.stock": {
+      "features": {
+        "requires_write": 1.0,
+        "workflow_size": 0.2
+      },
+      "profile": {
+        "description": "Inventory quantity changes using a documented stateful API",
+        "fixture_only": true
+      }
+    },
+    "source.supplies": {
+      "features": {
+        "requires_write": 1.0,
+        "workflow_size": 0.4
+      },
+      "profile": {
+        "description": "Inventory quantity changes using a documented stateful API",
+        "fixture_only": true
+      }
+    },
+    "target.office": {
+      "features": {
+        "requires_write": 1.0,
+        "workflow_size": 1.0
+      },
+      "profile": {
+        "description": "Inventory quantity changes using a documented stateful API",
+        "fixture_only": true
+      }
+    },
+    "target.warehouse": {
+      "features": {
+        "requires_write": 1.0,
+        "workflow_size": 0.8
+      },
+      "profile": {
+        "description": "Inventory quantity changes using a documented stateful API",
+        "fixture_only": true
+      }
+    }
+  },
+  "name": "Deterministic integration fixture",
+  "official_protocol": false,
+  "schema_version": 1,
+  "tasks": [
+    {
+      "domain_id": "source.stock",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-0-0",
+        "target_quantity": 6
+      },
+      "split": "source",
+      "task_id": "source.stock.0"
+    },
+    {
+      "domain_id": "source.supplies",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-1-0",
+        "target_quantity": 7
+      },
+      "split": "source",
+      "task_id": "source.supplies.0"
+    },
+    {
+      "domain_id": "dev.storage",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-2-0",
+        "target_quantity": 8
+      },
+      "split": "dev",
+      "task_id": "dev.storage.0"
+    },
+    {
+      "domain_id": "target.warehouse",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-3-0",
+        "target_quantity": 9
+      },
+      "split": "support",
+      "task_id": "target.warehouse.0"
+    },
+    {
+      "domain_id": "target.warehouse",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-3-1",
+        "target_quantity": 10
+      },
+      "split": "query",
+      "task_id": "target.warehouse.1"
+    },
+    {
+      "domain_id": "target.warehouse",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-3-2",
+        "target_quantity": 11
+      },
+      "split": "query",
+      "task_id": "target.warehouse.2"
+    },
+    {
+      "domain_id": "target.office",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-4-0",
+        "target_quantity": 10
+      },
+      "split": "support",
+      "task_id": "target.office.0"
+    },
+    {
+      "domain_id": "target.office",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-4-1",
+        "target_quantity": 11
+      },
+      "split": "query",
+      "task_id": "target.office.1"
+    },
+    {
+      "domain_id": "target.office",
+      "payload": {
+        "initial_quantity": 2,
+        "item_id": "sku-4-2",
+        "target_quantity": 12
+      },
+      "split": "query",
+      "task_id": "target.office.2"
+    }
+  ]
+}

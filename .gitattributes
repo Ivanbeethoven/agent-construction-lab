@@ -1,0 +1,2 @@
+# Preserve delivered bytes for SHA-256 verification on every OS.
+* -text

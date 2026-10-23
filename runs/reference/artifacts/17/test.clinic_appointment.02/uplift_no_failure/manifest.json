@@ -1,0 +1,41 @@
+{
+  "actor": "simulated_finite_state_actor",
+  "checks": [
+    "python_syntax",
+    "public_interface_preconditions",
+    "at_most_two_mechanisms"
+  ],
+  "construction_environment_rollouts": 0,
+  "dependencies": {
+    "contracts.py": "49e04d95350fa00a3749333edc64153086f9ec517af9caff8613cf2948d91352",
+    "runtime.py": "48a9b55c95cedc3f00cac8d011f0eb8455f9a08571290049066cded70c196ca9"
+  },
+  "files": {
+    "agent.py": "6fce710807e5f3912ea0d697621edc5e2e24fe95d906ae56c20bc3a9c0e6e2af"
+  },
+  "mechanisms": [
+    "retry",
+    "idempotency"
+  ],
+  "policy_name": "uplift_no_failure",
+  "public_spec": {
+    "budget": 35,
+    "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+    "family": "clinic_appointment",
+    "features": {
+      "persistent_storage": true,
+      "restart_risk": false,
+      "schema_discovery": true,
+      "schema_variant": "standard",
+      "structured_errors": true,
+      "supports_idempotency": true,
+      "transient_faults": "write_after_commit",
+      "workload_size": 4
+    },
+    "split": "test",
+    "task_id": "test.clinic_appointment.02"
+  },
+  "real_llm_evidence": false,
+  "schema_version": 1,
+  "semantic_correctness_guarantee": false
+}

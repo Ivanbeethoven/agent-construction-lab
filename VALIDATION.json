@@ -1,0 +1,158 @@
+{
+  "schema_version": 2,
+  "release": "0.2.0",
+  "date": "2026-10-23T12:47:26.921424+00:00",
+  "python": "3.12.14",
+  "status": "prototype_validation_passed; real_model_configuration_and_experiments_pending",
+  "unit_and_integration_tests": {
+    "status": "passed",
+    "count": 114,
+    "seconds": 7.688,
+    "command": "python -X faulthandler -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "log": "runs/tests_v02.log",
+    "log_sha256": "c662050f4edfc0d8f2cf7f00c719ebfb40435fbf12d02de9c174c96449619bef",
+    "coverage_scope": [
+      "legacy simulator",
+      "real local HTTP client and request accounting",
+      "fixed constructors and data isolation",
+      "official GEPA integration",
+      "fresh process lifecycle and host deadlines",
+      "AppWorld public API syntax policy",
+      "seven-condition mock study and portable frozen artifacts"
+    ],
+    "real_model_calls": 0
+  },
+  "dependency_versions": {
+    "appworld": "0.1.3.post1",
+    "gepa": "0.1.4"
+  },
+  "full_dependency_lock": "requirements-tested-linux-py312.txt",
+  "fixed_model_pipeline_smoke": {
+    "status": "passed",
+    "path": "runs/fixed_model_smoke",
+    "mock_model": true,
+    "conditions": [
+      "D",
+      "F",
+      "F+R@4",
+      "G",
+      "G+R@4",
+      "S",
+      "V"
+    ],
+    "actual_episode_counts": {
+      "query": 28,
+      "source": 22,
+      "support": 14
+    },
+    "http_model_requests": 232,
+    "frozen_harnesses_verified": 14,
+    "summary_sha256": "4c564202caec616030846445efb5fce4822200fa5d10e082d0978e9264cb4b0b",
+    "official_gepa_called": true,
+    "scope": "Scripted model, synthetic token accounting, real HTTP and official optimizer; no research-performance or billing evidence."
+  },
+  "appworld_environment_interface": {
+    "completed": true,
+    "timestamp_utc": "2026-10-23T12:43:35.510581+00:00",
+    "model_calls": 0,
+    "validation_scope": "Real AppWorld adapter only; no LLM, no task-solution claim",
+    "appworld_version": "0.1.3.post1",
+    "gepa_version": "0.1.4",
+    "source_subset": "train",
+    "task_id": "82e2fac_1",
+    "fresh_worlds": 2,
+    "official_scoring_observed": true,
+    "initial_score": 0.0,
+    "public_api_execution_nonempty": true,
+    "public_state_changed": true,
+    "reset_restored_initial_public_state": true,
+    "reset_restored_same_score": true,
+    "host_file_read_rejected": true,
+    "public_context_characters": [
+      3909,
+      3909
+    ],
+    "custom_manifest_counts": {
+      "source": 60,
+      "dev": 15,
+      "support": 24,
+      "query": 48
+    },
+    "official_split_membership_verified": true,
+    "elapsed_seconds": 13.311625707998246,
+    "benchmark_data_or_solutions_in_report": false
+  },
+  "readiness": {
+    "check_record": "runs/doctor_unconfigured.json",
+    "real_model_ready": false,
+    "configuration_missing": [
+      "concrete fixed model snapshot",
+      "compatible endpoint",
+      "expected response model identity",
+      "credential in named environment variable"
+    ],
+    "next_step": "Follow docs/FIXED_MODEL_RUNBOOK.md to configure one model, run doctor, then the small real-model acceptance study before the full protocol."
+  },
+  "real_llm_evidence": false,
+  "real_model_main_experiment_completed": false,
+  "real_model_rsi_positive_control_completed": false,
+  "official_algorithm_integrations": [
+    {
+      "name": "GEPA",
+      "version": "0.1.4",
+      "implementation": "official gepa.optimize_anything",
+      "scope": "bounded prompt/module space; same-model reflection adapter; not full paper reproduction"
+    }
+  ],
+  "controlled_baseline_ports": [
+    {
+      "condition": "S",
+      "description": "ModularRSI-style source-library selector, not a full official reproduction"
+    }
+  ],
+  "official_baseline_reproductions": [],
+  "literature_catalog_entries": 40,
+  "limitations": [
+    "One fixed LLM is required, but no live model endpoint or credential was provided.",
+    "Prompt and four guidance modules (at most two), not arbitrary architecture or tool-code invention.",
+    "F and V use the same function class and may be algebraically equivalent or rank candidates identically.",
+    "Public lexical domain features and a custom train/dev AppWorld split require real-model validation.",
+    "No second strong optimizer or second independent benchmark has been run.",
+    "AppWorld syntax checks and subprocess isolation are not a proof of complete operating-system sandboxing.",
+    "Mock and historical finite-state simulator results do not establish effectiveness or RSI replacement."
+  ],
+  "historical_simulator_validation": "runs/simulator_validation_v01.json",
+  "source_sha256": {
+    "agent_construction_lab/__init__.py": "43a766b6d76c1204342afb994398e2b6c8fe4429c08a5ce580babdfb67f01367",
+    "agent_construction_lab/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "agent_construction_lab/artifacts.py": "8cc0b971a5505e9285e6ae4283a10972b571db16c97ab1a4d9ba996b5657a8ef",
+    "agent_construction_lab/bridge.py": "b4f37eeecabcfaf012585159e653dfe6ab23f036f73ecef8a43af3d285ab7ac4",
+    "agent_construction_lab/cli.py": "1717ce3aa67a957390bd5f9363db777a7e5270f3ba8aa9fd43896ea7145eb4bf",
+    "agent_construction_lab/contracts.py": "49e04d95350fa00a3749333edc64153086f9ec517af9caff8613cf2948d91352",
+    "agent_construction_lab/experiments.py": "3b0d288a5a02132f61631007127d8eabf44e9a286aeda91594e071b0681b6df3",
+    "agent_construction_lab/fixed_model/__init__.py": "5524ac63d973b2d6a3d238822e588346e82a01c1c6bcbb415cb51e27edd1ed92",
+    "agent_construction_lab/fixed_model/__main__.py": "1ffaf014e950b41a4c46b225dcd03ae7c5f79a2dac987ee901d94137286a49f7",
+    "agent_construction_lab/fixed_model/appworld_process.py": "c5fc18a635968399725aa6c781737e82849359a6c7bc5caaa213b6bdea362f1e",
+    "agent_construction_lab/fixed_model/client.py": "5270803f0e1d3ab0543ccd100ca96f647e4542c2a6fb32f0c40f7e249dc26bb4",
+    "agent_construction_lab/fixed_model/code_policy.py": "e8b4e30aa4279d30d706c89901ae82eb181b412e4cd20d7d21e75bc87dc09a5b",
+    "agent_construction_lab/fixed_model/constructors.py": "a91559bb4712279c6e90119d45fd43bd01be9447b68f681976a10a79ed5fe2c0",
+    "agent_construction_lab/fixed_model/environment_worker.py": "21a36c5e513a73c34417d42a7405dd1fc6c7cbfedb0d5397e60e4a32a8fa7695",
+    "agent_construction_lab/fixed_model/environments.py": "e65363bb823f5c923ea42a109fa720f59eca1c0ea986644b43654ad28a2011d0",
+    "agent_construction_lab/fixed_model/executor.py": "04438dbbd95139af28c8fa357a58f395a108b7520ad86b2cb02298147bc806a9",
+    "agent_construction_lab/fixed_model/gepa_adapter.py": "e71533313313d46f1405a21d9ccc00355f2d21aa6bef198ed496ae70d57436b4",
+    "agent_construction_lab/fixed_model/mock_server.py": "f15df4933512133217ad4f7ef97e13fe87e22ed6bd7986e30b57da743537124a",
+    "agent_construction_lab/fixed_model/spec.py": "a7695a2473b7905f92e4bccf5b0688f7ed42f8b34305fa0b08315e3d5336d446",
+    "agent_construction_lab/fixed_model/study.py": "fa49d11e979c9fb570561a4b5573afed4498ec8edcc3f6aa76bae5924ff8c213",
+    "agent_construction_lab/fixtures.py": "261593e164e95b12e855eac6359d2eaf355538408fec5f9e92190a8a1293082b",
+    "agent_construction_lab/learning.py": "73d0e773b68360714a0f964d259d789255039afd89ce82495e110c26ad37167d",
+    "agent_construction_lab/runtime.py": "48a9b55c95cedc3f00cac8d011f0eb8455f9a08571290049066cded70c196ca9",
+    "agent_construction_lab/search.py": "41d8c3d31febfbdbcaa58215484990a42946eddc4eef3c033aed4626b9dfe43d",
+    "agent_construction_lab/worker.py": "fcccf52565884b0f772635f1dfc387364e538d916a9c6fb915c2cd68a06067ce"
+  },
+  "config_sha256": {
+    "configs/fixed_model.example.json": "6f6c68e51937b83b53e5d9fc0d8ed3dece9387b86b269aec3575288b95efce74",
+    "configs/fixed_model_acceptance.json": "cff31633bf5f500f8582909302978addaf2e85b48cd62494a71f2f10b9821953",
+    "configs/fixed_model_study.json": "90af94bc13f207256b7b7dae17264a7ee00a4f57ffc7ec6852108b10e305bdcc"
+  }
+}

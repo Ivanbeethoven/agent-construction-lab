@@ -1,0 +1,4 @@
+{
+  "manifest_sha256": "6c5a9dfce3f4aafa180bd3951cb9ba87ecc606db4c7a53de2d002272e07f2481",
+  "note": "Retain this digest outside the artifact to detect changes to both manifest and local anchor."
+}

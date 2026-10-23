@@ -1,0 +1,875 @@
+{
+  "construction_seed": 71,
+  "public_profile": {
+    "budget": 35,
+    "persistent_storage": true,
+    "restart_risk": false,
+    "schema_discovery": true,
+    "schema_variant": "standard",
+    "structured_errors": true,
+    "supports_idempotency": true,
+    "transient_faults": "write_after_commit",
+    "workload_size": 4
+  },
+  "purpose": "sanity check for searchable synergistic pair repair; no training or parameter selection",
+  "query_execution_seeds": [
+    7001,
+    7003,
+    7013,
+    7019
+  ],
+  "rows": [
+    {
+      "baseline_query_success_rate": 0.25,
+      "baseline_query_tool_steps": 34,
+      "candidate_budget": 11,
+      "candidates_evaluated": 5,
+      "optimizer": "greedy",
+      "query_executions": 4,
+      "query_task_id": "dev.lab_sample_registration.02",
+      "repaired_query_success_rate": 0.25,
+      "repaired_query_tool_steps": 34,
+      "selected_mechanisms": [],
+      "support_executions": 20,
+      "support_task_id": "dev.event_checkin.02",
+      "support_tool_steps": 146
+    },
+    {
+      "baseline_query_success_rate": 0.25,
+      "baseline_query_tool_steps": 34,
+      "candidate_budget": 11,
+      "candidates_evaluated": 11,
+      "optimizer": "beam",
+      "query_executions": 4,
+      "query_task_id": "dev.lab_sample_registration.02",
+      "repaired_query_success_rate": 1.0,
+      "repaired_query_tool_steps": 39,
+      "selected_mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "support_executions": 44,
+      "support_task_id": "dev.event_checkin.02",
+      "support_tool_steps": 377
+    }
+  ],
+  "searches": [
+    {
+      "candidate_budget": 11,
+      "candidates_evaluated": 5,
+      "construction_seed": 71,
+      "evaluations": [
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 6.0,
+          "mechanisms": [],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 9
+            }
+          ],
+          "tool_steps": 24,
+          "utility": 0.22
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 6.0,
+          "mechanisms": [
+            "idempotency"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 9
+            }
+          ],
+          "tool_steps": 24,
+          "utility": 0.22
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 7.75,
+          "mechanisms": [
+            "checkpoint"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 13
+            }
+          ],
+          "tool_steps": 31,
+          "utility": 0.21125
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 7.0,
+          "mechanisms": [
+            "schema_adapter"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            }
+          ],
+          "tool_steps": 28,
+          "utility": 0.215
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 9.75,
+          "mechanisms": [
+            "retry"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 9
+            }
+          ],
+          "tool_steps": 39,
+          "utility": 0.20124999999999998
+        }
+      ],
+      "execution_seeds": [
+        6007,
+        6011,
+        6019,
+        6029
+      ],
+      "initial_mechanisms": [],
+      "mechanisms": [],
+      "optimizer": "greedy",
+      "stop_reason": "local_optimum",
+      "support_executions": 20,
+      "support_tool_steps": 146
+    },
+    {
+      "candidate_budget": 11,
+      "candidates_evaluated": 11,
+      "construction_seed": 71,
+      "evaluations": [
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 6.0,
+          "mechanisms": [],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 9
+            }
+          ],
+          "tool_steps": 24,
+          "utility": 0.22
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 6.0,
+          "mechanisms": [
+            "idempotency"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 5
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 9
+            }
+          ],
+          "tool_steps": 24,
+          "utility": 0.22
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 7.75,
+          "mechanisms": [
+            "checkpoint"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 13
+            }
+          ],
+          "tool_steps": 31,
+          "utility": 0.21125
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 7.0,
+          "mechanisms": [
+            "schema_adapter"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            }
+          ],
+          "tool_steps": 28,
+          "utility": 0.215
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 9.75,
+          "mechanisms": [
+            "retry"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 9
+            }
+          ],
+          "tool_steps": 39,
+          "utility": 0.20124999999999998
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 7.75,
+          "mechanisms": [
+            "idempotency",
+            "checkpoint"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 13
+            }
+          ],
+          "tool_steps": 31,
+          "utility": 0.21125
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 1.0,
+          "mean_tool_steps": 9.75,
+          "mechanisms": [
+            "retry",
+            "idempotency"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 9
+            }
+          ],
+          "tool_steps": 39,
+          "utility": 0.95125
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 7.0,
+          "mechanisms": [
+            "idempotency",
+            "schema_adapter"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 6
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            }
+          ],
+          "tool_steps": 28,
+          "utility": 0.215
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 10.75,
+          "mechanisms": [
+            "retry",
+            "schema_adapter"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 11
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 11
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 11
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 10
+            }
+          ],
+          "tool_steps": 43,
+          "utility": 0.19625
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 8.75,
+          "mechanisms": [
+            "checkpoint",
+            "schema_adapter"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 7
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 7
+            },
+            {
+              "failure_type": "transient_tool_error",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 7
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 14
+            }
+          ],
+          "tool_steps": 35,
+          "utility": 0.20625
+        },
+        {
+          "execution_count": 4,
+          "mean_success": 0.25,
+          "mean_tool_steps": 13.75,
+          "mechanisms": [
+            "retry",
+            "checkpoint"
+          ],
+          "outcomes": [
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6007,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 14
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6011,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 14
+            },
+            {
+              "failure_type": "duplicate_effect",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6019,
+              "success": false,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 14
+            },
+            {
+              "failure_type": "None",
+              "family": "event_checkin",
+              "role": "support",
+              "seed": 6029,
+              "success": true,
+              "task_id": "dev.event_checkin.02",
+              "tool_steps": 13
+            }
+          ],
+          "tool_steps": 55,
+          "utility": 0.18125
+        }
+      ],
+      "execution_seeds": [
+        6007,
+        6011,
+        6019,
+        6029
+      ],
+      "initial_mechanisms": [],
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "optimizer": "beam",
+      "stop_reason": "budget_exhausted",
+      "support_executions": 44,
+      "support_tool_steps": 377
+    }
+  ],
+  "support_execution_seeds": [
+    6007,
+    6011,
+    6019,
+    6029
+  ]
+}

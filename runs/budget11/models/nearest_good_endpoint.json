@@ -1,0 +1,4335 @@
+{
+  "encoder": {
+    "categories": {
+      "schema_variant": [
+        "legacy",
+        "standard"
+      ],
+      "transient_faults": [
+        "none",
+        "read",
+        "write_after_commit"
+      ]
+    },
+    "means": [
+      28.625,
+      0.875,
+      0.125,
+      1.0,
+      1.0,
+      0.875,
+      4.0
+    ],
+    "names": [
+      "budget",
+      "persistent_storage",
+      "restart_risk",
+      "schema_discovery",
+      "structured_errors",
+      "supports_idempotency",
+      "workload_size"
+    ],
+    "scales": [
+      7.712611425451175,
+      0.33071891388307384,
+      0.33071891388307384,
+      0.25,
+      0.25,
+      0.33071891388307384,
+      0.25
+    ]
+  },
+  "endpoints": [
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.00",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.3333333333333333,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.29833333333333334
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.9516666666666667
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.29833333333333334
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.285
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.29333333333333333
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.9516666666666667
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.9316666666666666
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.9466666666666667
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.285
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.29333333333333333
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.invoice_reconciliation.01",
+      "utility": 0.27999999999999997
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.02",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.6666666666666666,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.6116666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 0.6666666666666666,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.6116666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.945
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.9316666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.6666666666666666,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.6066666666666667
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.945
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.9316666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 0.6666666666666666,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.6066666666666667
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.9316666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.94
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.03",
+      "utility": 0.9266666666666666
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.04",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.06",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.invoice_reconciliation.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.00",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.01",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.01",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.01",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.01",
+      "utility": 0.945
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.295
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.285
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.295
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.2816666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.29
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.9516666666666667
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.265
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.27999999999999997
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.2816666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.29
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.02",
+      "utility": 0.2766666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.2683333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.2683333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.2633333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.2633333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.03",
+      "utility": 0.9233333333333333
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.04",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.06",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.warehouse_dispatch.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.00",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.01",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.01",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.01",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.01",
+      "utility": 0.945
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.29833333333333334
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.285
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.29833333333333334
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.2866666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.29333333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.9516666666666667
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.265
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.27999999999999997
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.2866666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.29333333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.02",
+      "utility": 0.2816666666666666
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.2683333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.2683333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.2633333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.2633333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.03",
+      "utility": 0.9233333333333333
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.04",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.subscription_update.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.subscription_update.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.06",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.subscription_update.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.subscription_update.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.00",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.29833333333333334
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.9516666666666667
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.29833333333333334
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.285
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.29333333333333333
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.9516666666666667
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.9316666666666666
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.9466666666666667
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.285
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.29333333333333333
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.01",
+      "utility": 0.27999999999999997
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.02",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.2683333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.2683333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.2633333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 0.3333333333333333,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.2633333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.9283333333333333
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 35,
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.03",
+      "utility": 0.9233333333333333
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.04",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.04",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 9,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.05",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.06",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "checkpoint"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.06",
+      "utility": 0.935
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.06",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "checkpoint",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.06",
+      "utility": 0.9299999999999999
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "idempotency"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.07",
+      "utility": 0.955
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "retry",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.07",
+      "utility": 0.95
+    },
+    {
+      "features": {
+        "budget": 30,
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "mechanisms": [
+        "idempotency",
+        "schema_adapter"
+      ],
+      "success": 1.0,
+      "task_id": "source.ticket_assignment.07",
+      "utility": 0.95
+    }
+  ],
+  "provenance": {
+    "data_sha256": "b47a33f9f8a4cc3763c63c10057b7699fda6599431ee9655a3602b0f66d19eaf",
+    "description": "simple nearest successful endpoint control",
+    "training_role": "source"
+  }
+}

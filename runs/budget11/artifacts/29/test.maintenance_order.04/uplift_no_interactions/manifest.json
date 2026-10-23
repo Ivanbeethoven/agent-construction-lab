@@ -1,0 +1,41 @@
+{
+  "actor": "simulated_finite_state_actor",
+  "checks": [
+    "python_syntax",
+    "public_interface_preconditions",
+    "at_most_two_mechanisms"
+  ],
+  "construction_environment_rollouts": 0,
+  "dependencies": {
+    "contracts.py": "49e04d95350fa00a3749333edc64153086f9ec517af9caff8613cf2948d91352",
+    "runtime.py": "48a9b55c95cedc3f00cac8d011f0eb8455f9a08571290049066cded70c196ca9"
+  },
+  "files": {
+    "agent.py": "837119bccbd9c821ced21feb4e7e0b5994757b41797c09c6e45dcdeda1c1e86d"
+  },
+  "mechanisms": [
+    "idempotency",
+    "schema_adapter"
+  ],
+  "policy_name": "uplift_no_interactions",
+  "public_spec": {
+    "budget": 30,
+    "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+    "family": "maintenance_order",
+    "features": {
+      "persistent_storage": true,
+      "restart_risk": false,
+      "schema_discovery": true,
+      "schema_variant": "legacy",
+      "structured_errors": true,
+      "supports_idempotency": true,
+      "transient_faults": "none",
+      "workload_size": 4
+    },
+    "split": "test",
+    "task_id": "test.maintenance_order.04"
+  },
+  "real_llm_evidence": false,
+  "schema_version": 1,
+  "semantic_correctness_guarantee": false
+}

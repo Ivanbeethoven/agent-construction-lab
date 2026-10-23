@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>构建时专门化 · 合成环境研究报告</title><style>
+:root { color-scheme: light; --ink:#1e2937; --muted:#5f6e7e; --line:#dfe6eb; --teal:#087f8c; --paper:#fff; }
+* { box-sizing:border-box; }
+body { margin:0; background:#eef2f4; color:var(--ink); font-family:Inter,"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",Arial,sans-serif; line-height:1.75; }
+main { max-width:1280px; margin:36px auto; background:var(--paper); box-shadow:0 12px 48px #1a304012; border-radius:16px; overflow:hidden; }
+header { padding:48px 56px 35px; border-top:7px solid var(--teal); background:linear-gradient(135deg,#f8fcfc,#fff 68%); }
+.eyebrow { color:var(--teal); letter-spacing:.16em; font-size:12px; font-weight:750; }
+h1 { font-size:38px; line-height:1.32; margin:16px 0; letter-spacing:-.025em; }
+h2 { font-size:25px; margin:0 0 14px; line-height:1.4; }
+h3 { font-size:18px; margin:0 0 13px; }
+p { margin:10px 0; }
+.subtitle { max-width:970px; color:var(--muted); font-size:16px; }
+.tags { display:flex; flex-wrap:wrap; gap:9px; margin:21px 0 0; }
+.tag { border-radius:30px; background:#e7f1f2; color:#176771; padding:4px 13px; font-size:12px; font-weight:650; }
+.tag.warning { background:#f9e9df; color:#974b23; }
+section { padding:34px 56px; border-top:1px solid var(--line); }
+.section-index { display:inline-block; color:var(--teal); font-size:13px; font-weight:750; margin-bottom:8px; letter-spacing:.1em; }
+.lede { font-size:18px; line-height:1.8; }
+.note { color:var(--muted); font-size:13px; }
+.callout { border-left:4px solid #c38338; padding:16px 20px; background:#fcf5ed; border-radius:0 8px 8px 0; margin:20px 0; }
+.callout.teal { border-color:var(--teal); background:#edf7f7; }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:24px 0; }
+.stat { border:1px solid var(--line); padding:18px 20px; border-radius:9px; }
+.stat span { display:block; color:var(--muted); font-size:12px; }
+.stat strong { display:block; font-variant-numeric:tabular-nums; font-size:30px; line-height:1.3; margin:10px 0; color:var(--teal); }
+.stat small { color:var(--muted); font-size:12px; }
+.stat.challenge strong { color:#a45124; }
+.chart { margin:22px 0 12px; overflow-x:auto; }
+svg { display:block; width:100%; min-width:850px; font-family:inherit; }
+.svg-label { font-size:14px; fill:#314254; }
+.svg-heading { font-size:12px; font-weight:700; fill:#5f6e7e; letter-spacing:.03em; }
+.svg-axis { font-size:12px; fill:#627487; }
+.svg-value { font-size:12px; fill:#314254; font-variant-numeric:tabular-nums; }
+.svg-cost { font-size:13px; fill:#4b5d70; font-variant-numeric:tabular-nums; }
+.legend { display:flex; gap:20px; flex-wrap:wrap; color:var(--muted); font-size:12px; }
+.dot { width:9px; height:9px; border-radius:2px; display:inline-block; margin-right:6px; }
+.table-wrap { overflow-x:auto; margin:18px 0; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; font-weight:650; background:#f3f6f8; color:#45566a; }
+th,td { padding:12px 13px; border-bottom:1px solid var(--line); vertical-align:middle; }
+thead th { white-space:nowrap; }
+td.numeric { white-space:nowrap; text-align:right; font-variant-numeric:tabular-nums; }
+tr.emphasized td { background:#f7fbfb; }
+td code { display:block; font-size:10px; color:#6c7d8d; margin-top:3px; line-height:1.4; }
+.methods td:first-child { min-width:244px; }
+.matrices { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin:22px 0; }
+.matrix-panel { min-width:0; }
+.matrix { table-layout:fixed; font-size:11px; }
+.matrix th:first-child { width:76px; }
+.matrix th, .matrix td { padding:12px 10px; border:1px solid var(--line); }
+.matrix thead th { white-space:normal; }
+.matrix td strong { display:block; color:var(--teal); font-size:28px; line-height:1.3; font-variant-numeric:tabular-nums; }
+.matrix td span { display:block; font-size:10px; margin:7px 0; }
+.matrix td small { display:block; color:var(--muted); font-size:10px; line-height:1.8; }
+.matrix .frozen { background:#eff8f8; }
+.matrix .searched { background:#f5f3f9; }
+.matrix .searched strong { color:#7361aa; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+.facts { margin:0; }
+.facts div { display:flex; justify-content:space-between; gap:20px; border-bottom:1px solid var(--line); padding:9px 0; }
+.facts dt { color:var(--muted); }
+.facts dd { margin:0; font-variant-numeric:tabular-nums; font-weight:600; text-align:right; }
+ul,ol { padding-left:23px; }
+li { margin:9px 0; }
+a { color:var(--teal); text-underline-offset:3px; }
+.hash { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:10px; overflow-wrap:anywhere; line-height:1.6; }
+.provenance td:first-child { width:220px; }
+footer { background:#f3f6f8; padding:24px 56px; color:var(--muted); font-size:12px; }
+@media(max-width:900px) { main { margin:0; border-radius:0; } header,section { padding:26px 24px; } h1 { font-size:29px; } .stats { grid-template-columns:1fr 1fr; } .stat { padding:14px 12px; } .stat strong { font-size:25px; } .matrices,.two-col { grid-template-columns:1fr; } footer { padding:22px 24px; } }
+@media print { body { background:white; } main { max-width:none; margin:0; box-shadow:none; border-radius:0; } header,section { padding:20px 24px; } h1 { font-size:29px; } h2,h3 { break-after:avoid; } tr,.stat,.matrix-panel,.callout { break-inside:avoid; } .chart { overflow:visible; } svg { min-width:0; } .table-wrap { overflow:visible; } table { font-size:10px; } th,td { padding:8px; } .matrices { grid-template-columns:1fr 1fr; } .matrix td strong { font-size:23px; } a { color:inherit; } }
+</style></head>
+<body><main>
+<header><div class="eyebrow">AGENT CONSTRUCTION LAB / REPRODUCIBLE PILOT</div>
+<h1>构建时专门化<br>合成环境运行报告</h1>
+<p class="subtitle">用源任务上的配对机制干预训练构造器，在目标实例执行前冻结 agent，再比较支持集搜索能带来多少额外改善。所有图表来自已经保存的运行结果。</p>
+<div class="tags"><span class="tag warning">SIMULATOR · 无 LLM 实证</span><span class="tag">默认候选预算 6</span>
+<span class="tag">敏感性预算 11</span><span class="tag">最多 2 个机制</span><span class="tag">构建期目标环境执行 0 次</span></div>
+</header>
+
+<section><span class="section-index">01 / 先看结果</span><h2>把对照结果放在主结论里</h2>
+<p class="lede">更简单的 Scalar 与公共契约规则控制均未低于条件增益构建。当前结果不支持条件构建优于这些控制。</p>
+<p>冻结条件构建的 query 成功率为 <strong>69.17%</strong>；Scalar 控制为 <strong>94.17%</strong>；公共契约规则为 <strong>90.00%</strong>。条件构建相对通用初始 agent 的变化为 <strong>+25.83 pp</strong>。这些数值来自同一批 query 任务及执行种子。</p>
+<div class="stats">
+<div class="stat"><span>冻结条件构建 · Query</span><strong>69.17%</strong><small>240 次执行，含重复种子</small></div>
+<div class="stat"><span>条件构建 − 通用初始</span><strong>+25.83 pp</strong><small>成功率百分点差</small></div>
+<div class="stat challenge"><span>Scalar − 条件构建</span><strong>+25.00 pp</strong><small>正值表示 Scalar 更高</small></div>
+<div class="stat challenge"><span>公共契约规则 − 条件构建</span><strong>+20.83 pp</strong><small>正值表示规则控制更高</small></div>
+</div>
+<div class="callout"><strong>这份报告不证明可以“消灭 RSI”。</strong> 构造器按目标实例的公开特征初始化，而 RSI 在同一 family 的异质支持任务上选机制，支持目标与实例目标可能不一致。加上有限的机制词表、4 个合成 family 和充分公开的风险类别，较小甚至为负的残余改进只能作为原型诊断。</div>
+<p class="note">数据来源：<a href="summary.json">summary.json</a>、<a href="method_summary.csv">method_summary.csv</a>。pp 表示百分点；全部方法和失败执行均保留在后续表格中。</p>
+</section>
+
+<section><span class="section-index">02 / 方法比较</span><h2>成功率与支持集成本同时呈现</h2>
+<p>条形长度表示 query 成功率。右侧显示为该方法实际发生的支持集执行次数与支持操作单位；冻结方法的支持集成本为 0，但学习方法仍使用了离线源数据与拟合计算。</p>
+<div class="legend"><span><i class="dot" style="background:#087f8c"></i>条件增益构建</span><span><i class="dot" style="background:#b15c25"></i>Scalar / 规则控制</span><span><i class="dot" style="background:#7361aa"></i>支持集搜索</span><span><i class="dot" style="background:#6aa9a9"></i>消融</span></div>
+<div class="chart"><svg viewBox="0 0 1110 627" role="img" aria-labelledby="success-title success-desc"><title id="success-title">各方法 query 成功率与支持集成本</title><desc id="success-desc">成功率来自保存的 method_summary.csv。支持成本列为实际支持集执行次数与模拟器操作数；这些结果不含 LLM 实证。</desc><text x="0" y="20" class="svg-heading">方法 / SIMULATOR</text><text x="930" y="20" text-anchor="middle" class="svg-heading">支持执行 / 支持操作</text><line x1="290" y1="42" x2="290" y2="612" stroke="#e2e7eb"/><text x="290" y="34" text-anchor="middle" class="svg-axis">0%</text><line x1="425.0" y1="42" x2="425.0" y2="612" stroke="#e2e7eb"/><text x="425.0" y="34" text-anchor="middle" class="svg-axis">25%</text><line x1="560.0" y1="42" x2="560.0" y2="612" stroke="#e2e7eb"/><text x="560.0" y="34" text-anchor="middle" class="svg-axis">50%</text><line x1="695.0" y1="42" x2="695.0" y2="612" stroke="#e2e7eb"/><text x="695.0" y="34" text-anchor="middle" class="svg-axis">75%</text><line x1="830" y1="42" x2="830" y2="612" stroke="#e2e7eb"/><text x="830" y="34" text-anchor="middle" class="svg-axis">100%</text><text x="0" y="78" class="svg-label">通用初始 agent</text><rect x="290" y="61" width="234.000" height="25" rx="4" fill="#7e8b98"/><text x="532.000" y="79" class="svg-value">43.33%</text><text x="930" y="79" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="120" class="svg-label">条件增益构建</text><rect x="290" y="103" width="373.500" height="25" rx="4" fill="#087f8c"/><text x="671.500" y="121" class="svg-value">69.17%</text><text x="930" y="121" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="162" class="svg-label">最大兼容组合（上限 2）</text><rect x="290" y="145" width="297.000" height="25" rx="4" fill="#7e8b98"/><text x="595.000" y="163" class="svg-value">55.00%</text><text x="930" y="163" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="204" class="svg-label">最近成功端点</text><rect x="290" y="187" width="351.000" height="25" rx="4" fill="#7e8b98"/><text x="649.000" y="205" class="svg-value">65.00%</text><text x="930" y="205" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="246" class="svg-label">Scalar 最终效用预测</text><rect x="290" y="229" width="508.500" height="25" rx="4" fill="#b15c25"/><text x="806.500" y="247" class="svg-value">94.17%</text><text x="930" y="247" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="288" class="svg-label">公共契约规则</text><rect x="290" y="271" width="486.000" height="25" rx="4" fill="#b15c25"/><text x="784.000" y="289" class="svg-value">90.00%</text><text x="930" y="289" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="330" class="svg-label">通用初始 + Greedy RSI</text><rect x="290" y="313" width="247.500" height="25" rx="4" fill="#7361aa"/><text x="545.500" y="331" class="svg-value">45.83%</text><text x="930" y="331" text-anchor="middle" class="svg-cost">1,808 / 19,104</text><text x="0" y="372" class="svg-label">条件构建 + Greedy RSI</text><rect x="290" y="355" width="330.750" height="25" rx="4" fill="#7361aa"/><text x="628.750" y="373" class="svg-value">61.25%</text><text x="930" y="373" text-anchor="middle" class="svg-cost">1,888 / 22,416</text><text x="0" y="414" class="svg-label">通用初始 + Beam RSI</text><rect x="290" y="397" width="243.000" height="25" rx="4" fill="#7361aa"/><text x="541.000" y="415" class="svg-value">45.00%</text><text x="930" y="415" text-anchor="middle" class="svg-cost">1,920 / 20,548</text><text x="0" y="456" class="svg-label">条件构建 + Beam RSI</text><rect x="290" y="439" width="303.750" height="25" rx="4" fill="#7361aa"/><text x="601.750" y="457" class="svg-value">56.25%</text><text x="930" y="457" text-anchor="middle" class="svg-cost">1,920 / 22,766</text><text x="0" y="498" class="svg-label">消融：移除失败特征</text><rect x="290" y="481" width="373.500" height="25" rx="4" fill="#6aa9a9"/><text x="671.500" y="499" class="svg-value">69.17%</text><text x="930" y="499" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="540" class="svg-label">消融：移除机制交互</text><rect x="290" y="523" width="373.500" height="25" rx="4" fill="#6aa9a9"/><text x="671.500" y="541" class="svg-value">69.17%</text><text x="930" y="541" text-anchor="middle" class="svg-cost">0 / 0</text><text x="0" y="582" class="svg-label">消融：移除不确定性惩罚</text><rect x="290" y="565" width="373.500" height="25" rx="4" fill="#6aa9a9"/><text x="671.500" y="583" class="svg-value">69.17%</text><text x="930" y="583" text-anchor="middle" class="svg-cost">0 / 0</text></svg></div>
+<p class="note">SIMULATOR：图中没有 LLM 推理结果。这里不以环境执行次数推导美元、token 或真实系统延迟。来源：<a href="method_summary.csv">method_summary.csv</a>。</p>
+<div class="table-wrap"><table class="methods"><thead><tr><th>方法</th><th>Query 成功率</th><th>Query 次数</th><th>Query 平均操作</th><th>支持执行次数</th><th>支持工具调用</th><th>支持操作合计</th></tr></thead><tbody><tr><td>通用初始 agent<code>generic</code></td><td class="numeric">43.33%</td><td class="numeric">240</td><td class="numeric">5.77</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="emphasized"><td>条件增益构建<code>conditional_uplift</code></td><td class="numeric">69.17%</td><td class="numeric">240</td><td class="numeric">9.91</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td>最大兼容组合（上限 2）<code>all_compatible</code></td><td class="numeric">55.00%</td><td class="numeric">240</td><td class="numeric">9.20</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td>最近成功端点<code>nearest_good_endpoint</code></td><td class="numeric">65.00%</td><td class="numeric">240</td><td class="numeric">7.91</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="emphasized"><td>Scalar 最终效用预测<code>scalar_final_value</code></td><td class="numeric">94.17%</td><td class="numeric">240</td><td class="numeric">12.77</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr class="emphasized"><td>公共契约规则<code>public_contract_rule</code></td><td class="numeric">90.00%</td><td class="numeric">240</td><td class="numeric">10.39</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td>通用初始 + Greedy RSI<code>generic+greedy_rsi</code></td><td class="numeric">45.83%</td><td class="numeric">240</td><td class="numeric">7.09</td><td class="numeric">1,808</td><td class="numeric">17,582</td><td class="numeric">19,104</td></tr><tr><td>条件构建 + Greedy RSI<code>conditional_uplift+greedy_rsi</code></td><td class="numeric">61.25%</td><td class="numeric">240</td><td class="numeric">9.75</td><td class="numeric">1,888</td><td class="numeric">19,022</td><td class="numeric">22,416</td></tr><tr><td>通用初始 + Beam RSI<code>generic+beam_rsi</code></td><td class="numeric">45.00%</td><td class="numeric">240</td><td class="numeric">7.74</td><td class="numeric">1,920</td><td class="numeric">18,338</td><td class="numeric">20,548</td></tr><tr><td>条件构建 + Beam RSI<code>conditional_uplift+beam_rsi</code></td><td class="numeric">56.25%</td><td class="numeric">240</td><td class="numeric">9.75</td><td class="numeric">1,920</td><td class="numeric">19,284</td><td class="numeric">22,766</td></tr><tr><td>消融：移除失败特征<code>uplift_no_failure</code></td><td class="numeric">69.17%</td><td class="numeric">240</td><td class="numeric">10.20</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td>消融：移除机制交互<code>uplift_no_interactions</code></td><td class="numeric">69.17%</td><td class="numeric">240</td><td class="numeric">9.21</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr><tr><td>消融：移除不确定性惩罚<code>uplift_no_uncertainty</code></td><td class="numeric">69.17%</td><td class="numeric">240</td><td class="numeric">9.91</td><td class="numeric">0</td><td class="numeric">0</td><td class="numeric">0</td></tr></tbody></table></div>
+<p class="note">最大兼容组合按预声明机制顺序选取，最多 2 个；它不是同时开启全部 4 个机制。Scalar 和最近成功端点均为本原型中的简化控制。支持操作包含被计费的本地操作，因此不必等于工具调用数。</p>
+</section>
+
+<section><span class="section-index">03 / 四格诊断</span><h2>构建收益与后续搜索收益分开读</h2>
+<p>每个单元格展示最终 query 成功率，支持成本覆盖该单元格全部目标实例与构建种子。冻结行的 query 结果在两种搜索器面板中重复引用，不是新增独立实验。</p>
+<div class="matrices"><article class="matrix-panel"><h3>Greedy 搜索</h3><table class="matrix"><thead><tr><th>初始化</th><th>冻结后直接执行</th><th>先在支持集搜索</th></tr></thead><tbody><tr><th>通用初始</th><td class="frozen"><strong>43.33%</strong><span>构建期目标环境执行：0</span><small>支持执行 0 次<br>支持操作 0 单位</small></td><td class="searched"><strong>45.83%</strong><span>较本行冻结值 +2.50 pp</span><small>支持执行 1,808 次<br>支持操作 19,104 单位</small></td></tr><tr><th>条件构建</th><td class="frozen"><strong>69.17%</strong><span>构建期目标环境执行：0</span><small>支持执行 0 次<br>支持操作 0 单位</small></td><td class="searched"><strong>61.25%</strong><span>较本行冻结值 -7.92 pp</span><small>支持执行 1,888 次<br>支持操作 22,416 单位</small></td></tr></tbody></table></article><article class="matrix-panel"><h3>Beam 搜索</h3><table class="matrix"><thead><tr><th>初始化</th><th>冻结后直接执行</th><th>先在支持集搜索</th></tr></thead><tbody><tr><th>通用初始</th><td class="frozen"><strong>43.33%</strong><span>构建期目标环境执行：0</span><small>支持执行 0 次<br>支持操作 0 单位</small></td><td class="searched"><strong>45.00%</strong><span>较本行冻结值 +1.67 pp</span><small>支持执行 1,920 次<br>支持操作 20,548 单位</small></td></tr><tr><th>条件构建</th><td class="frozen"><strong>69.17%</strong><span>构建期目标环境执行：0</span><small>支持执行 0 次<br>支持操作 0 单位</small></td><td class="searched"><strong>56.25%</strong><span>较本行冻结值 -12.92 pp</span><small>支持执行 1,920 次<br>支持操作 22,766 单位</small></td></tr></tbody></table></article></div>
+<p class="note">数据来源：<a href="four_cells.csv">four_cells.csv</a>。B＝通用初始，U＝条件构建，R＝在支持集上搜索后的冻结结果。</p>
+<div class="table-wrap"><table><thead><tr><th>预算 / 搜索器</th><th>冻结构建增益<br>U − B</th><th>通用初始的 RSI 增益<br>R(B) − B</th><th>条件构建后残余增益<br>R(U) − U</th><th>冻结 U 与 RSI 对照之差<br>U − R(B)</th></tr></thead><tbody><tr><td>6 / Greedy</td><td class="numeric">+25.83 pp</td><td class="numeric">+2.50 pp</td><td class="numeric">-7.92 pp</td><td class="numeric">+23.33 pp</td></tr><tr><td>6 / Beam</td><td class="numeric">+25.83 pp</td><td class="numeric">+1.67 pp</td><td class="numeric">-12.92 pp</td><td class="numeric">+24.17 pp</td></tr><tr><td>11 / Greedy</td><td class="numeric">+25.83 pp</td><td class="numeric">+1.67 pp</td><td class="numeric">-19.17 pp</td><td class="numeric">+24.17 pp</td></tr><tr><td>11 / Beam</td><td class="numeric">+25.83 pp</td><td class="numeric">+4.17 pp</td><td class="numeric">-21.67 pp</td><td class="numeric">+21.67 pp</td></tr></tbody></table></div>
+<div class="callout teal"><strong>判断“替代 RSI”还缺少的证据：</strong> 需要目标定义匹配、能够确实改善初始 agent 的有效优化器，并在公平总预算下证明初始质量接近该对照、残余改善受到限制且生命周期成本更低。本轮四格仅覆盖固定 4 种机制、最多 2 种组合的搜索，不满足上述完整结论。</div>
+</section>
+
+<section><span class="section-index">04 / 预算敏感性</span><h2>把候选预算提高到 11 后发生什么</h2>
+<p>两次运行使用相同源数据、任务角色划分、构建与执行种子、模型设置。预算单位是对一个候选机制组合进行完整支持集评估；初始候选也占一个单位。11 是最多两机制时的完整词表大小，搜索提前停止或接口限制仍可能使实际评估数量低于上限。</p>
+<div class="table-wrap"><table><thead><tr><th>方法</th><th>预算 6 成功率</th><th>预算 11 成功率</th><th>成功率变化</th><th>支持执行：默认 → 11</th></tr></thead><tbody><tr><td>通用初始 agent</td><td class="numeric">43.33%</td><td class="numeric">43.33%</td><td class="numeric">+0.00 pp</td><td class="numeric">0 → 0</td></tr><tr><td>条件增益构建</td><td class="numeric">69.17%</td><td class="numeric">69.17%</td><td class="numeric">+0.00 pp</td><td class="numeric">0 → 0</td></tr><tr><td>通用初始 + Greedy RSI</td><td class="numeric">45.83%</td><td class="numeric">45.00%</td><td class="numeric">-0.83 pp</td><td class="numeric">1,808 → 2,480</td></tr><tr><td>条件构建 + Greedy RSI</td><td class="numeric">61.25%</td><td class="numeric">50.00%</td><td class="numeric">-11.25 pp</td><td class="numeric">1,888 → 2,560</td></tr><tr><td>通用初始 + Beam RSI</td><td class="numeric">45.00%</td><td class="numeric">47.50%</td><td class="numeric">+2.50 pp</td><td class="numeric">1,920 → 3,264</td></tr><tr><td>条件构建 + Beam RSI</td><td class="numeric">56.25%</td><td class="numeric">47.50%</td><td class="numeric">-8.75 pp</td><td class="numeric">1,920 → 3,264</td></tr></tbody></table></div>
+<div class="chart"><svg viewBox="0 0 1110 361" role="img" aria-labelledby="support-title support-desc"><title id="support-title">默认预算与 budget11 的支持集操作成本</title><desc id="support-desc">实际发生的模拟器操作数，包含工具调用与计费的本地操作。源数据成本和 query 执行成本另表报告。</desc><rect x="290" y="4" width="13" height="13" rx="2" fill="#087f8c"/><text x="311" y="16" class="svg-axis">预算 6</text><rect x="423" y="4" width="13" height="13" rx="2" fill="#c38338"/><text x="444" y="16" class="svg-axis">预算 11</text><line x1="290" y1="49" x2="290" y2="341" stroke="#e2e7eb"/><text x="290" y="39" text-anchor="middle" class="svg-axis">0</text><line x1="455.0" y1="49" x2="455.0" y2="341" stroke="#e2e7eb"/><text x="455.0" y="39" text-anchor="middle" class="svg-axis">10,000</text><line x1="620.0" y1="49" x2="620.0" y2="341" stroke="#e2e7eb"/><text x="620.0" y="39" text-anchor="middle" class="svg-axis">20,000</text><line x1="785.0" y1="49" x2="785.0" y2="341" stroke="#e2e7eb"/><text x="785.0" y="39" text-anchor="middle" class="svg-axis">30,000</text><line x1="950" y1="49" x2="950" y2="341" stroke="#e2e7eb"/><text x="950" y="39" text-anchor="middle" class="svg-axis">40,000</text><text x="0" y="88" class="svg-label">通用初始 + Greedy RSI</text><rect x="290" y="65" width="315.216" height="18" rx="3" fill="#087f8c"/><text x="613.216" y="79" class="svg-value">19,104</text><rect x="290" y="90" width="469.458" height="18" rx="3" fill="#c38338"/><text x="767.458" y="104" class="svg-value">28,452</text><text x="0" y="157" class="svg-label">条件构建 + Greedy RSI</text><rect x="290" y="134" width="369.864" height="18" rx="3" fill="#087f8c"/><text x="667.864" y="148" class="svg-value">22,416</text><rect x="290" y="159" width="508.266" height="18" rx="3" fill="#c38338"/><text x="806.266" y="173" class="svg-value">30,804</text><text x="0" y="226" class="svg-label">通用初始 + Beam RSI</text><rect x="290" y="203" width="339.042" height="18" rx="3" fill="#087f8c"/><text x="637.042" y="217" class="svg-value">20,548</text><rect x="290" y="228" width="620.532" height="18" rx="3" fill="#c38338"/><text x="918.532" y="242" class="svg-value">37,608</text><text x="0" y="295" class="svg-label">条件构建 + Beam RSI</text><rect x="290" y="272" width="375.639" height="18" rx="3" fill="#087f8c"/><text x="673.639" y="286" class="svg-value">22,766</text><rect x="290" y="297" width="620.532" height="18" rx="3" fill="#c38338"/><text x="918.532" y="311" class="svg-value">37,608</text></svg></div>
+<p class="note">来源：<a href="summary.json">summary.json</a> 与 <a href="../budget11/summary.json">budget11 / summary.json</a>。提高候选预算不会自动修复支持任务与目标实例的分布不匹配，也不等价于增加任意代码编辑能力。</p>
+<h3>优化器正控：能够搜索到协同修复吗？</h3><p>单独取两个公共风险类别相同的 dev 任务，分别作为支持与 query，使用独立种子。该诊断不用于训练或调参；它检查搜索器能否发现 retry 与幂等的协同修复。</p><div class="table-wrap"><table><thead><tr><th>搜索器 / 上限</th><th>实际评估候选</th><th>选择的机制</th><th>Query：初始 → 搜索后</th><th>支持执行 / 工具调用</th></tr></thead><tbody><tr><td>Greedy / 11</td><td class="numeric">5</td><td><code>no-op</code></td><td class="numeric">25.00% → 25.00%</td><td class="numeric">20 / 146</td></tr><tr><td>Beam / 11</td><td class="numeric">11</td><td><code>retry + idempotency</code></td><td class="numeric">25.00% → 100.00%</td><td class="numeric">44 / 377</td></tr></tbody></table></div><p class="note">这是一个 query 任务、4 个执行种子的机制正控，不能证明主实验中的支持分布匹配或整体搜索器足够强。Greedy 与 Beam 的不同表现也说明：没有找到修复不等于不存在可用修复。正控执行成本单独列入下方完整账本。</p>
+</section>
+
+<section><span class="section-index">05 / 不确定性</span><h2>保留配对结构，限制区间解释</h2>
+<p>差值按同一任务、构建种子与执行种子配对，并以完整 family 为单位重采样。下列区间是已保存的描述性 family bootstrap 区间；只有 4 个共享同一生成器的合成 family，不能据此声称具有确认性检验效能。</p>
+<div class="table-wrap"><table><thead><tr><th>成对差值：左 − 右</th><th>均值差</th><th>描述性 95% 区间</th><th>配对观测</th></tr></thead><tbody><tr><td>条件增益构建 − 通用初始 agent</td><td class="numeric">+25.83 pp</td><td class="numeric">[+17.50 pp, +33.33 pp]</td><td class="numeric">240</td></tr><tr><td>条件增益构建 − Scalar 最终效用预测</td><td class="numeric">-25.00 pp</td><td class="numeric">[-29.17 pp, -21.67 pp]</td><td class="numeric">240</td></tr><tr><td>条件增益构建 − 公共契约规则</td><td class="numeric">-20.83 pp</td><td class="numeric">[-25.00 pp, -17.50 pp]</td><td class="numeric">240</td></tr><tr><td>条件增益构建 − 通用初始 + Greedy RSI</td><td class="numeric">+23.33 pp</td><td class="numeric">[+14.17 pp, +31.67 pp]</td><td class="numeric">240</td></tr><tr><td>条件增益构建 − 通用初始 + Beam RSI</td><td class="numeric">+24.17 pp</td><td class="numeric">[+15.00 pp, +32.50 pp]</td><td class="numeric">240</td></tr><tr><td>条件构建 + Greedy RSI − 条件增益构建</td><td class="numeric">-7.92 pp</td><td class="numeric">[-21.67 pp, +7.08 pp]</td><td class="numeric">240</td></tr><tr><td>条件构建 + Beam RSI − 条件增益构建</td><td class="numeric">-12.92 pp</td><td class="numeric">[-21.67 pp, -2.92 pp]</td><td class="numeric">240</td></tr></tbody></table></div>
+<p class="note">默认使用 500 次 bootstrap。区间未作多重比较校正；本报告不据此宣布统计显著、等效或非劣。增加执行种子不会增加独立 family 数。来源：<a href="summary.json">summary.json</a> 中 paired_comparisons。</p>
+</section>
+
+<section><span class="section-index">06 / 数据与生命周期账本</span><h2>离线采集、支持搜索、最终执行都有记录</h2>
+<div class="two-col"><div><h3>任务与重复</h3><dl class="facts">
+<div><dt>源任务 / family</dt><dd>32 / 4</dd></div>
+<div><dt>目标支持任务</dt><dd>8</dd></div>
+<div><dt>目标 query 任务 / family</dt><dd>40 / 4</dd></div>
+<div><dt>dev 任务（未用于训练或调参）</dt><dd>24</dd></div>
+<div><dt>其中仅用于机制正控</dt><dd>2</dd></div>
+<div><dt>每任务：构建种子 × query 种子</dt><dd>2 × 3</dd></div>
+<div><dt>生成的冻结 artifact</dt><dd>1,040</dd></div>
+</dl></div><div><h3>源配对干预</h3><dl class="facts">
+<div><dt>配对记录总数</dt><dd>960</dd></div>
+<div><dt>成功率方向为正的记录</dt><dd>147</dd></div>
+<div><dt>成功率方向为负的记录</dt><dd>108</dd></div>
+<div><dt>成功状态相同的记录</dt><dd>705</dd></div>
+<div><dt>其中 no-op 配对记录</dt><dd>96</dd></div>
+<div><dt>每个源任务的执行种子数</dt><dd>3</dd></div>
+</dl></div></div>
+<p class="note">正 / 负方向按二元 success 的成对变化计算；“成功状态相同”不代表操作成本、部分完成度或事件轨迹也相同。共享 baseline 的引用不重复计作物理执行。</p>
+<div class="table-wrap"><table><thead><tr><th>阶段</th><th>环境执行次数</th><th>工具调用次数</th><th>模拟器操作单位</th></tr></thead><tbody><tr><td>源数据采集（全局共享一次）</td><td class="numeric">960</td><td class="numeric">9,131</td><td class="numeric">10,252</td></tr><tr><td>目标域支持集搜索（所有方法）</td><td class="numeric">7,536</td><td class="numeric">74,226</td><td class="numeric">84,834</td></tr><tr><td>最终 Query 评估（所有方法）</td><td class="numeric">3,120</td><td class="numeric">23,788</td><td class="numeric">28,702</td></tr><tr><td>机制正控：支持集搜索</td><td class="numeric">64</td><td class="numeric">523</td><td class="numeric">594</td></tr><tr><td>机制正控：Query 与共享基线</td><td class="numeric">12</td><td class="numeric">107</td><td class="numeric">126</td></tr><tr><td>本次实验全部物理执行</td><td class="numeric">11,692</td><td class="numeric">107,775</td><td class="numeric">124,508</td></tr></tbody></table></div>
+<p><strong>成本口径：</strong> <code>tool_steps</code> 统计工具调用，<code>cost_units</code> 另外包含被计费的 retry 决策、幂等键派生等本地操作。当前学习和搜索效用是成功率减工具调用惩罚，不直接优化总操作单位。源数据采集在全局账本中计费一次，不能因为部署时没有支持搜索而将其视为零成本。</p>
+<p>冻结构造器的目标环境执行总数为 <strong>0</strong>。构建、模型拟合的耗时及候选评分数在原始结果中单独记录；这些本地墙钟测量不构成真实 LLM 成本测量。摊销后的成本结论还需声明未来部署任务量和各方法的冷启动分摊规则。</p>
+<p class="note">本次默认运行的整体墙钟时间记录为 9.36 秒，仅用于复现诊断。来源：<a href="summary.json">summary.json</a> 中 accounting / training 及同目录 execution_ledger.jsonl。</p>
+</section>
+
+<section><span class="section-index">07 / 解释边界与复现依据</span><h2>这次运行证明了哪些链路</h2>
+<ol>
+<li><strong>机制真实执行。</strong> 环境有状态、工具调用、超时后的已提交副作用、重复写入、worker 重启与恢复事件；retry、幂等、checkpoint、schema adapter 改变可执行 harness 行为。执行者是有限状态 actor。</li>
+<li><strong>构建阶段只看公共规格。</strong> 实际故障是否发生与发生位置在执行时由任务身份和隐藏执行种子确定；公共风险类别仍是较强信息，规则控制因此必须保留。</li>
+<li><strong>隔离的是任务身份和监督角色。</strong> 源 / dev / test 的 family 名称不重叠，但都共享同一事务生成器；这不是跨真实领域泛化。支持集按公开接口能力预先选择，query 保留接口受限任务和未见组合。</li>
+<li><strong>Query 不参与优化。</strong> source-only 训练、支持集候选评估、最终冻结 artifact 的 query 评估分别记录。失败执行计入分母；没有按效果剔除任务或方法。</li>
+<li><strong>冻结可被核验，但不保证语义正确。</strong> agent 源码、manifest 与依赖摘要提供相对于可信外部 digest 的篡改检测；静态语法和接口检查不等于行为正确性、代码沙箱或数字签名。</li>
+</ol>
+<h3>结果文件与 SHA-256</h3>
+<p class="note">报告生成器读取下列文件，校验 CSV 与主 JSON 一致后渲染；不运行实验、不修改数据、不选择更好的一次结果。页面所有样式与 SVG 均已内嵌，无需网络即可查看。</p>
+<div class="table-wrap"><table class="provenance"><thead><tr><th>输入文件</th><th>文件 SHA-256</th></tr></thead><tbody><tr><td><a href="summary.json">summary.json</a></td><td class="hash">697b2c49f085d30474c9d4bc7bd62acebb48491930c4b8286daf9f465349592e</td></tr><tr><td><a href="method_summary.csv">method_summary.csv</a></td><td class="hash">53ed24c991658975d57878d1dc9d225af29d1b8195f1ca507a81f77c78af3e82</td></tr><tr><td><a href="four_cells.csv">four_cells.csv</a></td><td class="hash">9cd9b3e7ee10a83bf308fb9b1a0142ba9016447fa1b44b8a637b26b742229a59</td></tr><tr><td><a href="../budget11/summary.json">budget11 / summary.json</a></td><td class="hash">96509f2cf46c12adaeda4d3d9846667758f2b12e3ce64755697106e22371a41a</td></tr></tbody></table></div>
+<p class="note">源配对数据摘要：<span class="hash">b47a33f9f8a4cc3763c63c10057b7699fda6599431ee9655a3602b0f66d19eaf</span></p>
+</section>
+<footer>Agent Construction Lab · 合成实验结果报告 · SIMULATOR / NO LLM EVIDENCE<br>图表显示已保存的观测；pp 为百分点。完整原始结果与程序共同构成复现依据。</footer>
+</main></body></html>

@@ -1,0 +1,41 @@
+{
+  "actor": "simulated_finite_state_actor",
+  "checks": [
+    "python_syntax",
+    "public_interface_preconditions",
+    "at_most_two_mechanisms"
+  ],
+  "construction_environment_rollouts": 0,
+  "dependencies": {
+    "contracts.py": "49e04d95350fa00a3749333edc64153086f9ec517af9caff8613cf2948d91352",
+    "runtime.py": "48a9b55c95cedc3f00cac8d011f0eb8455f9a08571290049066cded70c196ca9"
+  },
+  "files": {
+    "agent.py": "a64d34d0773450a3191a89dc0a74e8f2aa264644c2099d78fe280002c09dee90"
+  },
+  "mechanisms": [
+    "idempotency",
+    "checkpoint"
+  ],
+  "policy_name": "conditional_uplift",
+  "public_spec": {
+    "budget": 40,
+    "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+    "family": "library_return",
+    "features": {
+      "persistent_storage": true,
+      "restart_risk": true,
+      "schema_discovery": true,
+      "schema_variant": "legacy",
+      "structured_errors": true,
+      "supports_idempotency": true,
+      "transient_faults": "none",
+      "workload_size": 4
+    },
+    "split": "test",
+    "task_id": "test.library_return.09"
+  },
+  "real_llm_evidence": false,
+  "schema_version": 1,
+  "semantic_correctness_guarantee": false
+}

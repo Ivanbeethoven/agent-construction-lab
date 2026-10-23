@@ -2,6 +2,7 @@
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from importlib.metadata import PackageNotFoundError, version
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -18,6 +19,38 @@ from .spec import validate_manifest, freeze_harness, load_frozen_harness
 
 class StudyExecutionError(RuntimeError):
     pass
+
+
+@dataclass(frozen=True)
+class SourceResumePayload:
+    """Sealed source-only evidence prepared by the restricted recovery validator.
+
+    This is an integrity check, not a sandbox for untrusted Python callers.
+    Revalidate disk and runtime bindings immediately before any new execution.
+    """
+    payload_json: str
+    payload_sha256: str
+
+    def materialize(self, manifest, model, config):
+        value=json.loads(self.payload_json)
+        if digest(value)!=self.payload_sha256:
+            raise ValueError("Source resume payload integrity mismatch")
+        bindings=value["bindings"]
+        if bindings!={"manifest":digest(manifest),"model":digest(asdict(model)),"study":digest(asdict(config))}:
+            raise ValueError("Source resume configuration changed after validation")
+        repository=Path(__file__).resolve().parents[2]
+        hashes={p.relative_to(repository).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in sorted((repository/"agent_construction_lab").rglob("*.py"))}
+        if hashes!=value["runtime_sha256"]:
+            raise ValueError("Source resume runtime changed after validation")
+        source=Path(value["source_run"])
+        if set(p.name for p in source.iterdir())!=set(value["snapshot_sha256"]):
+            raise ValueError("Source resume evidence set changed after validation")
+        for name, expected in value["snapshot_sha256"].items():
+            path=source/name
+            if path.is_symlink() or not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=expected:
+                raise ValueError("Source resume evidence changed after validation")
+        return value
 
 
 @dataclass
@@ -134,9 +167,16 @@ def summarize(queries, episodes, constructions, usage, config, mock=False):
         inference_note="Resample domains, not seed repetitions. Non-significant residual gains do not establish equivalence.")
 
 
-def run_study(manifest, model, out, *, config=None, mock=False, progress=None, appworld_root=None):
+def run_study(manifest, model, out, *, config=None, mock=False, progress=None, appworld_root=None, source_resume=None):
     config=config or StudyConfig()
     manifest=validate_manifest(manifest)
+    resumed=None
+    if source_resume is not None:
+        if not isinstance(source_resume,SourceResumePayload) or mock:
+            raise ValueError("Source resume requires a validated live source payload")
+        resumed=source_resume.materialize(manifest,model,config)
+        if Path(out).resolve().is_relative_to(Path(resumed["source_run"]).resolve()):
+            raise ValueError("Continuation output must be independent of original evidence")
     if manifest["benchmark"]=="builtin" and not mock:
         raise ValueError("Builtin fixtures must be explicitly marked mock=True")
     if not mock:
@@ -150,13 +190,23 @@ def run_study(manifest, model, out, *, config=None, mock=False, progress=None, a
     if root.exists() and any(root.iterdir()): raise ValueError("Output directory must be empty; existing evidence is never overwritten")
     root.mkdir(parents=True,exist_ok=True)
     run_id=uuid4().hex
+    imported_failures=[]
+    if resumed is not None:
+        for name,rows in (("model_usage.jsonl",resumed["usage"]),("episodes.jsonl",resumed["episodes"]),
+                ("source_pairs.jsonl",resumed["pairs"]),("failed_operations.jsonl",resumed["failed_operations"])):
+            for row in rows: append_json(root/name,row)
+        imported_failures=resumed["failed_operations"]
+        write_json(root/"resume_amendment.json",resumed["amendment"])
     usage=UsageLedger(root/"model_usage.jsonl")
     client=OpenAICompatibleClient(model,usage)
     episodes=[]; constructions=[]; queries=[]; pairs=[]; plans=[]
+    if resumed is not None:
+        episodes=resumed["episodes"]
+        pairs=resumed["pairs"]
     write_json(root/"task_manifest.json",manifest)
     write_json(root/"model_config.json",asdict(model))
     write_json(root/"study_config.json",asdict(config))
-    write_json(root/"run_status.json",dict(completed=False,stage="source",mock_model=mock,run_id=run_id))
+    write_json(root/"run_status.json",dict(completed=False,stage="construction" if resumed else "source",mock_model=mock,run_id=run_id))
 
     def check_usage(attempt_ids):
         rows=[r for r in usage.snapshot() if r["attempt_id"] in set(attempt_ids)]
@@ -192,7 +242,7 @@ def run_study(manifest, model, out, *, config=None, mock=False, progress=None, a
         return entry
 
     try:
-        for task in (t for t in manifest["tasks"] if t["split"]=="source"):
+        for task in (() if resumed is not None else (t for t in manifest["tasks"] if t["split"]=="source")):
             for seed in config.source_seeds:
                 baseline=episode(task,make_harness(()),"source","source_baseline",seed)
                 for modules in candidate_module_sets(config.max_modules):
@@ -204,6 +254,8 @@ def run_study(manifest, model, out, *, config=None, mock=False, progress=None, a
                         baseline_episode_id=baseline["episode_id"],episode_id=result["episode_id"])
                     pairs.append(row);append_json(root/"source_pairs.jsonl",row)
         library=ConstructorLibrary.from_source(pairs,ConstructorConfig(config.ridge_alpha,config.cost_weight,config.max_modules))
+        if resumed is not None and digest(library.to_dict())!=resumed["library_sha256"]:
+            raise StudyExecutionError("Rebuilt source library differs from the validated original")
         write_json(root/"constructor_library.json",library.to_dict())
         targets=sorted({t["domain_id"] for t in manifest["tasks"] if t["split"]=="query"})
         if progress: progress(dict(stage="construction"))
@@ -264,10 +316,14 @@ def run_study(manifest, model, out, *, config=None, mock=False, progress=None, a
                         row=episode(task,harness,"query",plan["condition"],seed,plan["construction_seed"])
                         queries.append(row);append_json(root/"query_results.jsonl",row)
         # Each physical attempt must have exactly one episode or construction owner.
-        owned=Counter(a for row in episodes+constructions for a in row["attempt_ids"])
+        owned=Counter(a for row in episodes+constructions+imported_failures for a in row["attempt_ids"])
         if set(owned)!={r["attempt_id"] for r in usage.snapshot()} or any(n!=1 for n in owned.values()):
             raise StudyExecutionError("Physical attempt ownership is incomplete or duplicated")
         summary=summarize(queries,episodes,constructions,usage.snapshot(),config,mock)
+        if resumed is not None:
+            historical_ids={a for row in imported_failures for a in row["attempt_ids"]}
+            summary["historical_failed_usage"]=aggregate_usage([r for r in usage.snapshot() if r["attempt_id"] in historical_ids])
+            summary["resume_amendment"]=resumed["amendment"]
         write_json(root/"summary.json",summary)
         write_json(root/"run_status.json",dict(completed=True,stage="complete",usage=usage.totals(),mock_model=mock,run_id=run_id,
             spending_limits=usage.budget_status(model)))
@@ -275,7 +331,7 @@ def run_study(manifest, model, out, *, config=None, mock=False, progress=None, a
     except Exception as error:
         # Failed builder/reflection calls never produce a frozen harness. Give
         # their attempts an explicit failure owner instead of inventing one.
-        owned={a for row in episodes+constructions for a in row["attempt_ids"]}
+        owned={a for row in episodes+constructions+imported_failures for a in row["attempt_ids"]}
         orphaned=[row for row in usage.snapshot() if row["attempt_id"] not in owned]
         if orphaned:
             append_json(root/"failed_operations.jsonl",dict(operation="interrupted_construction_or_reflection",

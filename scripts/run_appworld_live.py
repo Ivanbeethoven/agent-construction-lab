@@ -31,7 +31,11 @@ def main():
     parser.add_argument("--manifest-sha256")
     parser.add_argument("--study-config")
     parser.add_argument("--calibration-task")
+    parser.add_argument("--resume-from")
+    parser.add_argument("--resume-anchor")
     args = parser.parse_args()
+    if bool(args.resume_from) != bool(args.resume_anchor) or args.resume_from and args.calibration_task:
+        parser.error("Source continuation requires --resume-from and --resume-anchor, without calibration")
     model = ModelConfig.from_dict(json.loads(Path(args.model_config).read_text(encoding="utf-8")))
     previous = os.environ.get(model.api_key_env) if model.api_key_env else None
     if args.credentials_stdin:
@@ -79,6 +83,11 @@ def main():
         if args.manifest_sha256 and digest(manifest) != args.manifest_sha256:
             raise ValueError("Task manifest changed after selection was frozen")
         config = StudyConfig.from_dict(json.loads(Path(args.study_config).read_text(encoding="utf-8")))
+        run_options = {}
+        if args.resume_from:
+            from scripts.resume_appworld_construction import prepare_resume
+            run_options["source_resume"] = prepare_resume(args.resume_from, manifest, model, config,
+                                                         anchor=args.resume_anchor)
         repository = Path(__file__).resolve().parents[1]
         provenance = {"manifest_sha256": digest(manifest), "model_config_sha256": digest(asdict(model)),
             "study_config_sha256": digest(asdict(config)), "source_sha256": {
@@ -86,10 +95,10 @@ def main():
                 for path in sorted((repository / "agent_construction_lab").rglob("*.py"))}}
         revision = subprocess.run(["git", "rev-parse", "HEAD"], cwd=repository, capture_output=True, text=True)
         provenance["code_revision"] = revision.stdout.strip() if revision.returncode == 0 else None
-        print(json.dumps({"stage": "source", "live_model": True}), flush=True)
+        print(json.dumps({"stage": "source_import" if args.resume_from else "source", "live_model": True}), flush=True)
         try:
             summary = run_study(manifest, model, args.out, config=config, appworld_root=args.appworld_root,
-                                progress=lambda value: print(json.dumps(value), flush=True))
+                                progress=lambda value: print(json.dumps(value), flush=True), **run_options)
         finally:
             if (Path(args.out) / "run_status.json").exists():
                 write_json(Path(args.out) / "run_provenance.json", provenance)

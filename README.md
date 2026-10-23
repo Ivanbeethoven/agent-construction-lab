@@ -2,7 +2,7 @@
 
 固定同一个模型，研究能否在执行前依据任务领域特征构造有效的 agent harness，以及构造之后还需要多少反馈优化。
 
-**v0.3：缺失核心已按现有材料与测试重新实现，本地模拟器和七条件 HTTP/GEPA 流程可运行。** 这是一份重建实现，不是找回的原源码。真实模型与 AppWorld 端到端实验尚未运行，mock 分数不能作为科研成绩。
+**v0.3：缺失核心已按现有材料与测试重新实现，本地模拟器和七条件 HTTP/GEPA 流程可运行。** 这是一份重建实现，不是找回的原源码。真实 AppWorld 环境已验收，DeepSeek 已接通；首次小规模运行完成 33 个源任务 episode 后因构造输出不合规范停止，尚不能报告七条件评测成绩。失败与继续运行协议见 [真实运行记录](docs/APPWORLD_LIVE_RUN.md)，mock 分数不能作为科研成绩。
 
 接手时原清单 6,393 个文件中有 693 个缺失，包含 23 个核心 Python 文件；原 ZIP 也不含这些文件。历史材料原样保留，见 [接手审计](docs/HANDOVER.md)、[重建说明](docs/RECONSTRUCTION.md) 和 [本轮验证记录](RECONSTRUCTION_VALIDATION.json)。
 
@@ -50,6 +50,8 @@ F/V 采用相同特征空间和正则化，可能选出相同候选；当前工�
 - **探索：ScienceAgentBench verified**，先筛选能确定性评分且数据组独立的科研任务；τ 系列保留为后续交互扩展。
 
 新 AppWorld pilot 拟分配 60 个任务，主运行上限 630 个环境 episode，独立 dev 开发另留 66 个；这不是模型调用次数，也不是已完成结果。参数见 [pilot 建议配置](configs/appworld_pilot_proposal.json)。真实任务清单还需数据审计，不填写虚构 ID。
+
+在扩大到上述正式 pilot 前，已准备 [9 个真实任务的工程试验](docs/APPWORLD_PILOT.md)：source/support/query 各一个完整 generator，严格隔离，共 7 条件、至多 78 个 episode。公开 [任务 ID 与哈希](manifests/appworld_small_pilot.json)，完整文案留在本地；使用当前数据中的 train 90/dev 57 条 ID。它只验证链路，不支持跨领域优越性或统计显著性的结论。
 
 默认 `prepare-appworld` 是同 generator 不同变体的验收划分。跨 generator 的严格 pilot 必须建立宽领域清单，并设置 `group_disjoint_support_query: true`；不能直接用默认清单声称跨任务族泛化。
 

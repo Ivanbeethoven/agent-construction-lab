@@ -22,7 +22,9 @@ class ConstructorDataError(ValueError):
 
 
 class ConstructorResponseError(ValueError):
-    pass
+    def __init__(self, message, *, diagnostics=None):
+        self.diagnostics = diagnostics or {}
+        super().__init__(message)
 
 
 def candidate_module_sets(max_modules=2):
@@ -43,6 +45,54 @@ def parse_json_response(text):
     if text.startswith("```") and text.endswith("```"):
         text=text.split("\n",1)[1].rsplit("```",1)[0].strip()
     return json.loads(text)
+
+
+def _construction_contract(condition, max_modules, candidate_library):
+    """Describe exactly the already-enforced validator contract to the model."""
+    if condition == "D":
+        schema = {"type": "object", "additionalProperties": False,
+            "required": ["schema_version", "system_prompt", "modules"],
+            "properties": {"schema_version": {"type": "integer", "const": 1},
+                "system_prompt": {"type": "string", "minLength": 1},
+                "modules": {"type": "array", "maxItems": max_modules, "uniqueItems": True,
+                            "items": {"type": "string", "enum": list(MODULES)}}}}
+        instruction = (f"Return exactly a JSON harness with schema_version=1, system_prompt, modules (at most {max_modules}). "
+            "Return one JSON object matching response_schema, without Markdown, commentary or extra fields. "
+            "system_prompt must be a nonempty reusable instruction string. "
+            "modules must contain only unique, exact module-name STRINGS from allowed_modules; an empty array is valid. "
+            "Never put module objects, descriptions, code, candidate IDs or invented names inside modules. "
+            "The executor already implements the allowed modules. Do not return a task solution or add new tools. "
+            "example_shape illustrates types only; choose the actual prompt and modules from the supplied evidence.")
+        contract = {"response_schema": schema, "allowed_modules": MODULES,
+                    "example_shape": {"schema_version": 1, "system_prompt": "Reusable instructions for this public domain.", "modules": []}}
+    else:
+        instruction = ("Return exactly JSON with candidate_id from the candidate_library. "
+                       "Return one JSON object matching response_schema, without Markdown, commentary or extra fields.")
+        contract = {"response_schema": {"type": "object", "additionalProperties": False,
+            "required": ["candidate_id"], "properties": {"candidate_id": {"type": "string",
+                "enum": [row["candidate_id"] for row in candidate_library]}}}}
+    return instruction, contract
+
+
+def _response_structure(text, value, condition, maximum):
+    """Safe diagnostics: hashes, counts and types, never model/private text."""
+    result = {"response_chars": len(text) if isinstance(text, str) else None,
+              "response_sha256": digest(text) if isinstance(text, str) else None,
+              "parsed_type": type(value).__name__, "condition": condition}
+    if not isinstance(value, dict):
+        return result
+    expected = {"schema_version", "system_prompt", "modules"} if condition == "D" else {"candidate_id"}
+    result.update(missing_field_count=len(expected-set(value)), extra_field_count=len(set(value)-expected))
+    if condition == "D":
+        modules = value.get("modules")
+        result["modules_type"] = type(modules).__name__
+        result["configured_max_modules"] = maximum
+        if isinstance(modules, list):
+            strings = [item for item in modules if isinstance(item, str)]
+            result.update(module_count=len(modules), nonstring_module_count=len(modules)-len(strings),
+                          unknown_module_count=sum(item not in MODULES for item in strings),
+                          duplicate_module_count=len(strings)-len(set(strings)))
+    return result
 
 
 def _public(value):
@@ -186,11 +236,13 @@ def construct_domain(condition, *, domain_id, public_profile, features, library,
         if model_call is None: raise ConstructorResponseError("A fixed-model builder callable is required")
         if len(canonical_json(evidence))>kwargs.get("source_summary_max_chars",60000):
             raise ConstructorDataError("Source evidence exceeds the declared summary budget; increase it explicitly rather than dropping source domains")
-        instruction=(f"Return exactly a JSON harness with schema_version=1, system_prompt, modules (at most {library.config.max_modules})." if condition=="D" else
-                     "Return exactly JSON with candidate_id from the candidate_library.")
-        prompt=instruction+"\n"+canonical_json(dict(public_profile=public_profile,features=features,source_evidence=evidence,candidate_library=candidate_library))
+        instruction, contract = _construction_contract(condition, library.config.max_modules, candidate_library)
+        prompt=instruction+"\n"+canonical_json(dict(public_profile=public_profile,features=features,source_evidence=evidence,
+            candidate_library=candidate_library,**contract))
+        response_text, response = None, None
         try:
-            response=parse_json_response(model_call(prompt,"builder"))
+            response_text=model_call(prompt,"builder")
+            response=parse_json_response(response_text)
             if condition=="D":
                 from .spec import validate_harness
                 harness=validate_harness(response)
@@ -202,8 +254,11 @@ def construct_domain(condition, *, domain_id, public_profile, features, library,
                 harness=make_harness(selected["modules"])
                 metadata["baseline_scope"]="Modular source-library selector; not a complete paper reproduction"
         except (ValueError,TypeError,KeyError,StopIteration) as error:
-            raise ConstructorResponseError("Invalid fixed-model construction response") from error
+            diagnostics = _response_structure(response_text, response, condition, library.config.max_modules)
+            raise ConstructorResponseError("Invalid fixed-model construction response; structure="+canonical_json(diagnostics),
+                                           diagnostics=diagnostics) from error
         metadata["constructor_model_calls"]=1
+        metadata["constructor_contract_version"]=2
     elif condition in {"F","V"}:
         rows=library.records
         if ablation=="no_negatives": rows=[r for r in rows if r["score"]>=r["baseline_score"]]

@@ -1,0 +1,544 @@
+{
+  "schema_version": 1,
+  "report_kind": "sanitized_failed_engineering_pilot",
+  "report_date": "2026-10-24",
+  "report_timezone": "Asia/Shanghai",
+  "generated_at_utc": "2026-10-23T17:22:33.611023+00:00",
+  "run_name": "deepseek-appworld-pilot-001",
+  "status": {
+    "completed": false,
+    "terminal_stage": "failed",
+    "failure_phase": "construction:D",
+    "error_category": "ConstructorResponseError",
+    "stopped_for_budget": false,
+    "mock_model": false,
+    "seven_condition_comparison_available": false,
+    "query_started": false,
+    "query_lock_created": false,
+    "frozen_constructions": 0
+  },
+  "executed": {
+    "source_episodes": 33,
+    "source_baseline_episodes": 3,
+    "source_intervention_episodes": 30,
+    "source_pairs": 33,
+    "support_episodes": 0,
+    "query_episodes": 0,
+    "physical_model_requests": 397,
+    "construction_attempts": 1,
+    "failed_construction_operations": 1,
+    "note": "The construction response failed parsing/validation after a successful provider request. This is not an HTTP/model-call failure and produces no valid frozen harness."
+  },
+  "usage": {
+    "pilot_total": {
+      "physical_attempts": 397,
+      "requests_sent": 397,
+      "provider_call_failures": 0,
+      "input_tokens": 2365792,
+      "output_tokens": 38730,
+      "total_tokens": 2404522,
+      "cached_input_tokens": 2042624,
+      "uncached_input_tokens": 323168,
+      "unknown_usage_attempts": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_input_tokens": 0,
+        "uncached_input_tokens": 0,
+        "reasoning_tokens": 397,
+        "cost_usd": 0
+      },
+      "estimated_cost_usd": 0.077841072,
+      "estimated_cost_usd_decimal": "0.077841072",
+      "cost_is_estimate": true,
+      "timestamp_range_utc": [
+        "2026-10-23T17:07:03.974137+00:00",
+        "2026-10-23T17:17:09.183857+00:00"
+      ]
+    },
+    "by_phase": {
+      "construction:D": {
+        "physical_attempts": 1,
+        "requests_sent": 1,
+        "provider_call_failures": 0,
+        "input_tokens": 1196,
+        "output_tokens": 197,
+        "total_tokens": 1393,
+        "cached_input_tokens": 0,
+        "uncached_input_tokens": 1196,
+        "unknown_usage_attempts": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "cached_input_tokens": 0,
+          "uncached_input_tokens": 0,
+          "reasoning_tokens": 1,
+          "cost_usd": 0
+        },
+        "estimated_cost_usd": 0.0002976,
+        "estimated_cost_usd_decimal": "0.0002976",
+        "cost_is_estimate": true,
+        "timestamp_range_utc": [
+          "2026-10-23T17:17:09.183857+00:00",
+          "2026-10-23T17:17:09.183857+00:00"
+        ]
+      },
+      "source:source_baseline": {
+        "physical_attempts": 36,
+        "requests_sent": 36,
+        "provider_call_failures": 0,
+        "input_tokens": 225505,
+        "output_tokens": 3305,
+        "total_tokens": 228810,
+        "cached_input_tokens": 195072,
+        "uncached_input_tokens": 30433,
+        "unknown_usage_attempts": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "cached_input_tokens": 0,
+          "uncached_input_tokens": 0,
+          "reasoning_tokens": 36,
+          "cost_usd": 0
+        },
+        "estimated_cost_usd": 0.007133166,
+        "estimated_cost_usd_decimal": "0.007133166",
+        "cost_is_estimate": true,
+        "timestamp_range_utc": [
+          "2026-10-23T17:07:03.974137+00:00",
+          "2026-10-23T17:14:09.301682+00:00"
+        ]
+      },
+      "source:source_intervention": {
+        "physical_attempts": 360,
+        "requests_sent": 360,
+        "provider_call_failures": 0,
+        "input_tokens": 2139091,
+        "output_tokens": 35228,
+        "total_tokens": 2174319,
+        "cached_input_tokens": 1847552,
+        "uncached_input_tokens": 291539,
+        "unknown_usage_attempts": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "cached_input_tokens": 0,
+          "uncached_input_tokens": 0,
+          "reasoning_tokens": 360,
+          "cost_usd": 0
+        },
+        "estimated_cost_usd": 0.070410306,
+        "estimated_cost_usd_decimal": "0.070410306",
+        "cost_is_estimate": true,
+        "timestamp_range_utc": [
+          "2026-10-23T17:07:21.699796+00:00",
+          "2026-10-23T17:17:05.682348+00:00"
+        ]
+      }
+    },
+    "source_to_be_reused_if_verified": {
+      "physical_attempts": 396,
+      "requests_sent": 396,
+      "provider_call_failures": 0,
+      "input_tokens": 2364596,
+      "output_tokens": 38533,
+      "total_tokens": 2403129,
+      "cached_input_tokens": 2042624,
+      "uncached_input_tokens": 321972,
+      "unknown_usage_attempts": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_input_tokens": 0,
+        "uncached_input_tokens": 0,
+        "reasoning_tokens": 396,
+        "cost_usd": 0
+      },
+      "estimated_cost_usd": 0.077543472,
+      "estimated_cost_usd_decimal": "0.077543472",
+      "cost_is_estimate": true,
+      "timestamp_range_utc": [
+        "2026-10-23T17:07:03.974137+00:00",
+        "2026-10-23T17:17:05.682348+00:00"
+      ]
+    },
+    "failed_construction_retained_in_cost": {
+      "physical_attempts": 1,
+      "requests_sent": 1,
+      "provider_call_failures": 0,
+      "input_tokens": 1196,
+      "output_tokens": 197,
+      "total_tokens": 1393,
+      "cached_input_tokens": 0,
+      "uncached_input_tokens": 1196,
+      "unknown_usage_attempts": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_input_tokens": 0,
+        "uncached_input_tokens": 0,
+        "reasoning_tokens": 1,
+        "cost_usd": 0
+      },
+      "estimated_cost_usd": 0.0002976,
+      "estimated_cost_usd_decimal": "0.0002976",
+      "cost_is_estimate": true,
+      "timestamp_range_utc": [
+        "2026-10-23T17:17:09.183857+00:00",
+        "2026-10-23T17:17:09.183857+00:00"
+      ]
+    },
+    "provider_response_models": [
+      "deepseek-flash"
+    ],
+    "strict_input_output_total_usage_complete": true,
+    "reasoning_tokens_note": "The provider did not report a reasoning-token breakdown. Null is retained as unknown; reasoning_effort was configured as none."
+  },
+  "separate_pre_execution_costs": {
+    "calibration": {
+      "scope": "independent_environment_and_model_protocol_calibration",
+      "included_in_pilot_ledger": false,
+      "task_id": "82e2fac_1",
+      "excluded_generator": "82e2fac",
+      "task_outcome_not_used_for_selection_or_comparison": true,
+      "physical_attempts": 4,
+      "requests_sent": 4,
+      "provider_call_failures": 0,
+      "input_tokens": 9261,
+      "output_tokens": 255,
+      "total_tokens": 9516,
+      "cached_input_tokens": 5376,
+      "uncached_input_tokens": 3885,
+      "unknown_usage_attempts": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_input_tokens": 0,
+        "uncached_input_tokens": 0,
+        "reasoning_tokens": 4,
+        "cost_usd": 0
+      },
+      "estimated_cost_usd": 0.000751878,
+      "estimated_cost_usd_decimal": "0.000751878",
+      "cost_is_estimate": true,
+      "timestamp_range_utc": [
+        "2026-10-23T17:00:23.269182+00:00",
+        "2026-10-23T17:00:26.054632+00:00"
+      ],
+      "usage_ledger_file_sha256": "6b6257ad8aa1808a0dd99b32a78a2bdb4efd6cfa716fffa5d0a117aa5e4ff26a",
+      "model_config_sha256": "a0e908a2c11ec8f1e3ea6ae73231d18f6f0d122c8b896aced3d7187cc86b1e51"
+    },
+    "provider_preflight": {
+      "scope": "provider_endpoint_preflight",
+      "included_in_pilot_ledger": false,
+      "physical_requests_recorded": 1,
+      "ledger_attempt_ownership_audited": false,
+      "requested_model": "deepseek-flash",
+      "response_model": "deepseek-flash",
+      "input_tokens": 9,
+      "output_tokens": 1,
+      "total_tokens": 10,
+      "cached_input_tokens": 0,
+      "uncached_input_tokens": 9,
+      "estimated_cost_usd": 1.95e-06,
+      "estimated_cost_usd_decimal": "0.00000195",
+      "cost_is_estimate": true,
+      "cost_basis": "Recomputed from provider-reported token counts using the same configured rates as the pilot; no invoice or separate usage-ledger cost exists for this probe.",
+      "evidence_file_sha256": "0a28bfcca98d6eabc03b9e3227fb0e067c3b906ae09279adb008fec824341f67"
+    },
+    "combined": {
+      "model_requests": 5,
+      "input_tokens": 9270,
+      "output_tokens": 256,
+      "total_tokens": 9526,
+      "estimated_cost_usd_decimal": "0.000753828"
+    }
+  },
+  "all_recorded_model_usage_including_pre_execution": {
+    "physical_model_requests": 402,
+    "input_tokens": 2375062,
+    "output_tokens": 38986,
+    "total_tokens": 2414048,
+    "estimated_cost_usd": 0.0785949,
+    "estimated_cost_usd_decimal": "0.078594900",
+    "excludes_unpriced_external_charges": true
+  },
+  "cost_accounting": {
+    "currency": "USD",
+    "rate_unit": "per_1000000_tokens",
+    "configured_rates": {
+      "input_price_per_million": 0.15,
+      "output_price_per_million": 0.6,
+      "cached_input_price_per_million": 0.003
+    },
+    "configured_pricing_version": "DeepSeek official rate card 2026-10-24; off-peak USD/1M; actual run must remain outside peak hours",
+    "formula": "((input_tokens - cached_input_tokens) * input_rate + cached_input_tokens * cached_input_rate + output_tokens * output_rate) / 1000000",
+    "precision": "Token counts are summed from the ledgers. Cost is recomputed using decimal arithmetic; the original floating-point pilot ledger total agrees within 1e-12 USD.",
+    "limitation": "Configured-rate estimates are not provider invoices. The rate card is recorded as configured, not re-verified by this report; unpriced external charges are excluded."
+  },
+  "public_model_configuration": {
+    "model": "deepseek-flash",
+    "model_snapshot": "DeepSeek-V4.1-Flash-1017 (provider-documented on 2026-10-24; mutable API alias)",
+    "expected_response_model": "deepseek-flash",
+    "temperature": 0,
+    "top_p": null,
+    "reasoning_effort": "none",
+    "max_output_tokens": 2048,
+    "request_seed": null,
+    "send_seed": false,
+    "retries": 0
+  },
+  "study_configuration": {
+    "source_seeds": [
+      101
+    ],
+    "execution_seeds": [
+      101
+    ],
+    "support_seeds": [
+      101
+    ],
+    "construction_seeds": [
+      17
+    ],
+    "rsi_budgets": [
+      4
+    ],
+    "methods": [
+      "G",
+      "D",
+      "S",
+      "V",
+      "F",
+      "G+R",
+      "F+R"
+    ],
+    "ablations": [],
+    "max_steps": 12,
+    "max_context_chars": 60000,
+    "max_modules": 2,
+    "bootstrap_samples": 100,
+    "ridge_alpha": 2.0,
+    "cost_weight": 0.0,
+    "require_complete_token_usage": true,
+    "source_summary_max_chars": 24000,
+    "support_feedback_max_chars": 24000,
+    "appworld_timeout_seconds": 60,
+    "appworld_initialization_timeout_seconds": 120
+  },
+  "original_pilot_limits": {
+    "max_model_calls": 995,
+    "max_total_tokens": 4990474,
+    "request_token_reserve": 1048576
+  },
+  "public_task_assignment": {
+    "source": [
+      {
+        "task_id": "afc0fce_1",
+        "generator_id": "afc0fce",
+        "domain_id": "source.personal_apps",
+        "benchmark_split": "train"
+      },
+      {
+        "task_id": "afc0fce_2",
+        "generator_id": "afc0fce",
+        "domain_id": "source.personal_apps",
+        "benchmark_split": "train"
+      },
+      {
+        "task_id": "afc0fce_3",
+        "generator_id": "afc0fce",
+        "domain_id": "source.personal_apps",
+        "benchmark_split": "train"
+      }
+    ],
+    "support": [
+      {
+        "task_id": "6c2c621_1",
+        "generator_id": "6c2c621",
+        "domain_id": "target.personal_apps",
+        "benchmark_split": "dev"
+      },
+      {
+        "task_id": "6c2c621_2",
+        "generator_id": "6c2c621",
+        "domain_id": "target.personal_apps",
+        "benchmark_split": "dev"
+      },
+      {
+        "task_id": "6c2c621_3",
+        "generator_id": "6c2c621",
+        "domain_id": "target.personal_apps",
+        "benchmark_split": "dev"
+      }
+    ],
+    "query": [
+      {
+        "task_id": "4ec8de5_1",
+        "generator_id": "4ec8de5",
+        "domain_id": "target.personal_apps",
+        "benchmark_split": "dev"
+      },
+      {
+        "task_id": "4ec8de5_2",
+        "generator_id": "4ec8de5",
+        "domain_id": "target.personal_apps",
+        "benchmark_split": "dev"
+      },
+      {
+        "task_id": "4ec8de5_3",
+        "generator_id": "4ec8de5",
+        "domain_id": "target.personal_apps",
+        "benchmark_split": "dev"
+      }
+    ],
+    "dev": [],
+    "strict_support_query_generator_disjoint": true,
+    "target_profile_example_ids": [
+      "6c2c621_1",
+      "6c2c621_2",
+      "6c2c621_3"
+    ]
+  },
+  "hashes": {
+    "hash_algorithm": "sha256",
+    "canonical_json_definition": "UTF-8 JSON, sorted keys, ensure_ascii=false, compact separators, allow_nan=false; no trailing newline. File hashes below use exact bytes.",
+    "manifest_canonical_sha256": "c0174abd3da633b0a2b098f48078c0093a16c3e173bc6a256cc5074a20ec6885",
+    "public_manifest_canonical_sha256": "f556baf1415e117f4777af3a4f9f8956ac35fa3c7e2098d9a13dd1d05b716196",
+    "model_config_canonical_sha256": "9ac3793fadaafcf9ece53f3b90c93655a316fe48a0a30092f0260c1fbfba700d",
+    "study_config_canonical_sha256": "c3e0853fa7dfacc7181109fc72cd484b77e635a1b567db58753ad8fffbe3ce8e",
+    "source_data_canonical_sha256": "e7757603718320648bd225ad2833a78b350c050f6491bde0af8c4be2b62a7f0b",
+    "source_code_set_canonical_sha256": "70dbe4e4fcc2ce301872b414852cb43ac2f041f047b666f3c78b1a82fb8a602f",
+    "source_code_files_sha256": {
+      "agent_construction_lab/__init__.py": "fe25d5159538d1069a5da38fdeedc457c9b6b46a3b16762d72fbe7a0543b445a",
+      "agent_construction_lab/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "agent_construction_lab/_io.py": "b900a12176258da773fee0a201091d176d1c6d0b405bed96eb43761093851cf2",
+      "agent_construction_lab/artifacts.py": "f7b53edbd0ca60e92345e971a2652ecb223d95184e22c3fec5f6ca5ee2fdf23f",
+      "agent_construction_lab/bridge.py": "ef7aae152e0d5cbd4d8dce5a040b1c5962f41403f187c6dc6923004c397f56a7",
+      "agent_construction_lab/cli.py": "5c74750e575b2fdde0a9cca7e448278dc0691c7bb89862bd769b4338456c0de3",
+      "agent_construction_lab/contracts.py": "4b084ce2bbe77eee845c8bd8ea2d3cbbd6341df5b2b1886c0d6ea3c77d58a7da",
+      "agent_construction_lab/experiments.py": "68a9058ad2ccc4f3c7ffd79200701b51f2d5832dabc21a76317a4bcfba1c2521",
+      "agent_construction_lab/fixed_model/__init__.py": "c84c2d073aa476ddd2f9460dcf60c863a014dcc51f021b7689b5a585460d613a",
+      "agent_construction_lab/fixed_model/__main__.py": "6f0dc68e797987483371db98d867adfeccfaabb43740e7296ea936dcab2fbe05",
+      "agent_construction_lab/fixed_model/appworld_process.py": "0eb1454a48e24ca8c123cca781944b85eadddf831845356f2600465f48dd6a58",
+      "agent_construction_lab/fixed_model/client.py": "c7036b91e8414a656d4666d3d545779bc61dbc11e0231c90b35518767f1e438d",
+      "agent_construction_lab/fixed_model/code_policy.py": "139852c584674356f57df763ad5d456ce17887cc73e50502d71df35df7c6ccb3",
+      "agent_construction_lab/fixed_model/constructors.py": "05f16479019c581cd1195db0cde4ffca830423424ad026a8c686e6d7c34e5c16",
+      "agent_construction_lab/fixed_model/environment_worker.py": "6ade1e62903b2993c30a08d24bb6af103f7e26d0d0c04d6249b2edd2e2bc9588",
+      "agent_construction_lab/fixed_model/environments.py": "b9322c4fc1b46ca86c2260850266b4cc5d68e434437772353f01e93c561e2928",
+      "agent_construction_lab/fixed_model/executor.py": "294c13d8cb5b5876d04d00ee482987c4f049406ad7b1a0bc373ea5b54cd218b4",
+      "agent_construction_lab/fixed_model/gepa_adapter.py": "b3a4e501236b9f37034f9a6753a6343d3233c58b836b49dc3bcae3bba4c2776d",
+      "agent_construction_lab/fixed_model/mock_server.py": "16c8e564a307761d90f18cf13fd1a2f46196f2d45655a890cd5c7047b5e63723",
+      "agent_construction_lab/fixed_model/spec.py": "5f7ff8193726161cd586db92f0d7d2c95f0b0431b0c307b831608663d249cbb5",
+      "agent_construction_lab/fixed_model/study.py": "519d5d6b7a499687c4fb2faee0c8a8e98243404b61ce2a84c1332646fc2ae1c3",
+      "agent_construction_lab/fixtures.py": "f82a06a7190b654548c0b01bb62ed2a5a9832b32581888b6083100b59288eff0",
+      "agent_construction_lab/learning.py": "68a97a2046a622b2a5fd88ec0fb7b51bca5c31fd190fc4c9d1111be31903eedf",
+      "agent_construction_lab/runtime.py": "e7f478205c4ac434a22280d5f98de500884a70f6aa500ff7525dca912f5f08ef",
+      "agent_construction_lab/search.py": "a77f91655be56be589939f16effb4591c554d438a14c639f83f88d046e18b53e",
+      "agent_construction_lab/worker.py": "ab2894ae1edc108f018dca7429823798378d9df68202087a01d39f9f303e60a8"
+    },
+    "recorded_code_revision": "b04da269909fd7edc61a251c70176a56e7e5a443",
+    "evidence_files_sha256": {
+      "task_manifest.json": "ff9ed8cfa038e07c50835203d617325e303a5532834d1d6ab228e52b8b5db92c",
+      "model_config.json": "39970399d24789b5684f7a59fbfeaba01b96ce33521ee114831ce6e450f0823a",
+      "study_config.json": "9068beed66a5ad24e934843688d7c22965d6aaffc5d4ffa8e8fd950686016e03",
+      "source_pairs.jsonl": "1f48cf468578170f30409c651d3aa4dd6dc8f55984230dd481b7b8602ce65ad4",
+      "constructor_library.json": "fc8f91bd85a08f0ddab609986adde6bdcb345505e34a050e62110bd623bc4417",
+      "episodes.jsonl": "ef1cdbb8c020857b6113de0bbe8e20c3cab78c78d70cd759e8e342d4dd438cfd",
+      "model_usage.jsonl": "c0a3b2363eb77eb60356c8339c7249ec61667ffa535223eec8adefb3257a7576",
+      "failed_operations.jsonl": "f47e1704751162edd424885c4226fb56c6a1b5809026057764ca21c5404f4d54",
+      "run_status.json": "930392a1e8ff2ce8975a0985cf213ac1125d98d116d3a4ee5e4ca630a5669486",
+      "run_provenance.json": "707a2d908965024756b09c999442549d1b75884f2a2473b20a5a4f5525948a41"
+    }
+  },
+  "structural_integrity_audit": {
+    "scope": "Metadata, split membership, canonical hashes, and attempt ownership only. No query instructions or model content were inspected for this report.",
+    "manifest_validation_passed": true,
+    "recorded_provenance_hashes_match": true,
+    "source_support_query_generators_disjoint": true,
+    "calibration_generator_excluded": true,
+    "target_profile_uses_support_ids_only": true,
+    "attempt_ids_unique": true,
+    "episode_owned_attempts": 396,
+    "failed_operation_owned_attempts": 1,
+    "unowned_attempts": 0,
+    "multiply_owned_attempts": 0,
+    "query_attempts": 0,
+    "serious_structural_protocol_violations_found": false,
+    "freeze_before_query_validation": "Not exercised because construction failed before any freeze/query stage."
+  },
+  "limitations": [
+    "This is an incomplete engineering pilot, not evidence for the relative performance of the seven methods.",
+    "One source generator and constant features do not identify conditional transfer across domains. Source/target domain IDs denote roles within broad personal digital tasks, not verified semantic-domain differences.",
+    "The intended target query contains only three variants of one generator; these are correlated and cannot support a broad statistical claim.",
+    "The custom query split uses official AppWorld dev tasks, not the official held-out test protocol. There is no independent development-tuning set in this micro pilot.",
+    "The public model name is a mutable API alias, not an immutable weight snapshot. Execution seeds were not sent to the provider and do not ensure deterministic model responses.",
+    "The configured cost estimates are not billed costs, and the provider did not report reasoning-token counts.",
+    "No query-dependent task replacement or query-conditioned repair is supported by this record: query never began."
+  ],
+  "followup_protocol_change_plan": {
+    "status": "planned_at_report_creation_not_applied_to_attempt_001",
+    "proposed_run_name": "deepseek-appworld-pilot-002",
+    "trigger": "Pre-query construction:D response parsing/validation failure.",
+    "construction_fix": "Clarify the four allowed module strings and JSON schema in the D/S construction instructions; add sanitized error diagnostics.",
+    "response_acceptance_policy": "No automatic model retry, validator relaxation, module truncation, or replacement response is planned.",
+    "allowed_code_change_scope": [
+      "agent_construction_lab/fixed_model/constructors.py: construction instructions and sanitized diagnostics",
+      "agent_construction_lab/fixed_model/study.py: verified source-import support; detailed design still pending at report creation"
+    ],
+    "source_reuse": {
+      "status": "planned_subject_to_strict_verification",
+      "origin_run": "deepseek-appworld-pilot-001",
+      "reuse_all_source_episodes": 33,
+      "reuse_all_source_pairs": 33,
+      "reuse_source_model_requests": 396,
+      "retain_failed_construction_request_in_cumulative_cost": 1,
+      "rerun_source_requests_expected": 0,
+      "selection_rule": "Reuse the complete source block after hash/config/runtime/ownership validation; no score-based row selection.",
+      "source_data_canonical_sha256": "e7757603718320648bd225ad2833a78b350c050f6491bde0af8c4be2b62a7f0b"
+    },
+    "declared_unchanged": [
+      "task assignment and target profile",
+      "model identity and inference parameters",
+      "study seeds, max_steps, and methods",
+      "executor, client, and environment source hashes"
+    ],
+    "proposed_cumulative_limits": {
+      "max_model_requests": 1000,
+      "max_total_tokens": 12000000,
+      "includes_preflight_and_calibration_requests": 5,
+      "includes_preflight_and_calibration_tokens": 9526,
+      "includes_attempt_001_requests": 397,
+      "includes_attempt_001_tokens": 2404522,
+      "max_output_tokens_per_request": 2048,
+      "token_limit_is_post_failure_extension": true,
+      "estimated_peak_rate_upper_bound_usd_as_declared_by_run_owner": 5.4432,
+      "previous_money_cap_usd_as_declared_by_run_owner": 6
+    },
+    "required_followup_disclosures": [
+      "The actual applied patch, new code revision, and before/after code hashes; distinguish construction changes from unchanged source-execution code.",
+      "The exact constructor schema/policy version and whether retries or acceptance behavior changed.",
+      "Source-import validation rules, imported artifact hashes, original episode/attempt IDs, and the reason for reusing the full source block.",
+      "Separate new physical calls from reused evidence; do not count imported calls as newly executed, and retain the failed construction call in cumulative spending.",
+      "Old and new model/study configuration hashes with an explicit allowed-field diff, including budget changes.",
+      "Any post-failure budget extension, its timing before query access, and remaining call/token/money limits after all prior costs.",
+      "The new run name and linkage to this failed run, with no overwrite of the original evidence.",
+      "Frozen harness manifest hashes and query lock created only after the repaired construction/support stages, before any query episode."
+    ]
+  },
+  "publication_policy": {
+    "included": "Public task IDs and role metadata, numerical usage/cost aggregates, configuration without endpoints/credentials, hashes, source-code provenance, error category, and limitations.",
+    "excluded": [
+      "task instruction text",
+      "source/support profile examples as text",
+      "model messages and responses",
+      "tool traces",
+      "harness or constructor prompt content",
+      "database states",
+      "private grading assertions or gold solutions",
+      "credentials and endpoint configuration",
+      "provider request identifiers"
+    ],
+    "original_run_modified": false
+  }
+}

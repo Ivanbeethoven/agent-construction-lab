@@ -16,7 +16,7 @@ from agent_construction_lab.fixed_model.client import ModelConfig, aggregate_usa
 from agent_construction_lab.fixed_model.constructors import make_harness
 from agent_construction_lab.fixed_model.spec import freeze_harness
 from agent_construction_lab.fixed_model.study import StudyConfig, summarize
-from scripts.export_appworld_results import REPOSITORY, export_results
+from scripts.export_appworld_results import REPOSITORY, export_results, _harness_equivalence_groups
 from scripts.resume_appworld_construction import _source_generation_hash, SNAPSHOT_FILES
 
 PRIVATE = "PRIVATE_MARKER_MUST_NEVER_BE_PUBLISHED"
@@ -59,6 +59,7 @@ class AppWorldExportTests(unittest.TestCase):
                 "stage": stage, "condition": condition, "construction_seed": 17 if stage == "query" else None,
                 "execution_seed": 101, "success": success, "score": float(success), "tool_steps": 1,
                 "failure_type": None if success else "task_not_solved", "valid_task_outcome": True,
+                "execution_healthy": True, "finished": True,
                 "infrastructure_error": False, "harness": harness, "harness_sha256": digest(harness),
                 "attempt_ids": [attempt_id], "trace": [{"instruction": PRIVATE, "password": PRIVATE}],
                 "details": {"private_evaluator": PRIVATE}, "answer": PRIVATE}
@@ -182,6 +183,8 @@ class AppWorldExportTests(unittest.TestCase):
         self.assertEqual(result["methods"]["G"]["domain_equal_success"], 0)
         self.assertTrue(result["methods"]["F"]["insufficient_domains_for_strong_inference"])
         self.assertEqual(result["total_actual_usage"]["model_calls"], 7)
+        self.assertEqual(result["execution_health"]["overall"]["clean_finishes"], 6)
+        self.assertEqual(result["execution_health"]["overall"]["success_with_execution_issue"], 0)
 
     def test_incomplete_or_mock_status_is_rejected_before_reading_any_other_file(self):
         original = Path.read_text
@@ -365,6 +368,64 @@ class AppWorldExportTests(unittest.TestCase):
         self._write_amendment()
         with self.assertRaisesRegex(ValueError, "budget amendment"):
             self._resume_export()
+
+    def test_terminal_success_is_reported_separately_from_unhealthy_unfinished_execution(self):
+        for index, row in enumerate(self.queries):
+            row.update(execution_healthy=False, finished=False,
+                       failure_type="step_budget_exhausted" if index == 0 else "invalid_action")
+        self.episodes = [self.episodes[0]] + copy.deepcopy(self.queries)
+        self._write_records()
+        result = self.export()
+        overall = result["execution_health"]["overall"]
+        self.assertEqual(overall["query_episodes"], 6)
+        self.assertEqual(overall["valid_task_outcome"], {"true": 6, "false": 0})
+        self.assertEqual(overall["execution_healthy"], {"true": 0, "false": 6})
+        self.assertEqual(overall["finished"], {"true": 0, "false": 6})
+        self.assertEqual(overall["failure_types"], {"invalid_action": 5, "step_budget_exhausted": 1})
+        self.assertEqual(overall["task_successes"], 3)
+        self.assertEqual(overall["success_with_execution_issue"], 3)
+        self.assertEqual(result["execution_health"]["by_condition"]["G"]["success_with_execution_issue"], 0)
+        self.assertEqual(result["execution_health"]["by_condition"]["F"]["success_with_execution_issue"], 3)
+        self.assertEqual(result["methods"]["F"]["domain_equal_success"], 1)
+        readme = (self.out / "README.md").read_text(encoding="utf-8")
+        self.assertIn("官方终态评分", readme)
+        self.assertIn("成功不代表健康完成", readme)
+        self.assertIn("终态成功 3 次，其中 3 次", readme)
+        csv_header = (self.out / "query_metrics.csv").read_text(encoding="utf-8").splitlines()[0]
+        for field in ("valid_task_outcome", "execution_healthy", "finished"):
+            self.assertIn(field, csv_header)
+
+    def test_identical_harness_conditions_are_grouped_despite_different_scores(self):
+        harness = copy.deepcopy(self.queries[0]["harness"])
+        frozen = freeze_harness(harness, self.run / self.builds[1]["path"], {"private": PRIVATE})
+        self.builds[1].update(manifest_sha256=frozen["manifest_sha256"], harness_sha256=frozen["harness_sha256"])
+        for row in self.queries:
+            row.update(harness=copy.deepcopy(harness), harness_sha256=digest(harness))
+        self.episodes = [self.episodes[0]] + copy.deepcopy(self.queries)
+        self._write_records()
+        write_json(self.run / "query_lock.json", {"all_constructions_frozen_before_query": True, "plans": self.builds})
+        result = self.export()
+        groups = result["harness_equivalence_groups"]
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(groups[0]["conditions"], ["F", "G"])
+        self.assertEqual(groups[0]["query_episodes"], 6)
+        self.assertTrue(groups[0]["shared_across_conditions"])
+        self.assertEqual(result["methods"]["G"]["domain_equal_success"], 0)
+        self.assertEqual(result["methods"]["F"]["domain_equal_success"], 1)
+        self.assertIn("其执行成绩差异不能归因为方法增益", (self.out / "README.md").read_text(encoding="utf-8"))
+
+    def test_equivalence_groups_do_not_merge_different_domains_or_construction_seeds(self):
+        row = self.queries[0]
+        rows = [dict(row, domain=domain, construction_seed=seed) for domain, seed in
+                (("target.apps", 17), ("other.apps", 17), ("target.apps", 18))]
+        self.assertEqual(len(_harness_equivalence_groups(rows)), 3)
+
+    def test_missing_execution_health_is_rejected_instead_of_inferred_from_task_success(self):
+        del self.queries[0]["execution_healthy"]
+        self.episodes = [self.episodes[0]] + copy.deepcopy(self.queries)
+        self._write_records()
+        with self.assertRaisesRegex(ValueError, "health flags"):
+            self.export()
 
 
 if __name__ == "__main__":

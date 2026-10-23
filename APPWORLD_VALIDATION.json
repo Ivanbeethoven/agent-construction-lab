@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-23T17:47:45.109205+00:00",
+  "research_implementation": "reconstructed_v0.3",
+  "execution_code_revision": "4305451922455ca909d98efe64a261974162cd5a",
+  "runtime_changed_after_query_started": false,
+  "local_tests": {
+    "windows_python312": {
+      "passed": true,
+      "tests": 212,
+      "seconds": 20.754
+    },
+    "wsl_ubuntu2404_python312": {
+      "passed": true,
+      "tests": 212,
+      "seconds": 16.706
+    },
+    "external_api_used_by_tests": false
+  },
+  "real_environment": {
+    "appworld": "0.1.3.post1",
+    "gepa": "0.1.4",
+    "environment_validation": {
+      "model_calls": 0,
+      "completed": true,
+      "fresh_worlds": 2,
+      "elapsed_seconds": 11.22150510999927,
+      "initial_score": 0.0,
+      "official_scoring_observed": true,
+      "public_api_execution_nonempty": true,
+      "public_state_changed": true,
+      "reset_restored_initial_public_state": true,
+      "reset_restored_same_score": true,
+      "host_file_read_rejected": true
+    }
+  },
+  "real_study": {
+    "completed": true,
+    "mock_model": false,
+    "report": "reports/appworld/2026-10-24-deepseek-small/report.json",
+    "query_metrics": "reports/appworld/2026-10-24-deepseek-small/query_metrics.csv",
+    "counts": {
+      "source": 33,
+      "support": 18,
+      "query": 21
+    },
+    "query_task_successes": 10,
+    "query_clean_finishes": 0,
+    "verification": {
+      "frozen_harnesses": 7,
+      "paired_query_keys_match": true,
+      "physical_attempts_have_unique_owners": true,
+      "source_hashes_match_current": true,
+      "original_source_anchor_and_import_prefix_verified": true
+    },
+    "study_model_calls": 822,
+    "external_model_calls": 5,
+    "all_model_calls": 827,
+    "all_total_tokens": 4558974,
+    "all_estimated_cost_usd": "0.150052395",
+    "estimates_are_not_provider_invoice": true,
+    "original_397_calls_included_once": true,
+    "original_failure_report": "reports/appworld/2026-10-24-deepseek-attempt-001.json"
+  },
+  "public_artifact_sha256": {
+    "reports/appworld/2026-10-24-deepseek-small/query_metrics.csv": "d7bcce03da4240e15a32e3224e710fdc77e50aba5235b648e69b4e3de80c7485",
+    "reports/appworld/2026-10-24-deepseek-small/README.md": "490d35316ee310c65607a2ba24150f666ebdff90046fc2d0b1ea3c65861f1c51",
+    "reports/appworld/2026-10-24-deepseek-small/report.json": "b590f064ac98f4da47e79949f3c0219ba31ad5ca4b81f148ab1cfcab0cfd140e"
+  },
+  "limitations": [
+    "Only three correlated query variants from one generator; no statistical method-superiority claim.",
+    "Six conditions share the same final harness; score differences cannot establish construction or optimization gains.",
+    "All query episodes lack a clean finish; official terminal success and execution health are reported separately.",
+    "Provider alias is mutable; send_seed=False does not guarantee deterministic responses.",
+    "Original failed run was preserved and source evidence imported once; this is an explicit continuation, not a single uninterrupted run."
+  ]
+}

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import asdict
 import csv
 import hashlib
@@ -26,7 +26,7 @@ REPOSITORY = Path(__file__).resolve().parents[1]
 HASH = re.compile(r"[0-9a-f]{64}\Z")
 IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*\Z")
 QUERY_FIELDS = ("task_id", "domain", "condition", "construction_seed", "execution_seed", "success",
-                "score", "tool_steps", "failure_type", "harness_sha256")
+                "score", "tool_steps", "failure_type", "harness_sha256", "valid_task_outcome", "execution_healthy", "finished")
 FAILURES = {None, "task_not_solved", "step_budget_exhausted", "context_budget_exhausted", "invalid_action"}
 RESUME_FILES = {"task_manifest.json", "model_config.json", "study_config.json", "run_provenance.json",
                 "run_status.json", "episodes.jsonl", "source_pairs.jsonl", "constructor_library.json",
@@ -43,6 +43,8 @@ LIMITATIONS = [
     "send_seed=False 时种子仅作实验配对索引，不保证模型输出确定性。",
     "一个源 generator 且公开特征恒定，不能证明 F 的条件学习或迁移优越性。",
     "一个目标域、三个 query 任务不足以作统计推断；单域 bootstrap 区间不能解释为显著性证据。",
+    "同一域和构造种子下使用相同 harness 的条件，其执行成绩差异不能归因为方法增益。",
+    "任务成功是 AppWorld 官方终态评分的结果；成功不等于执行健康或已显式结束。",
     "公开导出不包含任务原文、轨迹、提示、模拟账户密码或私有评估细节。",
 ]
 
@@ -112,6 +114,31 @@ def _public_usage(values):
     fields = ("attempts", "model_calls", "failed_attempts", "input_tokens", "output_tokens", "total_tokens",
               "cached_input_tokens", "reasoning_tokens", "cost_usd", "latency_seconds")
     return {key: number(values[key], nullable=True) for key in fields if key in values}
+
+
+def _execution_health(rows):
+    """Keep task scoring separate from execution and termination status."""
+    for row in rows:
+        for field in ("success", "valid_task_outcome", "execution_healthy", "finished"):
+            if type(row.get(field)) is not bool:
+                raise ValueError("Query execution health flags must be explicit booleans")
+    clean = lambda row: row["execution_healthy"] and row["finished"]
+    return {"query_episodes": len(rows), "task_successes": sum(row["success"] for row in rows),
+        **{field: {"true": sum(row[field] for row in rows), "false": sum(not row[field] for row in rows)}
+           for field in ("valid_task_outcome", "execution_healthy", "finished")},
+        "clean_finishes": sum(clean(row) for row in rows),
+        "failure_types": dict(sorted(Counter(row.get("failure_type") or "none" for row in rows).items())),
+        "success_with_execution_issue": sum(row["success"] and not clean(row) for row in rows)}
+
+
+def _harness_equivalence_groups(rows):
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[(row["domain"], row["construction_seed"], row["harness_sha256"])].append(row)
+    return [{"domain": domain, "construction_seed": seed, "harness_sha256": harness,
+             "conditions": sorted({row["condition"] for row in members}),
+             "query_episodes": len(members), "shared_across_conditions": len({row["condition"] for row in members}) > 1}
+            for (domain, seed, harness), members in sorted(grouped.items())]
 
 
 def _integer(value):
@@ -387,6 +414,9 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
             raise ValueError("Query harness differs from its frozen plan")
         if row.get("stage") != "query" or type(row.get("success")) is not bool or row.get("failure_type") not in FAILURES:
             raise ValueError("Invalid public query outcome")
+        for field in ("valid_task_outcome", "execution_healthy", "finished"):
+            if type(row.get(field)) is not bool:
+                raise ValueError("Query execution health flags must be explicit booleans")
         check_identifier(row["task_id"]); check_identifier(row["domain"]); check_hash(row["harness_sha256"])
         for field in ("score", "tool_steps", "construction_seed", "execution_seed"):
             number(row[field])
@@ -395,6 +425,10 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
         raise ValueError("Conditions are missing paired query tasks or seeds")
     if {row["episode_id"] for row in queries} != {row["episode_id"] for row in episodes if row["stage"] == "query"}:
         raise ValueError("Query episode coverage differs")
+    health = {"overall": _execution_health(queries), "by_condition": {
+        condition: _execution_health([row for row in queries if row["condition"] == condition])
+        for condition in sorted(expected_conditions)}}
+    equivalence = _harness_equivalence_groups(queries)
     calculated = summarize(queries, episodes, constructions, usage, config, mock=False)
     saved = read_json(run / "summary.json")
     if saved.get("completed") is not True or saved.get("mock_model") is not False:
@@ -431,6 +465,7 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
         "model_config": {field: model_raw.get(field) for field in MODEL_FIELDS}, "study_config": asdict(config),
         "dependency_versions": dependencies,
         "methods": methods, "paired_differences": calculated["paired_differences"],
+        "harness_equivalence_groups": equivalence, "execution_health": health,
         "total_actual_usage": _public_usage(calculated["total_actual_usage"]), "source_usage": _public_usage(calculated["source_usage"]),
         "actual_episode_counts": calculated["actual_episode_counts"],
         "extra_validation": _extras(model, environment_report, preflight_report, calibration_summary)}
@@ -446,10 +481,23 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
     # verification does not leave an apparently publishable partial report.
     json.dumps(report, allow_nan=False)
     readme = ["# AppWorld 真实模型工程试验", "", "仅为小规模工程结果，不用于统计推断。", "",
-              "| 条件 | 成功任务/执行数 | 域等权成功率 | 平均工具步数 |", "|---|---:|---:|---:|"]
+              "| 条件 | 终态成功/执行数 | 域等权成功率 | 平均工具步数 | 健康且结束/执行数 |", "|---|---:|---:|---:|---:|"]
     for condition, values in sorted(methods.items()):
         won = sum(row["success"] for row in safe_queries if row["condition"] == condition)
-        readme.append(f"| {condition} | {won}/{values['episodes']} | {values['domain_equal_success']:.3f} | {values['mean_tool_steps']:.2f} |")
+        clean = health["by_condition"][condition]["clean_finishes"]
+        readme.append(f"| {condition} | {won}/{values['episodes']} | {values['domain_equal_success']:.3f} | {values['mean_tool_steps']:.2f} | {clean}/{values['episodes']} |")
+    overall = health["overall"]
+    readme += ["", "任务成功由 AppWorld 官方终态评分判定，与执行健康和显式结束分别记录；成功不代表健康完成。",
+        f"Query 共 {overall['query_episodes']} 次：有效终态评分 {overall['valid_task_outcome']['true']} 次，执行健康 {overall['execution_healthy']['true']} 次，显式结束 {overall['finished']['true']} 次。",
+        f"终态成功 {overall['task_successes']} 次，其中 {overall['success_with_execution_issue']} 次伴有执行异常或未显式结束。",
+        "执行结束类别：" + "、".join(f"{name}={count}" for name, count in overall["failure_types"].items()) + "。", ""]
+    shared = [group for group in equivalence if group["shared_across_conditions"]]
+    if shared:
+        readme.append("以下条件在同一域和构造种子下使用完全相同的 harness；其执行成绩差异不能归因为方法增益：")
+        readme.append("")
+        for group in shared:
+            readme.append(f"- {group['domain']}，构造种子 {group['construction_seed']}：" + "、".join(group["conditions"])
+                          + f"（harness `{group['harness_sha256']}`）。")
     spend = report["total_actual_usage"]
     readme += ["", f"研究调用：{spend['model_calls']} 次；token：{spend['total_tokens']}；估算费用：{spend['cost_usd']} USD。",
                f"单列额外校验：{report['extra_validation']['additional_spend']['model_calls']} 次调用；详见 report.json。", ""]
@@ -462,7 +510,7 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "report.json", report)
     with (out / "query_metrics.csv").open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=QUERY_FIELDS)
+        writer = csv.DictWriter(stream, fieldnames=QUERY_FIELDS, lineterminator="\n")
         writer.writeheader(); writer.writerows(safe_queries)
     (out / "README.md").write_text("\n".join(readme) + "\n", encoding="utf-8", newline="\n")
     return report

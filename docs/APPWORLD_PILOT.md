@@ -79,3 +79,29 @@
 | 官方 dev ID 文件 | `9fa976589300ea8905708257144d801d1604b06d85fb0181e381df8a3ba85001` |
 
 本次准备脚本在真实 WSL 数据上执行成功；选择/隐私/预算测试 8 项通过；两个本地输出路径已由 `git check-ignore` 确认忽略。准备阶段没有调用模型，不代表已完成七条件实验证据。第三方 AppWorld 数据与含其文案的轨迹仍遵循[选型文档中的再分发边界](BENCHMARK_SELECTION.md#安装资源与公开仓库边界)，不可因本项目采用 MIT 就明文上传。
+
+## 2026-10-24 已执行结果与审计
+
+本轮已完成真实模型运行，公开材料见[结果说明](../reports/appworld/2026-10-24-deepseek-small/README.md)、[结构化报告](../reports/appworld/2026-10-24-deepseek-small/report.json)和[逐任务指标](../reports/appworld/2026-10-24-deepseek-small/query_metrics.csv)。模型为 `deepseek-flash`，`reasoning_effort=none`；实际运行代码版本为 `4305451922455ca909d98efe64a261974162cd5a`，记录的全部核心源码哈希与运行后检查一致。
+
+首次运行 `001` 在完成全部 33 个 source episode 后，因 D 构造响应不符合既有 schema 而停止，没有进入 support/query；[失败报告](../reports/appworld/2026-10-24-deepseek-attempt-001.json)保留了该次调用及费用。修订 D/S 构造说明并加入严格 source 导入校验后，仅执行了一次 `001 → 002` 续跑：完整导入 33 个 source episode、33 条候选配对和 397 次历史调用，重新执行全部构造、support 和 query。没有按 source 成绩挑选记录，历史失败构造仍有独立调用归属；原始 `001` 文件未变。总 token 上限在 query 开始前由 500 万扩至 1,200 万，总调用上限仍为 1,000，均包括另列的预检和校准。这是单次续跑的累计账本，不是跨进程或跨目录的自动全局预算池。
+
+实际 episode 数为 **33 source + 18 support + 21 query = 72**。两条 GEPA 分支各执行 3 次 evaluator callback、1 次反思调用，分别留下 1 次未使用的 callback 预算；每次 callback 运行完整 3 个 support 任务。七个 harness 的文件哈希、配置绑定和运行时依赖均通过核对，且全部文件及 query lock 在首个 query 调用前生成。七条件使用相同的 3 组 task/seed 配对键。
+
+下表的成功指 **AppWorld 官方终态目标达标**，不代表执行协议正常结束：
+
+| 条件 | 官方终态成功 / query 执行数 |
+| --- | ---: |
+| G | 2 / 3 |
+| D | 1 / 3 |
+| S | 0 / 3 |
+| V | 1 / 3 |
+| F | 1 / 3 |
+| G+R@4 | 3 / 3 |
+| F+R@4 | 2 / 3 |
+
+21 个 query 的评分均有效，合计 10 次达标；每个 episode 均有且仅有一条不可见于 actor 的官方终态评分记录，其结果与 `native_success`、`native_score` 及公开指标一致。与此同时，**query 的 `finished` 和 `execution_healthy` 都是 0 / 21**：17 次因 `invalid_action` 结束，4 次耗尽步数。17 次无效动作的末次响应均为非空、非 JSON 文本，没有工具调用，`finish_reason=stop`，解析错误均发生于首字符。这是模型收尾输出未遵循动作/结束契约的表现，不是空响应或输出长度截断；其中 10 次已实现官方要求的终态，仍必须保留执行协议问题。原运行未据此改分或修改 runtime。
+
+33 个 source episode 的官方成功数为 0；18 个 support episode 均达标，其中 12 次正常结束、6 次有相同的收尾协议问题。更关键的是，**G、F、S、V、G+R@4、F+R@4 的最终 harness 哈希完全相同**，仅 D 不同。因此这些相同 harness 的 query 成绩差异不能归因于构造方法或 GEPA 增益；单个 source generator 的零成功反馈也未提供可识别的正向学习信号。表中数值是此次实际执行的描述，不能据此宣称某方法更优。后续应先在独立开发任务中验证结束契约，再扩大实验；本轮 query 已打开，不用于继续修改设计或挑题。
+
+累计研究账本包含 **822 次调用、4,549,448 tokens，配置费率估算 $0.149298567**。其中 397 次为原运行记录，425 次为续跑新增调用；原失败构造的 1 次调用、1,393 tokens 已包含在 822 次内，不再另加。另列预检和校准共 5 次调用、9,526 tokens、估算 $0.000753828，全部累计为 **827 次调用、4,558,974 tokens、估算 $0.150052395**。全部研究调用各有且仅有一个 episode、构造或历史失败归属；核心 token 字段完整，reasoning token 明细仍为提供方未报告。费用不是提供方账单，且不含未计价外部成本。公开报告仅保留 ID、数值、配置和哈希，不包含任务原文、模型响应、轨迹、harness 文案或模拟账户凭据。

@@ -2,7 +2,9 @@
 
 固定同一个模型，研究能否在执行前依据任务领域特征构造有效的 agent harness，以及构造之后还需要多少反馈优化。
 
-**v0.3：缺失核心已按现有材料与测试重新实现，本地模拟器和七条件 HTTP/GEPA 流程可运行。** 这是一份重建实现，不是找回的原源码。真实 AppWorld 环境已验收，DeepSeek 已接通；首次小规模运行完成 33 个源任务 episode 后因构造输出不合规范停止，尚不能报告七条件评测成绩。失败与继续运行协议见 [真实运行记录](docs/APPWORLD_LIVE_RUN.md)，mock 分数不能作为科研成绩。
+**v0.3：缺失核心已按现有材料与测试重新实现，首轮真实 AppWorld/DeepSeek 小规模试验已完成。** 累计 72 个研究 episode（33 source、18 support、21 query），含预检与校准共 827 次模型调用，估算费用 **0.150052395 USD**。见 [公开结果与逐次指标](reports/appworld/2026-10-24-deepseek-small/README.md) 和 [真实运行记录](docs/APPWORLD_LIVE_RUN.md)。这是一份重建实现，不是找回的原源码；mock 分数不能作为科研成绩。
+
+21 次 query 中 10 次通过 AppWorld 官方终态评分，但没有一次按执行器的 finish 契约正常收尾（17 次普通文本输出导致 `invalid_action`、4 次用尽步数）。除 D 外，其余六条件的最终 harness 完全相同，成功数差异不能归因于构造或 GEPA 改善。首次构造失败已保留，冻结前修复后完整复用源数据；本轮仅是工程试验，不支持方法优越性结论。
 
 接手时原清单 6,393 个文件中有 693 个缺失，包含 23 个核心 Python 文件；原 ZIP 也不含这些文件。历史材料原样保留，见 [接手审计](docs/HANDOVER.md)、[重建说明](docs/RECONSTRUCTION.md) 和 [本轮验证记录](RECONSTRUCTION_VALIDATION.json)。
 

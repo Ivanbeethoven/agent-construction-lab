@@ -1,0 +1,21 @@
+{
+  "model": "REPLACE_WITH_FIXED_MODEL_ID",
+  "model_snapshot": "REPLACE_WITH_FIXED_MODEL_SNAPSHOT",
+  "expected_response_model": "REPLACE_WITH_EXACT_RESPONSE_MODEL_ID",
+  "base_url": "https://REPLACE_WITH_PROVIDER_HOST.example/v1",
+  "api_key_env": "ACL_API_KEY_ENV",
+  "timeout": 120.0,
+  "retries": 0,
+  "temperature": 0,
+  "top_p": null,
+  "reasoning_effort": null,
+  "max_output_tokens": 4096,
+  "max_tokens_parameter": "max_tokens",
+  "request_seed": null,
+  "send_seed": true,
+  "use_tools": true,
+  "input_price_per_million": null,
+  "output_price_per_million": null,
+  "cached_input_price_per_million": null,
+  "pricing_version": null
+}

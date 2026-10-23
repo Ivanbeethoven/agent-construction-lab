@@ -1,0 +1,1776 @@
+{
+  "source": [
+    {
+      "budget": 30,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.00"
+    },
+    {
+      "budget": 30,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.01"
+    },
+    {
+      "budget": 35,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.02"
+    },
+    {
+      "budget": 35,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.03"
+    },
+    {
+      "budget": 30,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.04"
+    },
+    {
+      "budget": 9,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.05"
+    },
+    {
+      "budget": 30,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.06"
+    },
+    {
+      "budget": 30,
+      "description": "invoice_reconciliation: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "invoice_reconciliation",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.invoice_reconciliation.07"
+    },
+    {
+      "budget": 30,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.00"
+    },
+    {
+      "budget": 30,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.01"
+    },
+    {
+      "budget": 35,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.02"
+    },
+    {
+      "budget": 35,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.03"
+    },
+    {
+      "budget": 30,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.04"
+    },
+    {
+      "budget": 9,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.05"
+    },
+    {
+      "budget": 30,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.06"
+    },
+    {
+      "budget": 30,
+      "description": "warehouse_dispatch: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "warehouse_dispatch",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.warehouse_dispatch.07"
+    },
+    {
+      "budget": 30,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.00"
+    },
+    {
+      "budget": 30,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.01"
+    },
+    {
+      "budget": 35,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.02"
+    },
+    {
+      "budget": 35,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.03"
+    },
+    {
+      "budget": 30,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.04"
+    },
+    {
+      "budget": 9,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.05"
+    },
+    {
+      "budget": 30,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.06"
+    },
+    {
+      "budget": 30,
+      "description": "subscription_update: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "subscription_update",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.subscription_update.07"
+    },
+    {
+      "budget": 30,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.00"
+    },
+    {
+      "budget": 30,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.01"
+    },
+    {
+      "budget": 35,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.02"
+    },
+    {
+      "budget": 35,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.03"
+    },
+    {
+      "budget": 30,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.04"
+    },
+    {
+      "budget": 9,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.05"
+    },
+    {
+      "budget": 30,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.06"
+    },
+    {
+      "budget": 30,
+      "description": "ticket_assignment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "ticket_assignment",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "source",
+      "task_id": "source.ticket_assignment.07"
+    }
+  ],
+  "dev": [
+    {
+      "budget": 30,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.00"
+    },
+    {
+      "budget": 30,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.01"
+    },
+    {
+      "budget": 35,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.02"
+    },
+    {
+      "budget": 35,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.03"
+    },
+    {
+      "budget": 30,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.04"
+    },
+    {
+      "budget": 9,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.05"
+    },
+    {
+      "budget": 30,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.06"
+    },
+    {
+      "budget": 30,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.07"
+    },
+    {
+      "budget": 40,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.08"
+    },
+    {
+      "budget": 40,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.09"
+    },
+    {
+      "budget": 40,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.10"
+    },
+    {
+      "budget": 40,
+      "description": "lab_sample_registration: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "lab_sample_registration",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.lab_sample_registration.11"
+    },
+    {
+      "budget": 30,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.00"
+    },
+    {
+      "budget": 30,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.01"
+    },
+    {
+      "budget": 35,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.02"
+    },
+    {
+      "budget": 35,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.03"
+    },
+    {
+      "budget": 30,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.04"
+    },
+    {
+      "budget": 9,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.05"
+    },
+    {
+      "budget": 30,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.06"
+    },
+    {
+      "budget": 30,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.07"
+    },
+    {
+      "budget": 40,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.08"
+    },
+    {
+      "budget": 40,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.09"
+    },
+    {
+      "budget": 40,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.10"
+    },
+    {
+      "budget": 40,
+      "description": "event_checkin: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "event_checkin",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "dev",
+      "task_id": "dev.event_checkin.11"
+    }
+  ],
+  "test": [
+    {
+      "budget": 30,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.00"
+    },
+    {
+      "budget": 30,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.01"
+    },
+    {
+      "budget": 35,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.02"
+    },
+    {
+      "budget": 35,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.03"
+    },
+    {
+      "budget": 30,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.04"
+    },
+    {
+      "budget": 9,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.05"
+    },
+    {
+      "budget": 30,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.06"
+    },
+    {
+      "budget": 30,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.07"
+    },
+    {
+      "budget": 40,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.08"
+    },
+    {
+      "budget": 40,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.09"
+    },
+    {
+      "budget": 40,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.10"
+    },
+    {
+      "budget": 40,
+      "description": "clinic_appointment: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "clinic_appointment",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.clinic_appointment.11"
+    },
+    {
+      "budget": 30,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.00"
+    },
+    {
+      "budget": 30,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.01"
+    },
+    {
+      "budget": 35,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.02"
+    },
+    {
+      "budget": 35,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.03"
+    },
+    {
+      "budget": 30,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.04"
+    },
+    {
+      "budget": 9,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.05"
+    },
+    {
+      "budget": 30,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.06"
+    },
+    {
+      "budget": 30,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.07"
+    },
+    {
+      "budget": 40,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.08"
+    },
+    {
+      "budget": 40,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.09"
+    },
+    {
+      "budget": 40,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.10"
+    },
+    {
+      "budget": 40,
+      "description": "library_return: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "library_return",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.library_return.11"
+    },
+    {
+      "budget": 30,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.00"
+    },
+    {
+      "budget": 30,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.01"
+    },
+    {
+      "budget": 35,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.02"
+    },
+    {
+      "budget": 35,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.03"
+    },
+    {
+      "budget": 30,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.04"
+    },
+    {
+      "budget": 9,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.05"
+    },
+    {
+      "budget": 30,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.06"
+    },
+    {
+      "budget": 30,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.07"
+    },
+    {
+      "budget": 40,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.08"
+    },
+    {
+      "budget": 40,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.09"
+    },
+    {
+      "budget": 40,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.10"
+    },
+    {
+      "budget": 40,
+      "description": "maintenance_order: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "maintenance_order",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.maintenance_order.11"
+    },
+    {
+      "budget": 30,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.00"
+    },
+    {
+      "budget": 30,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.01"
+    },
+    {
+      "budget": 35,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.02"
+    },
+    {
+      "budget": 35,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.03"
+    },
+    {
+      "budget": 30,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.04"
+    },
+    {
+      "budget": 9,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.05"
+    },
+    {
+      "budget": 30,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": false,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.06"
+    },
+    {
+      "budget": 30,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": false,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.07"
+    },
+    {
+      "budget": 40,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "standard",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.08"
+    },
+    {
+      "budget": 40,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": true,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "none",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.09"
+    },
+    {
+      "budget": 40,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "read",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.10"
+    },
+    {
+      "budget": 40,
+      "description": "municipal_permit: read each record and commit its amount exactly once. Preserve all other records; work within the operation budget.",
+      "family": "municipal_permit",
+      "features": {
+        "persistent_storage": true,
+        "restart_risk": false,
+        "schema_discovery": true,
+        "schema_variant": "legacy",
+        "structured_errors": true,
+        "supports_idempotency": true,
+        "transient_faults": "write_after_commit",
+        "workload_size": 4
+      },
+      "split": "test",
+      "task_id": "test.municipal_permit.11"
+    }
+  ]
+}

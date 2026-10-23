@@ -1,0 +1,21 @@
+{
+  "source_seeds": [101],
+  "support_seeds": [101],
+  "execution_seeds": [101],
+  "construction_seeds": [17],
+  "rsi_budgets": [4],
+  "methods": ["G", "D", "S", "V", "F", "G+R", "F+R"],
+  "ablations": [],
+  "max_steps": 6,
+  "max_context_chars": 60000,
+  "max_modules": 2,
+  "bootstrap_samples": 100,
+  "ridge_alpha": 2.0,
+  "cost_weight": 0.0,
+  "require_complete_token_usage": true,
+  "source_summary_max_chars": 24000,
+  "support_feedback_max_chars": 24000,
+  "appworld_timeout_seconds": 60,
+  "appworld_initialization_timeout_seconds": 120,
+  "remote_environment_url": null
+}

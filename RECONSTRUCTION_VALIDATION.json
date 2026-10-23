@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-24",
+  "version": "0.3.0",
+  "implementation": "reconstructed, not original-source recovery",
+  "platform": "Windows",
+  "python": "3.12.14",
+  "dependencies": {
+    "gepa": "0.1.4",
+    "freezegun": "1.5.5",
+    "python-dateutil": "3.0.0",
+    "six": "1.17.0",
+    "tzdata": "2026.5"
+  },
+  "checks": {
+    "tests": {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_seconds": 18.61,
+      "tests_run": 131,
+      "skipped": 0
+    },
+    "fixed_smoke": {
+      "command": [
+        "-m",
+        "agent_construction_lab.fixed_model",
+        "smoke",
+        "--out",
+        "runs\\local-reconstruction\\final-20261024\\smoke"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_seconds": 2.8
+    },
+    "frozen_verify": {
+      "command": [
+        "-m",
+        "agent_construction_lab.fixed_model",
+        "verify-run",
+        "--run",
+        "runs\\local-reconstruction\\final-20261024\\smoke"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_seconds": 0.67
+    },
+    "simulator_cli": {
+      "command": [
+        "construction-lab",
+        "pilot",
+        "--config",
+        "configs/pilot_quick.json",
+        "--out",
+        "runs\\local-reconstruction\\final-20261024\\simulator"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_seconds": 3.72
+    },
+    "doctor": {
+      "command": [
+        "-m",
+        "agent_construction_lab.fixed_model",
+        "doctor",
+        "--model-config",
+        "configs/fixed_model.example.json"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "elapsed_seconds": 0.64
+    },
+    "adapter_cli_help": {
+      "command": [
+        "scripts/validate_appworld_adapter.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_seconds": 0.59
+    }
+  },
+  "original_tests_unchanged": 114,
+  "added_regression_tests": 17,
+  "fixed_model_smoke": {
+    "completed": true,
+    "mock_model": true,
+    "conditions": [
+      "D",
+      "F",
+      "F+R@4",
+      "G",
+      "G+R@4",
+      "S",
+      "V"
+    ],
+    "actual_episode_counts": {
+      "source": 22,
+      "support": 14,
+      "query": 28
+    },
+    "total_actual_usage": {
+      "attempts": 232,
+      "model_calls": 232,
+      "failed_attempts": 0,
+      "latency_seconds": 1.5227222999747028,
+      "known_input_tokens": 111144,
+      "unknown_input_tokens_attempts": 0,
+      "input_tokens": 111144,
+      "known_output_tokens": 12106,
+      "unknown_output_tokens_attempts": 0,
+      "output_tokens": 12106,
+      "known_total_tokens": 123250,
+      "unknown_total_tokens_attempts": 0,
+      "total_tokens": 123250,
+      "known_cached_input_tokens": 0,
+      "unknown_cached_input_tokens_attempts": 0,
+      "cached_input_tokens": 0,
+      "known_reasoning_tokens": 0,
+      "unknown_reasoning_tokens_attempts": 0,
+      "reasoning_tokens": 0,
+      "known_cost_usd": 0,
+      "unknown_cost_usd_attempts": 232,
+      "cost_usd": null
+    },
+    "verification": {
+      "verified": true,
+      "frozen_harnesses": 14,
+      "mock_model": true,
+      "scope": "Frozen harness and runtime hashes; not a scientific-performance validation"
+    }
+  },
+  "live_model_called": false,
+  "real_appworld_executed": false,
+  "benchmark_tasks_downloaded": false,
+  "scope": "Engineering validation only; mock token usage and scores are scripted, not scientific performance or provider billing evidence.",
+  "source_sha256": {
+    "agent_construction_lab/__init__.py": "fe25d5159538d1069a5da38fdeedc457c9b6b46a3b16762d72fbe7a0543b445a",
+    "agent_construction_lab/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "agent_construction_lab/_io.py": "b900a12176258da773fee0a201091d176d1c6d0b405bed96eb43761093851cf2",
+    "agent_construction_lab/artifacts.py": "f7b53edbd0ca60e92345e971a2652ecb223d95184e22c3fec5f6ca5ee2fdf23f",
+    "agent_construction_lab/bridge.py": "ef7aae152e0d5cbd4d8dce5a040b1c5962f41403f187c6dc6923004c397f56a7",
+    "agent_construction_lab/cli.py": "5c74750e575b2fdde0a9cca7e448278dc0691c7bb89862bd769b4338456c0de3",
+    "agent_construction_lab/contracts.py": "4b084ce2bbe77eee845c8bd8ea2d3cbbd6341df5b2b1886c0d6ea3c77d58a7da",
+    "agent_construction_lab/experiments.py": "68a9058ad2ccc4f3c7ffd79200701b51f2d5832dabc21a76317a4bcfba1c2521",
+    "agent_construction_lab/fixed_model/__init__.py": "c84c2d073aa476ddd2f9460dcf60c863a014dcc51f021b7689b5a585460d613a",
+    "agent_construction_lab/fixed_model/__main__.py": "6f0dc68e797987483371db98d867adfeccfaabb43740e7296ea936dcab2fbe05",
+    "agent_construction_lab/fixed_model/appworld_process.py": "b6fd681a6f650576b6a0515c7fb9bcd57400e49ee5f8e8fb932a1d84414237e1",
+    "agent_construction_lab/fixed_model/client.py": "9d2dd25f72b8bea59a7c4429bb328cacf70bfddec0303c05c393731f6a6419a3",
+    "agent_construction_lab/fixed_model/code_policy.py": "139852c584674356f57df763ad5d456ce17887cc73e50502d71df35df7c6ccb3",
+    "agent_construction_lab/fixed_model/constructors.py": "05f16479019c581cd1195db0cde4ffca830423424ad026a8c686e6d7c34e5c16",
+    "agent_construction_lab/fixed_model/environment_worker.py": "6ade1e62903b2993c30a08d24bb6af103f7e26d0d0c04d6249b2edd2e2bc9588",
+    "agent_construction_lab/fixed_model/environments.py": "b9322c4fc1b46ca86c2260850266b4cc5d68e434437772353f01e93c561e2928",
+    "agent_construction_lab/fixed_model/executor.py": "294c13d8cb5b5876d04d00ee482987c4f049406ad7b1a0bc373ea5b54cd218b4",
+    "agent_construction_lab/fixed_model/gepa_adapter.py": "b3a4e501236b9f37034f9a6753a6343d3233c58b836b49dc3bcae3bba4c2776d",
+    "agent_construction_lab/fixed_model/mock_server.py": "16c8e564a307761d90f18cf13fd1a2f46196f2d45655a890cd5c7047b5e63723",
+    "agent_construction_lab/fixed_model/spec.py": "5f7ff8193726161cd586db92f0d7d2c95f0b0431b0c307b831608663d249cbb5",
+    "agent_construction_lab/fixed_model/study.py": "efb64b22928884d10a35706b75aa9ce7be41747debf1088c5f3cb324cf366a70",
+    "agent_construction_lab/fixtures.py": "f82a06a7190b654548c0b01bb62ed2a5a9832b32581888b6083100b59288eff0",
+    "agent_construction_lab/learning.py": "68a97a2046a622b2a5fd88ec0fb7b51bca5c31fd190fc4c9d1111be31903eedf",
+    "agent_construction_lab/runtime.py": "e7f478205c4ac434a22280d5f98de500884a70f6aa500ff7525dca912f5f08ef",
+    "agent_construction_lab/search.py": "a77f91655be56be589939f16effb4591c554d438a14c639f83f88d046e18b53e",
+    "agent_construction_lab/worker.py": "ab2894ae1edc108f018dca7429823798378d9df68202087a01d39f9f303e60a8"
+  },
+  "packaging": {
+    "wheel": "agent_construction_lab-0.3.0-py3-none-any.whl",
+    "sha256": "10f417fcf40adf48b27c641fe074d569f3863082491ced53eb2e4f16feb432aa",
+    "isolated_wheel_install": {
+      "version": "0.3.0",
+      "source_tasks": 32,
+      "installed_wheel_executed": true,
+      "task_id": "source.invoice_reconciliation.00"
+    },
+    "build_command": "uv build --wheel"
+  },
+  "original_core_paths_reimplemented": 23,
+  "original_test_files_modified": false
+}

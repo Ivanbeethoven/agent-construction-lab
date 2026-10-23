@@ -1,0 +1,6 @@
+# Minimal reconstruction test/smoke environment; no AppWorld or model SDK.
+gepa==0.1.4
+freezegun==1.5.5
+python-dateutil==3.0.0
+six==1.17.0
+tzdata==2026.5

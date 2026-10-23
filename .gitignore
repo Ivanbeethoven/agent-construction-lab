@@ -19,6 +19,9 @@ configs/fixed_model.json
 runs/local*/
 runs/my-*/
 appworld_data/
+/data/
+/experiments/
+/runs/live*/
 .appworld/
 intake-tests.log
 .idea/

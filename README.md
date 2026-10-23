@@ -1,14 +1,31 @@
 # Agent Construction Lab
 
-固定同一个模型，研究能否在执行前依据任务特征构造有效的 agent harness，以及构造之后还需要多少反馈优化。
+固定同一个模型，研究能否在执行前依据任务领域特征构造有效的 agent harness，以及构造之后还需要多少反馈优化。
 
-**当前状态：不完整的 v0.2 研究材料快照，尚不能运行主程序。** 2026-10-23 接手时，原清单中的 6,393 个文件仅有 5,700 个存在，缺少 693 个；原 ZIP 同样缺失。现存交付文件的 SHA-256 全部匹配。缺失内容包括核心源码、运行配置、实验协议和部分历史产物。见 [接手记录](docs/HANDOVER.md) 和 [完整性报告](docs/DELIVERY_AUDIT.json)。
+**v0.3：缺失核心已按现有材料与测试重新实现，本地模拟器和七条件 HTTP/GEPA 流程可运行。** 这是一份重建实现，不是找回的原源码。真实模型与 AppWorld 端到端实验尚未运行，mock 分数不能作为科研成绩。
 
-> This is an incomplete research snapshot. Core implementation and configuration files are missing from the supplied archive. Bundled results are synthetic/mock evidence, not live-LLM research results.
+接手时原清单 6,393 个文件中有 693 个缺失，包含 23 个核心 Python 文件；原 ZIP 也不含这些文件。历史材料原样保留，见 [接手审计](docs/HANDOVER.md)、[重建说明](docs/RECONSTRUCTION.md) 和 [本轮验证记录](RECONSTRUCTION_VALIDATION.json)。
 
-## 研究问题
+## 快速运行
 
-项目拟比较七个条件：
+使用 Python 3.12，在项目根目录执行：
+
+```bash
+python -m venv .venv
+# Windows: .venv/Scripts/activate
+# Linux/macOS: source .venv/bin/activate
+python -m pip install -e . -r requirements-smoke.txt
+python -m unittest discover -s tests -v
+python -m agent_construction_lab.fixed_model smoke --out runs/local-smoke/check-001
+python -m agent_construction_lab.fixed_model verify-run --run runs/local-smoke/check-001
+construction-lab pilot --config configs/pilot_quick.json --out runs/local-pilot/check-001
+```
+
+smoke 启动本地脚本 HTTP 服务，实际执行环境、官方 GEPA、冻结校验和调用账本，无需 API key 或 AppWorld 数据。每次使用新的空输出目录。GitHub Actions 在 Windows / Ubuntu、Python 3.12 上运行同一套检查。
+
+真实模型接入、无费用预检和 AppWorld 准备步骤见 [运行手册](docs/FIXED_MODEL_RUNBOOK.md)。`configs/fixed_model.example.json` 仅含占位值；将真实配置保存为被 Git 忽略的 `configs/fixed_model.local.json`，凭据从环境变量读取。
+
+## 研究条件
 
 | 条件 | 含义 |
 | --- | --- |
@@ -17,42 +34,27 @@
 | S | 同一模型从同源模块库选择 |
 | V | 预测候选的最终价值 |
 | F | 预测条件配对编辑的效果 |
-| G+R | 从 G 出发进行 GEPA 反馈优化 |
-| F+R | 从 F 出发进行同样的 GEPA 反馈优化 |
+| G+R | 从 G 出发进行官方 GEPA 反馈优化 |
+| F+R | 从 F 出发进行相同预算的 GEPA 反馈优化 |
 
-原设计限定在系统提示及 plan、verify、tool_docs、error_repair 四个指导模块（最多两个）的候选空间，要求 source、dev、support、query 分离，并在 query 前冻结 harness。以上是原交付说明和测试所描述的设计；核心实现尚待找回后核验。
+模块为 plan、verify、tool_docs、error_repair，每个 harness 最多两个。source 用于配对学习，support 只供 R，所有目标条件在 query 前一起冻结。HTTP 重试、构造和反思调用均记账；基础设施错误不会变成训练负标签。详见 [当前执行协议](docs/FIXED_MODEL_PROTOCOL.md) 与 [GEPA 预算定义](docs/GEPA_ADAPTER.md)。
 
-## 现在可以查看什么
+F/V 采用相同特征空间和正则化，可能选出相同候选；当前工程验证不能证明 F 更优。D 和 R 可修改系统提示，S/V/F 在固定模块库中选择，报告时应保留这一搜索空间差异。
 
-- [接手记录与后续工作](docs/HANDOVER.md)：工程缺口、研究边界和恢复顺序。
-- [原始项目说明](docs/ORIGINAL_README.md)：逐字保留交付时的 README；其中安装指令和缺失文件链接暂不可用，相对链接仍按原项目根目录解释。
-- [模拟器历史报告](runs/reference/report.html)：下载后用浏览器打开；仅为合成环境结果。
-- [七条件 mock 摘要](runs/fixed_model_smoke/summary.json)：保存的摘要标明 mock，记录 22 个 source、14 个 support、28 个 query episode。
-- [原交付验收声明](VALIDATION.json) 与 [原文件清单](PACKAGE_MANIFEST.json)：作为历史证据保留，不代表本仓库已重新通过验收。
-- `tests/`：已有测试代码，可辅助恢复后验收；当前 13 个模块均因缺少项目模块而导入失败。
+## 领域 benchmark 与实验规划
 
-## 核验交付完整性
+[选型与 pilot 方案](docs/BENCHMARK_SELECTION.md) 核验了官方论文、版本、数据划分、评分方式和资源要求：
 
-仅使用 Python 3.10+ 标准库，无需模型账号或第三方依赖：
+- **主基准：AppWorld**，考察跨应用事务与任务族泛化。
+- **独立验证：SWE-bench Verified 的科学 Python 库维护任务**，优先评估 Astropy / SymPy；容器 adapter 待实现。
+- **探索：ScienceAgentBench verified**，先筛选能确定性评分且数据组独立的科研任务；τ 系列保留为后续交互扩展。
 
-```bash
-python scripts/audit_delivery.py --output docs/DELIVERY_AUDIT.json
-```
+新 AppWorld pilot 拟分配 60 个任务，主运行上限 630 个环境 episode，独立 dev 开发另留 66 个；这不是模型调用次数，也不是已完成结果。参数见 [pilot 建议配置](configs/appworld_pilot_proposal.json)。真实任务清单还需数据审计，不填写虚构 ID。
 
-当前预期返回码为 `1`，表示交付不完整；完整且哈希一致时才返回 `0`。工具以原 `PACKAGE_MANIFEST.json` 为基准；原 README 已保存在 `docs/ORIGINAL_README.md`，核验时使用该副本。新增的接手文档和工具不在原交付清单中。若持有原 ZIP，可添加 `--archive /path/to/Agent_Construction_Lab.zip` 检查其中是否包含缺失文件。
+默认 `prepare-appworld` 是同 generator 不同变体的验收划分。跨 generator 的严格 pilot 必须建立宽领域清单，并设置 `group_disjoint_support_query: true`；不能直接用默认清单声称跨任务族泛化。
 
-原项目测试入口为：
+## 历史证据与许可
 
-```bash
-python -m unittest discover -s tests -v
-```
+[原始 README](docs/ORIGINAL_README.md)、[原 VALIDATION](VALIDATION.json)、[原文件清单](PACKAGE_MANIFEST.json) 和原有 `runs/` 作为历史材料保留，不由新实现重新背书。`scripts/audit_delivery.py` 比较的是原交付字节；重建文件不会匹配原哈希，剩余缺失历史结果也未伪造。
 
-在找回缺失源码前，该命令会因 `ModuleNotFoundError` 失败。真实模型配置、AppWorld 数据及端到端验收也尚未在当前环境完成。
-
-## 证据边界
-
-当前材料没有真实 LLM 主实验成绩。mock HTTP 运行和有限状态模拟器结果只能作为管线与协议的历史验证材料，不能证明 F 优于 V、节省真实推理费用，或证明反馈优化可以被替代。F/V 的可区分性、构造与优化的公平比较，以及真实环境泛化是后续研究重点。
-
-## 许可
-
-[MIT License](LICENSE)。外部依赖和数据集仍遵循各自的许可，本仓库不附带 AppWorld 数据或模型凭据。
+[MIT License](LICENSE)。外部依赖和 benchmark 数据遵循各自许可，本仓库不包含 AppWorld 数据、私有评分代码或模型凭据。`requirements-tested-linux-py312.txt` 是原交付环境记录；本轮最小验证环境使用 `requirements-smoke.txt`。

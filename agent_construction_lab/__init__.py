@@ -5,4 +5,4 @@ a real HTTP model client, official AppWorld environment and official GEPA.
 Bundled smoke results use explicit scripted responses, not real LLM evidence.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

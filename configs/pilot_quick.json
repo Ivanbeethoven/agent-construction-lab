@@ -1,0 +1,10 @@
+{
+  "source_execution_seeds": [101],
+  "support_execution_seeds": [503],
+  "query_execution_seeds": [1009],
+  "construction_seeds": [17],
+  "support_per_family": 2,
+  "candidate_budget": 3,
+  "bootstrap_samples": 100,
+  "include_ablations": false
+}

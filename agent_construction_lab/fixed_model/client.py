@@ -113,6 +113,8 @@ class ModelConfig:
     max_model_calls: int | None = None
     max_total_tokens: int | None = None
     request_token_reserve: int | None = None
+    actor_protocol: str = "v1"
+    actor_protocol_max_repairs: int = 1
 
     def __post_init__(self):
         if not isinstance(self.model, str) or not self.model.strip():
@@ -142,6 +144,17 @@ class ModelConfig:
             raise ValueError("A token limit requires an explicit per-request token upper bound")
         if self.request_token_reserve is not None and self.request_token_reserve < self.max_output_tokens:
             raise ValueError("request_token_reserve must cover the maximum output tokens")
+        if not isinstance(self.actor_protocol, str) or self.actor_protocol not in {"v1", "v2_required_tools"}:
+            raise ValueError("Unknown actor protocol")
+        if type(self.actor_protocol_max_repairs) is not int or not 0 <= self.actor_protocol_max_repairs <= 1:
+            raise ValueError("actor_protocol_max_repairs must be zero or one")
+        if self.actor_protocol == "v2_required_tools":
+            if not self.use_tools:
+                raise ValueError("The v2 actor protocol requires function tools")
+            # DeepSeek Chat Completions rejects required tools in thinking mode.
+            # Official API: reasoning_effort=none explicitly disables thinking.
+            if parse.urlsplit(self.base_url).hostname == "api.deepseek.com" and self.reasoning_effort != "none":
+                raise ValueError("DeepSeek required tools need reasoning_effort='none'")
 
     def to_dict(self):
         return asdict(self)
@@ -287,12 +300,12 @@ class OpenAICompatibleClient:
         self._opener = request.build_opener(_NoRedirect())
 
     def complete(self, messages, *, phase="execution", role="executor", domain=None,
-                 task_id=None, seed=None, tools=None, tool_choice=None):
+                 task_id=None, seed=None, tools=None, tool_choice=None, max_attempts=None):
         # One ledger is one spending pool. Serialize its admissions, including
         # clients sharing the same ledger, so concurrent calls cannot overshoot.
         with self.ledger._lock:
             return self._complete(messages, phase=phase, role=role, domain=domain,
-                                  task_id=task_id, seed=seed, tools=tools, tool_choice=tool_choice)
+                                  task_id=task_id, seed=seed, tools=tools, tool_choice=tool_choice, max_attempts=max_attempts)
 
     def _budget_error(self, encoded):
         config = self.config
@@ -314,8 +327,11 @@ class OpenAICompatibleClient:
         return None
 
     def _complete(self, messages, *, phase="execution", role="executor", domain=None,
-                  task_id=None, seed=None, tools=None, tool_choice=None):
+                  task_id=None, seed=None, tools=None, tool_choice=None, max_attempts=None):
         config = self.config
+        if max_attempts is not None and (type(max_attempts) is not int or max_attempts < 1):
+            raise ValueError("max_attempts must be a positive integer or None")
+        attempt_limit = config.retries + 1 if max_attempts is None else min(config.retries + 1, max_attempts)
         seed = config.request_seed if seed is None else seed
         if seed is not None and type(seed) is not int:
             raise ValueError("seed must be an integer or None")
@@ -336,7 +352,7 @@ class OpenAICompatibleClient:
         if credential:
             headers["Authorization"] = "Bearer " + credential
 
-        for index in range(config.retries + 1):
+        for index in range(attempt_limit):
             started = REAL_CLOCK.monotonic()
             row = {"schema_version": 1, "call_id": call_id, "attempt_index": index + 1,
                    "timestamp_utc": REAL_CLOCK.timestamp(), "clock_source": CLOCK_SOURCE,
@@ -347,6 +363,7 @@ class OpenAICompatibleClient:
                    "request_seed": seed, "seed_sent": "seed" in body, "seed_determinism_guaranteed": False,
                    "temperature": config.temperature, "top_p": config.top_p,
                    "reasoning_effort": config.reasoning_effort, "max_output_tokens": config.max_output_tokens,
+                   "tool_choice": copy.deepcopy(body.get("tool_choice")), "max_attempts": max_attempts,
                    "request_sent": False, "success": False, "error_type": None, "http_status": None,
                    "retry_scheduled": False, "response_model": None, "provider_request_id": None,
                    "finish_reason": None, "pricing_version": config.pricing_version,
@@ -420,7 +437,7 @@ class OpenAICompatibleClient:
                 # spending unauditable. Preserve null usage and abort now.
                 row["underlying_error_type"] = row["error_type"]
                 row["success"], row["error_type"], retryable = False, "budget_usage_unknown", False
-            row["retry_scheduled"] = retryable and index < config.retries
+            row["retry_scheduled"] = retryable and index + 1 < attempt_limit
             row["latency_seconds"] = max(0.0, REAL_CLOCK.monotonic() - started)
             attempt_ids.append(self.ledger.record(row))
             if row["success"]:

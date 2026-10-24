@@ -15,3 +15,13 @@
 `source_seeds`、`support_seeds`、`execution_seeds` 与 `construction_seeds` 是不同用途的轴。`support_seeds=None` 默认沿用 query 的 execution seeds，显式列表可缩小 support 预算；seed 不是独立任务样本，也不保证远端模型确定性。
 
 失败时保留 run_status、attempt 账本与已发生 episode，并停止整次研究，不自动换模型、换任务或以 mock 补足。成功输出是管线完成信号，不能自动解释为科研假设得到支持。
+
+## Actor 收尾协议 v2
+
+第二轮显式配置 `actor_protocol="v2_required_tools"`；既有配置默认仍用 v1。v2 的每次 actor 请求使用 `tool_choice="required"`，只接受一个 `code_execution` 或 `finish` 工具调用。环境内 `complete_task` 和自然语言答复均不替代执行器的 `finish`。D/S builder 与 GEPA reflector 保留各自原有输出契约。
+
+若提供方仍返回非空普通文本且 `finish_reason="stop"`，最多追加一次固定格式纠正。纠正消息不包含 evaluator 反馈，不重放已执行副作用；错误工具名、多工具调用、坏参数和截断输出直接记录失败。纠正和 HTTP 重试均占同一 episode 的物理请求上限，没有隐藏额外步骤。DeepSeek 的 required 工具模式要求 `reasoning_effort="none"`，配置阶段检查该条件。
+
+每次 episode 只在最终调用一次私有 evaluator。官方终态成功、执行健康、显式结束与协议违规分别记录：有效官方成功不因收尾失败改成失败，收尾失败也不能因官方成功被标为健康。`finish_mode`、`explicit_finish_count`、`auto_final_count`、协议违规和纠正调用数均可审计；没有自动收尾路径。
+
+第二轮的独立选题、预算与限制见 [APPWORLD_ROUND2.md](APPWORLD_ROUND2.md)。不同任务和步数下的跨轮成绩不能用于估计协议修复的单独因果效应。

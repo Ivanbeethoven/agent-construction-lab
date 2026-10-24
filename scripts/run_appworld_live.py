@@ -31,9 +31,12 @@ def main():
     parser.add_argument("--manifest-sha256")
     parser.add_argument("--study-config")
     parser.add_argument("--calibration-task")
+    parser.add_argument("--calibration-max-steps", type=int, default=4)
     parser.add_argument("--resume-from")
     parser.add_argument("--resume-anchor")
     args = parser.parse_args()
+    if not 1 <= args.calibration_max_steps <= 100:
+        parser.error("--calibration-max-steps must be between 1 and 100")
     if bool(args.resume_from) != bool(args.resume_anchor) or args.resume_from and args.calibration_task:
         parser.error("Source continuation requires --resume-from and --resume-anchor, without calibration")
     model = ModelConfig.from_dict(json.loads(Path(args.model_config).read_text(encoding="utf-8")))
@@ -64,13 +67,20 @@ def main():
             ledger = UsageLedger(root / "model_usage.jsonl")
             env = create_environment("appworld", {"task_id": args.calibration_task},
                 appworld_root=args.appworld_root, experiment_name="acl-calibration-" + uuid4().hex,
-                seed=101, max_steps=4, timeout_seconds=60, initialization_timeout_seconds=120)
+                seed=101, max_steps=args.calibration_max_steps, timeout_seconds=60, initialization_timeout_seconds=120)
             result = run_episode(env, OpenAICompatibleClient(model, ledger), make_harness(),
                 task_id=args.calibration_task, domain="held_out_calibration", seed=101,
-                max_steps=4, max_context_chars=60000, phase="calibration", role="executor")
+                max_steps=args.calibration_max_steps, max_context_chars=60000, phase="calibration", role="executor")
             write_json(root / "episode.json", result)
             write_json(root / "model_config.json", asdict(model))
-            public = {key: result.get(key) for key in ("valid_task_outcome", "success", "score", "tool_steps", "failure_type")}
+            public = {key: result.get(key) for key in ("valid_task_outcome", "success", "score", "tool_steps", "failure_type",
+                "execution_healthy", "finished", "actor_protocol", "finish_mode", "explicit_finish_count",
+                "auto_final_count", "protocol_violation_count", "protocol_repairs_used", "protocol_repair_requests")}
+            repository = Path(__file__).resolve().parents[1]
+            public.update(task_id=args.calibration_task, max_steps=args.calibration_max_steps,
+                model_config_sha256=digest(asdict(model)), source_sha256={
+                    path.relative_to(repository).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+                    for path in sorted((repository / "agent_construction_lab").rglob("*.py"))})
             public.update(usage=ledger.totals(), scope="Held-out train protocol calibration; not a query result")
             write_json(root / "calibration_summary.json", public)
             print(json.dumps(public), flush=True)

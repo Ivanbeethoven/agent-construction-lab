@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "benchmark": "appworld",
+  "official_protocol": false,
+  "group_disjoint_support_query": true,
+  "name": "Independent second AppWorld engineering pilot; descriptive results only",
+  "selection": {
+    "version": "appworld-engineering-round2-v1",
+    "seed": 20261025,
+    "method": "Whole generators ordered by SHA-256(version:seed:official_split:generator_id), then generator ID",
+    "rank_assignment": "train rank 1 calibration; train ranks 2/3 source; dev rank 1 support; dev rank 2 query",
+    "excluded_prior_contact_generators": [
+      "4ec8de5",
+      "6c2c621",
+      "82e2fac",
+      "afc0fce"
+    ],
+    "excluded_calibration_generators": [
+      "692c77d",
+      "82e2fac"
+    ],
+    "excluded_main_study_generators": [
+      "4ec8de5",
+      "692c77d",
+      "6c2c621",
+      "82e2fac",
+      "afc0fce"
+    ],
+    "official_split_sha256": {
+      "train": "93d9fe71e7a2e3b7529803d4a20b604f4ebf5ae806f321081140238068189d37",
+      "dev": "9fa976589300ea8905708257144d801d1604b06d85fb0181e381df8a3ba85001"
+    },
+    "semantic_domain_claim": "One broad personal-apps domain; role IDs do not establish semantic-domain transfer",
+    "instruction_content_used_for_selection": false,
+    "held_out_instructions_read": false,
+    "calibration_instructions_read_during_preparation": false,
+    "official_test_lists_read": false,
+    "replacement_based_on_outcomes_allowed": false
+  },
+  "calibration": {
+    "generator_id": "692c77d",
+    "benchmark_split": "train",
+    "task_ids": [
+      "692c77d_1",
+      "692c77d_2",
+      "692c77d_3"
+    ],
+    "initial_protocol_task_id": "692c77d_1",
+    "whole_generator_excluded_from_main_study": true,
+    "planned_initial_episodes": 1,
+    "max_actor_requests_initial_episode": 24,
+    "remaining_variants_reserved_only": true,
+    "public_spec_sha256": {
+      "692c77d_1": "743e552cd62a25f7d7cca0c3e5b6c029cd3c40764bb17403162e16dc860d2474",
+      "692c77d_2": "02025df09da5e4fc20ad8a8321e5224dc44e6e1e0f9cbb98cec0e0f2237433cf",
+      "692c77d_3": "7ee4ab779a37f6ba71517b5da53040122ecf93b79b159fad844e6b1307497fe0"
+    }
+  },
+  "domains": {
+    "source.personal_apps": {
+      "profile": {
+        "description": "Personal digital tasks in a stateful world of documented application APIs. Discover the relevant public APIs, carry out the requested operations, and check the resulting state before completing the task.",
+        "profile_source": "Handwritten benchmark-level prior; no held-out task content"
+      },
+      "features": {
+        "documented_api_environment": 1.0,
+        "stateful_application_world": 1.0
+      }
+    },
+    "target.personal_apps": {
+      "profile": {
+        "description": "Personal digital tasks in a stateful world of documented application APIs. Discover the relevant public APIs, carry out the requested operations, and check the resulting state before completing the task.",
+        "profile_source": "Handwritten benchmark-level prior; no held-out task content"
+      },
+      "features": {
+        "documented_api_environment": 1.0,
+        "stateful_application_world": 1.0
+      }
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "ce359b5_1",
+      "generator_id": "ce359b5",
+      "domain_id": "source.personal_apps",
+      "split": "source",
+      "benchmark_split": "train",
+      "public_spec_sha256": "619ffa4fa117ba5a9f4049a7cc0374e5182d572a3c2c0bf713bf8ee37c02b461"
+    },
+    {
+      "task_id": "ce359b5_2",
+      "generator_id": "ce359b5",
+      "domain_id": "source.personal_apps",
+      "split": "source",
+      "benchmark_split": "train",
+      "public_spec_sha256": "da2f01e9434cb501cc0ca634acf0fd25602015b59dea4b783def829317529288"
+    },
+    {
+      "task_id": "ce359b5_3",
+      "generator_id": "ce359b5",
+      "domain_id": "source.personal_apps",
+      "split": "source",
+      "benchmark_split": "train",
+      "public_spec_sha256": "81f097a8d82eaeb467645e8a66b3315adcb1da9328ae1e8917f2c70524d77a6a"
+    },
+    {
+      "task_id": "27e1026_1",
+      "generator_id": "27e1026",
+      "domain_id": "source.personal_apps",
+      "split": "source",
+      "benchmark_split": "train",
+      "public_spec_sha256": "3435369f781eb1e918fa98462660e8a9c8ec6e8f3b84cf06bf18e35fc418ba34"
+    },
+    {
+      "task_id": "27e1026_2",
+      "generator_id": "27e1026",
+      "domain_id": "source.personal_apps",
+      "split": "source",
+      "benchmark_split": "train",
+      "public_spec_sha256": "6d0ffb17ac3cb33a05953ea15cece6112bbb6f01ba98a7e85aa691e4d050bc36"
+    },
+    {
+      "task_id": "27e1026_3",
+      "generator_id": "27e1026",
+      "domain_id": "source.personal_apps",
+      "split": "source",
+      "benchmark_split": "train",
+      "public_spec_sha256": "d35c0ff1a23ce4435b8d33ecc3deb5ba19a0dec400bf6be9ca0d040deefd1fc0"
+    },
+    {
+      "task_id": "6bdbc26_1",
+      "generator_id": "6bdbc26",
+      "domain_id": "target.personal_apps",
+      "split": "support",
+      "benchmark_split": "dev",
+      "public_spec_sha256": "8eb9c8744983027fce0fea8f7db6f941bcc5fb5428e39b7b950c6fba5993b28b"
+    },
+    {
+      "task_id": "6bdbc26_2",
+      "generator_id": "6bdbc26",
+      "domain_id": "target.personal_apps",
+      "split": "support",
+      "benchmark_split": "dev",
+      "public_spec_sha256": "ee4c9a9397a960ac4ca493376745cdc36671dc7abeec4a40292ecf3480c218e6"
+    },
+    {
+      "task_id": "6bdbc26_3",
+      "generator_id": "6bdbc26",
+      "domain_id": "target.personal_apps",
+      "split": "support",
+      "benchmark_split": "dev",
+      "public_spec_sha256": "e8c0afd8fdf493d0f1845888994282121c9f0920910eb9f35abe012b5db5f49e"
+    },
+    {
+      "task_id": "6171bbc_1",
+      "generator_id": "6171bbc",
+      "domain_id": "target.personal_apps",
+      "split": "query",
+      "benchmark_split": "dev",
+      "public_spec_sha256": "496e7329ebbb3190e791f4b889ded78218bb4a5a391e8f48730a8bee12458ffb"
+    },
+    {
+      "task_id": "6171bbc_2",
+      "generator_id": "6171bbc",
+      "domain_id": "target.personal_apps",
+      "split": "query",
+      "benchmark_split": "dev",
+      "public_spec_sha256": "0bd42f137b5bd17b78a61e70a3acbae769ba6eab1adf6e85140a859824792e95"
+    },
+    {
+      "task_id": "6171bbc_3",
+      "generator_id": "6171bbc",
+      "domain_id": "target.personal_apps",
+      "split": "query",
+      "benchmark_split": "dev",
+      "public_spec_sha256": "5d4efbe399136914d147830f7fa4b5d36306a895e9d50189305a10da1ad3bdfc"
+    }
+  ]
+}

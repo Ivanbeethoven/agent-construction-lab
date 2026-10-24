@@ -25,9 +25,12 @@ def main():
     parser.add_argument("--manifest-sha256")
     parser.add_argument("--study-config")
     parser.add_argument("--calibration-task")
+    parser.add_argument("--calibration-max-steps", type=int)
     parser.add_argument("--resume-from")
     parser.add_argument("--resume-anchor")
     args = parser.parse_args()
+    if args.calibration_max_steps is not None and not 1 <= args.calibration_max_steps <= 100:
+        parser.error("--calibration-max-steps must be between 1 and 100")
     root = Path(__file__).resolve().parents[1]
     model = json.loads((root / args.model_config).read_text(encoding="utf-8"))
     with closing(sqlite3.connect(args.database.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
@@ -54,10 +57,10 @@ def main():
     command = prefix + ["--cd", wsl_root, "--exec", args.python, "scripts/run_appworld_live.py",
         "--credentials-stdin", "--model-config", args.model_config, "--appworld-root", args.appworld_root,
         "--out", args.out]
-    for field in ("manifest", "manifest_sha256", "study_config", "calibration_task", "resume_from", "resume_anchor"):
+    for field in ("manifest", "manifest_sha256", "study_config", "calibration_task", "calibration_max_steps", "resume_from", "resume_anchor"):
         value = getattr(args, field)
         if value:
-            command.extend(["--" + field.replace("_", "-"), value])
+            command.extend(["--" + field.replace("_", "-"), str(value)])
     # Child stdout/stderr contain study diagnostics only; the key is never echoed.
     return subprocess.run(command, input=json.dumps({"api_key": key}), text=True, encoding="utf-8").returncode
 

@@ -25,8 +25,11 @@ from scripts.resume_appworld_construction import _source_generation_hash
 REPOSITORY = Path(__file__).resolve().parents[1]
 HASH = re.compile(r"[0-9a-f]{64}\Z")
 IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*\Z")
+FINISH_COUNTS = ("explicit_finish_count", "auto_final_count", "protocol_violation_count", "protocol_repairs_used", "protocol_repair_requests")
+FINISH_FIELDS = ("finish_mode", *FINISH_COUNTS)
 QUERY_FIELDS = ("task_id", "domain", "condition", "construction_seed", "execution_seed", "success",
-                "score", "tool_steps", "failure_type", "harness_sha256", "valid_task_outcome", "execution_healthy", "finished")
+                "score", "tool_steps", "failure_type", "harness_sha256", "valid_task_outcome", "execution_healthy", "finished",
+                "finish_audit_available", *FINISH_FIELDS)
 FAILURES = {None, "task_not_solved", "step_budget_exhausted", "context_budget_exhausted", "invalid_action"}
 RESUME_FILES = {"task_manifest.json", "model_config.json", "study_config.json", "run_provenance.json",
                 "run_status.json", "episodes.jsonl", "source_pairs.jsonl", "constructor_library.json",
@@ -35,14 +38,13 @@ RESUME_RUNTIME = {"agent_construction_lab/fixed_model/constructors.py", "agent_c
 MODEL_FIELDS = ("model", "model_snapshot", "expected_response_model", "temperature", "top_p", "reasoning_effort",
                 "max_output_tokens", "max_tokens_parameter", "send_seed", "use_tools", "retries", "timeout",
                 "input_price_per_million", "output_price_per_million", "cached_input_price_per_million",
-                "pricing_version", "max_model_calls", "max_total_tokens", "request_token_reserve")
+                "pricing_version", "max_model_calls", "max_total_tokens", "request_token_reserve",
+                "actor_protocol", "actor_protocol_max_repairs")
 LIMITATIONS = [
     "本结果仅为真实模型与 AppWorld 的小规模工程试验；不是官方排行榜成绩。",
     "费用由配置费率和提供方 token 用量估算，不是官方账单；预检及校准费用另列。",
     "DeepSeek 返回的模型别名不证明底层权重不可变，文档版本声明不等同于快照证明。",
     "send_seed=False 时种子仅作实验配对索引，不保证模型输出确定性。",
-    "一个源 generator 且公开特征恒定，不能证明 F 的条件学习或迁移优越性。",
-    "一个目标域、三个 query 任务不足以作统计推断；单域 bootstrap 区间不能解释为显著性证据。",
     "同一域和构造种子下使用相同 harness 的条件，其执行成绩差异不能归因为方法增益。",
     "任务成功是 AppWorld 官方终态评分的结果；成功不等于执行健康或已显式结束。",
     "公开导出不包含任务原文、轨迹、提示、模拟账户密码或私有评估细节。",
@@ -116,19 +118,101 @@ def _public_usage(values):
     return {key: number(values[key], nullable=True) for key in fields if key in values}
 
 
-def _execution_health(rows):
+def _execution_health(rows, *, episode_key="query_episodes"):
     """Keep task scoring separate from execution and termination status."""
     for row in rows:
         for field in ("success", "valid_task_outcome", "execution_healthy", "finished"):
             if type(row.get(field)) is not bool:
-                raise ValueError("Query execution health flags must be explicit booleans")
+                raise ValueError("Execution health flags must be explicit booleans")
+        if row.get("failure_type") not in FAILURES:
+            raise ValueError("Unknown execution failure category")
     clean = lambda row: row["execution_healthy"] and row["finished"]
-    return {"query_episodes": len(rows), "task_successes": sum(row["success"] for row in rows),
+    return {episode_key: len(rows), "task_successes": sum(row["success"] for row in rows),
         **{field: {"true": sum(row[field] for row in rows), "false": sum(not row[field] for row in rows)}
            for field in ("valid_task_outcome", "execution_healthy", "finished")},
         "clean_finishes": sum(clean(row) for row in rows),
         "failure_types": dict(sorted(Counter(row.get("failure_type") or "none" for row in rows).items())),
         "success_with_execution_issue": sum(row["success"] and not clean(row) for row in rows)}
+
+
+def _finish_fields(row, model, *, ledger=None, physical_calls=None):
+    """Only publish bounded enums/counts; old missing audit data stays unknown."""
+    present = {field for field in FINISH_FIELDS if field in row}
+    if row.get("actor_protocol", model.actor_protocol) != model.actor_protocol:
+        raise ValueError("Episode actor protocol differs from model configuration")
+    if not present and model.actor_protocol == "v1":
+        return {"finish_audit_available": False, **{field: None for field in FINISH_FIELDS}}
+    if present != set(FINISH_FIELDS):
+        raise ValueError("Incomplete finish protocol audit")
+    mode = row["finish_mode"]
+    if mode is not None and (not isinstance(mode, str) or mode not in {"explicit_tool", "explicit_json"}):
+        raise ValueError("Unknown public finish mode")
+    counts = {field: row[field] for field in FINISH_COUNTS}
+    if any(type(value) is not int or value < 0 for value in counts.values()):
+        raise ValueError("Finish protocol counters must be nonnegative integers")
+    if (counts["auto_final_count"] != 0 or counts["explicit_finish_count"] != int(mode is not None)
+            or type(row.get("finished")) is not bool or row["finished"] != (mode is not None)
+            or counts["protocol_repairs_used"] > (model.actor_protocol_max_repairs if model.actor_protocol != "v1" else 0)
+            or counts["protocol_violation_count"] < counts["protocol_repairs_used"]
+            or counts["protocol_repair_requests"] < counts["protocol_repairs_used"]
+            or (counts["protocol_repairs_used"] == 0 and counts["protocol_repair_requests"] != 0)
+            or model.actor_protocol == "v2_required_tools" and mode == "explicit_json"):
+        raise ValueError("Finish protocol audit is inconsistent")
+    if ledger is not None:
+        repair_ids = row.get("protocol_repair_attempt_ids")
+        if (not isinstance(repair_ids, list) or any(not isinstance(value, str) for value in repair_ids)
+                or len(set(repair_ids)) != len(repair_ids) or not set(repair_ids) <= set(row["attempt_ids"])):
+            raise ValueError("Protocol repair attempts must belong uniquely to their episode")
+        actual = sum(ledger[value].get("request_sent") is True for value in repair_ids)
+        if counts["protocol_repair_requests"] != actual:
+            raise ValueError("Protocol repair count differs from physical requests")
+        physical_calls = sum(ledger[value].get("request_sent") is True for value in row["attempt_ids"])
+    if physical_calls is not None and counts["protocol_repair_requests"] > physical_calls:
+        raise ValueError("Protocol repair requests exceed the episode request count")
+    if physical_calls is not None and counts["protocol_violation_count"] + counts["explicit_finish_count"] > physical_calls:
+        raise ValueError("Protocol outcomes exceed the episode request count")
+    return {"finish_audit_available": True, "finish_mode": mode, **counts}
+
+
+def _finish_summary(audits):
+    known = [row for row in audits if row["finish_audit_available"]]
+    unknown = len(audits) - len(known)
+    totals = {field: sum(row[field] for row in known) for field in FINISH_COUNTS}
+    return {"audited_episodes": len(known), "unknown_legacy_episodes": unknown,
+        "finish_modes": dict(sorted(Counter(row["finish_mode"] or "unfinished" for row in known).items())),
+        "known_counts": totals, **{key: None if unknown else value for key, value in totals.items()}}
+
+
+def _manifest_design(manifest):
+    result = {}
+    domains = set()
+    for stage in ("source", "support", "query"):
+        tasks = [task for task in manifest["tasks"] if task["split"] == stage]
+        selected_domains = {task["domain_id"] for task in tasks}
+        domains.update(selected_domains)
+        result[stage] = {"tasks": len(tasks), "generators": len({task["generator_id"] for task in tasks}),
+                         "domains": len(selected_domains), "public_feature_vectors": len({
+                             digest(manifest["domains"][name]["features"]) for name in selected_domains})}
+    result["registered_public_feature_vectors"] = len({digest(manifest["domains"][name]["features"]) for name in domains})
+    result["constant_public_features"] = result["registered_public_feature_vectors"] == 1
+    return result
+
+
+def _limitations(design):
+    source, query = design["source"], design["query"]
+    limitations = list(LIMITATIONS)
+    limitations.append(f"Source 包含 {source['generators']} 个 generator、{source['tasks']} 个任务、{source['domains']} 个域和 "
+                       f"{source['public_feature_vectors']} 种公开特征向量；generator 数量不等于独立特征条件的重复。")
+    if design["constant_public_features"]:
+        limitations.append("所有已注册 source/support/query 域使用同一公开特征向量；此设计不能证明 F 的条件学习或迁移收益。")
+    elif source["public_feature_vectors"] <= 1:
+        limitations.append("Source 仅有一种公开特征条件，无法据此识别条件学习效应；迁移收益需要独立域验证。")
+    else:
+        limitations.append("公开特征与 generator 数量本身不建立条件学习或迁移收益；需要独立域上的对照验证。")
+    limitations.append(f"Query 包含 {query['domains']} 个目标域、{query['generators']} 个 generator、{query['tasks']} 个任务；"
+                       + ("域数量不足以支持强统计推断；单域 bootstrap 区间不能解释为显著性证据。"
+                          if query["domains"] < 10 else "推断范围仍受域抽样、独立重复和预注册设计限制。"))
+    return limitations
 
 
 def _harness_equivalence_groups(rows):
@@ -305,6 +389,15 @@ def _extras(model, environment_report, preflight_report, calibration_summary):
              "tool_steps": number(raw["tool_steps"]), "failure_type": raw.get("failure_type"),
              "model_calls": number(usage["model_calls"]), "usage": _public_usage(normalized),
              "cost_basis": "study_configured_rates_applied_to_calibration_usage"}
+        extras["calibration"].update(_finish_fields(raw, model, physical_calls=_integer(usage["model_calls"])))
+        extras["calibration"]["actor_protocol"] = model.actor_protocol
+        for field in ("valid_task_outcome", "execution_healthy", "finished"):
+            if field in raw:
+                if type(raw[field]) is not bool:
+                    raise ValueError("Calibration health flags must be boolean")
+                extras["calibration"][field] = raw[field]
+        if model.actor_protocol == "v2_required_tools" and not all(field in raw for field in ("execution_healthy", "finished")):
+            raise ValueError("V2 calibration requires execution health flags")
     charged = [item for key, item in extras.items() if key in {"preflight", "calibration"}]
     extras["additional_spend"] = {"model_calls": sum(item["model_calls"] for item in charged),
         "total_tokens": sum(item["usage"]["total_tokens"] for item in charged),
@@ -389,11 +482,14 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
         if row.get("cost_usd") is not None and number(row["cost_usd"]) < 0:
             raise ValueError("Provider cost cannot be negative")
     task_roles = {task["task_id"]: (task["domain_id"], task["split"]) for task in local["tasks"]}
+    usage_by_id = {row["attempt_id"]: row for row in usage}
+    finish_audits = {}
     for row in episodes:
         if row.get("valid_task_outcome") is not True or row.get("infrastructure_error"):
             raise ValueError("Completed run contains an invalid task outcome")
         if row.get("stage") not in {"source", "support", "query"} or task_roles.get(row.get("task_id")) != (row.get("domain"), row.get("stage")):
             raise ValueError("Episode task/domain/stage differs from registered manifest")
+        finish_audits[row["episode_id"]] = _finish_fields(row, model, ledger=usage_by_id)
     expected_conditions = {f"{method}@{budget}" for method in config.methods if "+R" in method for budget in config.rsi_budgets}
     expected_conditions.update(method for method in config.methods if "+R" not in method)
     expected_conditions.update("F-" + ablation for ablation in config.ablations)
@@ -420,7 +516,8 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
         check_identifier(row["task_id"]); check_identifier(row["domain"]); check_hash(row["harness_sha256"])
         for field in ("score", "tool_steps", "construction_seed", "execution_seed"):
             number(row[field])
-        safe_queries.append({field: row[field] for field in QUERY_FIELDS})
+        safe_queries.append({field: finish_audits[row["episode_id"]][field] if field in {"finish_audit_available", *FINISH_FIELDS}
+                             else row[field] for field in QUERY_FIELDS})
     if not expected_keys or any(keys != expected_keys for keys in grouped.values()):
         raise ValueError("Conditions are missing paired query tasks or seeds")
     if {row["episode_id"] for row in queries} != {row["episode_id"] for row in episodes if row["stage"] == "query"}:
@@ -428,6 +525,16 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
     health = {"overall": _execution_health(queries), "by_condition": {
         condition: _execution_health([row for row in queries if row["condition"] == condition])
         for condition in sorted(expected_conditions)}}
+    health["overall"]["finish_audit"] = _finish_summary([finish_audits[row["episode_id"]] for row in queries])
+    for condition, values in health["by_condition"].items():
+        values["finish_audit"] = _finish_summary([finish_audits[row["episode_id"]] for row in queries if row["condition"] == condition])
+    stage_health = {}
+    for stage in ("source", "support", "query"):
+        selected = [row for row in episodes if row["stage"] == stage]
+        stage_health[stage] = _execution_health(selected, episode_key="episodes")
+        stage_health[stage]["finish_audit"] = _finish_summary([finish_audits[row["episode_id"]] for row in selected])
+    design = _manifest_design(public)
+    limitations = _limitations(design)
     equivalence = _harness_equivalence_groups(queries)
     calculated = summarize(queries, episodes, constructions, usage, config, mock=False)
     saved = read_json(run / "summary.json")
@@ -457,15 +564,16 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
             "source_cost_included", "cold_total_tokens_including_source", "source_amortized_total_tokens_per_query_episode")}
         methods[condition]["measured_method_usage"] = _public_usage(values["measured_method_usage"])
     report = {"schema_version": 1, "completed": True, "mock_model": False, "benchmark": "appworld",
-        "scope": "small_engineering_pilot_not_statistical_evidence", "limitations": LIMITATIONS,
+        "scope": "small_engineering_pilot_not_statistical_evidence", "limitations": limitations,
         "verification": {"frozen_harnesses": verification["frozen_harnesses"], "paired_query_keys_match": True,
                          "physical_attempts_have_unique_owners": True, "source_hashes_match_current": True},
         "provenance": {field: provenance[field] for field in ("manifest_sha256", "model_config_sha256", "study_config_sha256", "code_revision", "source_sha256")},
         "public_manifest_sha256": digest(public), "public_manifest": public_manifest_fields(public),
-        "model_config": {field: model_raw.get(field) for field in MODEL_FIELDS}, "study_config": asdict(config),
+        "model_config": {field: getattr(model, field) for field in MODEL_FIELDS}, "study_config": asdict(config),
         "dependency_versions": dependencies,
         "methods": methods, "paired_differences": calculated["paired_differences"],
         "harness_equivalence_groups": equivalence, "execution_health": health,
+        "stage_execution_health": stage_health, "manifest_design": design,
         "total_actual_usage": _public_usage(calculated["total_actual_usage"]), "source_usage": _public_usage(calculated["source_usage"]),
         "actual_episode_counts": calculated["actual_episode_counts"],
         "extra_validation": _extras(model, environment_report, preflight_report, calibration_summary)}
@@ -506,7 +614,16 @@ def export_results(run, public_manifest, out, *, environment_report=None, prefli
         readme += ["本次为首次构造失败后的显式续跑：完整复用原 source 记录，重新执行全部构造、support 和 query。",
             f"历史失败构造开销：{historical['model_calls']} 次调用、{historical['total_tokens']} token，已含在上述累计研究用量中，不能再次相加。",
             "该开销不作为方法成绩；构造提示及总 token 上限的修订和原证据锚点见 report.json。", ""]
-    readme.extend("- " + limitation for limitation in LIMITATIONS)
+    readme += ["各阶段健康与收尾统计（由实际 episode 记录重算；未记录的旧审计字段保留未知）：", "",
+        "| 阶段 | 执行数 | 终态成功 | 健康且结束 | 明确 finish | 修复轮次 | 修复物理请求 | 未记录审计 |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|"]
+    for stage, values in stage_health.items():
+        audit = values["finish_audit"]
+        display = lambda key: "未知" if audit[key] is None else str(audit[key])
+        readme.append(f"| {stage} | {values['episodes']} | {values['task_successes']} | {values['clean_finishes']} | "
+            f"{display('explicit_finish_count')} | {display('protocol_repairs_used')} | {display('protocol_repair_requests')} | {audit['unknown_legacy_episodes']} |")
+    readme.append("")
+    readme.extend("- " + limitation for limitation in limitations)
     out.mkdir(parents=True, exist_ok=True)
     write_json(out / "report.json", report)
     with (out / "query_metrics.csv").open("w", encoding="utf-8", newline="") as stream:

@@ -65,3 +65,29 @@ python scripts/export_appworld_results.py \
 全部 21 次 query 都获得一次私有的官方终态评分，10 次通过，但执行健康与任务成功必须分开：17 次最后返回普通文本，没有使用 `finish` 工具或 JSON，导致 `invalid_action`；4 次耗尽 12 步。17 次响应均非空且 `finish_reason=stop`，不是输出截断；10 个成功 episode 均已有官方终态 pass。没有基础设施错误，也没有把这些协议错误隐藏为正常结束。本轮运行和评分保持原样；后续应在独立开发任务上改进结束协议，再预注册更大规模实验。
 
 Windows 与 WSL/Linux 在启动修复后的真实运行前均通过 208 项单元/集成测试。公开导出的后续诊断增强不改变执行源码、任务、提示或实际成绩；其检查记录见根目录 `APPWORLD_VALIDATION.json`。原重建验收记录单独保留。
+
+## 第二轮独立任务主试验运行中
+
+2026-10-24，第二轮使用提交 `549ba88374181ec861bc80b99c75b9eb4a31cb00` 启动 `runs/local-live/deepseek-appworld-round2-001/`。本节仅记录已完成的校准和启动事实；主试验结果尚待完成后审计。完整任务选择、隔离规则、预算与哈希见[第二轮计划](APPWORLD_ROUND2.md)。第一轮原始记录和公开结果均保留，不用第二轮结果覆盖。
+
+本轮排除所有第一轮接触的 generator，固定六个 source、三个 support、三个 query 任务，另留 `692c77d` 整组作独立协议校准。与第一轮相比，actor 协议改为 `v2_required_tools`，最多一次纠正；纠正消耗本 episode 的 24 步额度。每请求最多输出 1,024 tokens。任务组、步数、输出上限和协议同时变化，不能用跨轮成绩差异孤立估计协议修复效果。当前特征仍为常量；相同 harness 也不能被解释成不同优化策略。
+
+校准仅运行 `692c77d_1`，使用[校准配置](../configs/deepseek_flash_round2_calibration.json)，上限 24 步。记录显示有效官方评分成功、显式 `finish`、正常执行，0 次协议违规、0 次纠正、0 次失败请求。实际消耗 **11 次请求、66,343 tokens、估算 0.002192496 USD**。校准记录的全部 26 个执行源码哈希与主试验启动源码一致；该校准不是 query 结果。启动器的 24 步转发和两个入口对 0/101 的拒绝在 Windows、WSL 各通过 18 项凭据隔离测试，测试没有真实 API 调用。
+
+第二轮没有新增独立付费预检，因此[主模型配置](../configs/deepseek_flash_round2.json)从总限额扣除校准后为 **2,789 次请求、23,933,657 tokens**；主阶段与校准合计上限仍是 2,800 次、24,000,000 tokens、10 USD。两份模型配置仅预算字段不同。运行结束后按实际账本分别列出主阶段、校准和项目累计支出，不能复制第一轮累计账本相加。
+
+以下是已启动的主命令记录；本地原始目录由现有进程持有，不覆盖或重复启动：
+
+```powershell
+.venv/Scripts/python.exe scripts/run_with_ccswitch.py `
+  --distribution Ubuntu-24.04 `
+  --python /home/hxy/.venvs/acl-appworld-py312/bin/python `
+  --model-config configs/deepseek_flash_round2.json `
+  --appworld-root /home/hxy/acl-appworld-data `
+  --manifest runs/local-live/appworld_round2.manifest.local.json `
+  --manifest-sha256 ee53c683c4a19edd8ae0b951447d3b2df5b392ea341a9d5238b41d0cd48ae126 `
+  --study-config configs/appworld_round2.json `
+  --out runs/local-live/deepseek-appworld-round2-001
+```
+
+主模型配置规范哈希为 `3f6dd8f4b313da580f15c3a2d783cdabb13d9e3b50fa2ecd92ee712c6cc44448`，StudyConfig 规范哈希为 `70acdece9899f0dc91df6f1b570fe2be25874a6ef68f01a38a5a9672e948a54e`，均与本地运行目录中保存的配置一致。任务和 query 前冻结约束遵循[固定协议](FIXED_MODEL_PROTOCOL.md)。截至本次文档更新，没有读取主运行的 query 成绩或文案，也未报告未知结果。

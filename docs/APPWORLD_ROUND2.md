@@ -1,6 +1,6 @@
 # 第二轮 AppWorld 独立任务清单与执行计划
 
-**状态（2026-10-24）：仅完成任务准备和无模型测试，尚无第二轮执行成绩。** 下列数量是预先声明的设计和上限，不是已运行结果。选择 seed `20261025` 是固定抽样参数，不表示实际运行日期。模型配置、修复后的 runtime 和校准用量仍须在正式运行前分别冻结。
+**状态（2026-10-24）：独立协议校准已完成，主试验 `deepseek-appworld-round2-001` 已启动，结果待完成后审计。** 主试验使用提交 `549ba88374181ec861bc80b99c75b9eb4a31cb00`；冻结参数和已完成的校准证据见文末。下列 episode 数量是预先声明的设计上限，不是主试验已运行结果。选择 seed `20261025` 是固定抽样参数，不表示实际运行日期。
 
 本轮承接[第一轮工程验收](APPWORLD_PILOT.md#2026-10-24-已执行结果与审计)发现的结束协议问题，使用全新的任务 generator 检查新协议。第一轮记录保持原样；本轮不是对第一轮 query 重新评分，也不导入其 source 学习数据。新旧任务组隔离不等于证明模型训练数据从未包含 benchmark。
 
@@ -12,7 +12,7 @@
 
 | 用途 | 官方 split | generator | 固定任务 ID |
 | --- | --- | --- | --- |
-| 独立协议校准 | train | `692c77d` | 首次只计划 `692c77d_1`；`_2`、`_3` 同组保留，不进入主试验 |
+| 独立协议校准 | train | `692c77d` | 实际仅运行 `692c77d_1`；`_2`、`_3` 同组保留，不进入主试验 |
 | source 组一 | train | `ce359b5` | `ce359b5_1`、`ce359b5_2`、`ce359b5_3` |
 | source 组二 | train | `27e1026` | `27e1026_1`、`27e1026_2`、`27e1026_3` |
 | support | dev | `6bdbc26` | `6bdbc26_1`、`6bdbc26_2`、`6bdbc26_3` |
@@ -28,7 +28,7 @@
 
 增加到两个 source generator 只能增加任务模板覆盖，**仍无法识别依赖领域特征的条件化迁移效应**。query 仅一个 generator 的三个相关变体，不能提供充分统计检验。所有 source 成败结果都保留；不因 source 全零、support 过易、构造产物相同或 query 成绩不佳而换题。跨条件不强制生成不同 harness；若哈希相同，成绩差异不得归因为方法改进。
 
-父线程批准的第二轮协议方向为：要求工具动作、最多一次有界格式纠正，纠正调用占用同一 episode 的 24 步和实际 token/调用预算，不允许隐藏额外步数。实现和模型端支持须经独立校准验证并记录最终代码/配置哈希；这里不宣称该协议已经运行通过。校准检查终态评分是否有效、是否显式 finish、动作契约及完整用量。基础设施异常不进入源学习标签；actor 协议违规单独标注并保留证据，不能改写仍然有效的官方终态分数，也不能把有效评分表述成执行协议正常。
+第二轮冻结的协议为 `v2_required_tools`：要求工具动作、最多一次有界格式纠正，纠正调用占用同一 episode 的 24 步和实际 token/调用预算，不允许隐藏额外步数；实现见[固定模型协议](FIXED_MODEL_PROTOCOL.md)。独立校准已检验终态评分、显式 finish、动作契约及完整用量；一次校准通过不保证全部主任务正常结束。基础设施异常不进入源学习标签；actor 协议违规单独标注并保留证据，不能改写仍然有效的官方终态分数，也不能把有效评分表述成执行协议正常。
 
 先完成独立校准，再开始固定清单的主试验。七条件与所有 support 优化结束后，在第一条 query 前冻结全部 harness、配置及 runtime 哈希。query 开始后不再修改该轮设计、提示或实现，不据 query 成绩选择替代任务。若后续需要修复，使用新的声明和独立任务；已有调用不能从累计成本中删除。
 
@@ -81,8 +81,27 @@ GEPA 的 4 是 evaluator callback 上限；每次有效 callback 都展开完整
 | --- | --- |
 | 公开 manifest（规范 JSON） | `0c00c00b93477de336d28dac7dfe5eac0f59c04d419cd82467f0f1508f394c9d` |
 | 本地完整 manifest（规范 JSON） | `ee53c683c4a19edd8ae0b951447d3b2df5b392ea341a9d5238b41d0cd48ae126` |
-| 准备时 StudyConfig（含默认字段，规范 JSON） | `70acdece9899f0dc91df6f1b570fe2be25874a6ef68f01a38a5a9672e948a54e` |
+| 准备及实际主试验 StudyConfig（含默认字段，规范 JSON） | `70acdece9899f0dc91df6f1b570fe2be25874a6ef68f01a38a5a9672e948a54e` |
 | 官方 train ID 文件（字节） | `93d9fe71e7a2e3b7529803d4a20b604f4ebf5ae806f321081140238068189d37` |
 | 官方 dev ID 文件（字节） | `9fa976589300ea8905708257144d801d1604b06d85fb0181e381df8a3ba85001` |
 
-准备脚本已在真实 WSL AppWorld 数据上完成；9 项测试在 Windows 和 WSL 均通过。准备过程没有请求模型，没有运行 task episode，没有读取官方 test、gold 或 query 文案。这里仅记录计划和准备证据；实际成绩、冻结产物、用量和异常必须在真实运行结束后另行追加。
+准备脚本已在真实 WSL AppWorld 数据上完成；9 项测试在 Windows 和 WSL 均通过。准备过程没有请求模型，没有运行 task episode，没有读取官方 test、gold 或 query 文案。以下区分已完成的校准与尚在运行的主试验；主试验成绩、最终冻结产物、用量和异常须在完成后另行审计。
+
+## 2026-10-24 校准完成与主试验启动
+
+独立校准目录为本地忽略的 `runs/local-live/deepseek-round2-calibration-001/`。仅执行预先选定的 `692c77d_1`，每题上限 24 步；该 generator 的全部三个变体均未进入主试验。校准有 10 次环境工具动作，随后一次显式 `finish` 请求；`valid_task_outcome=true`、官方 `score=1.0`、`success=true`、`execution_healthy=true`、`finished=true`、`finish_mode=explicit_tool`。协议违规、纠正及失败请求均为 0，没有使用自动结束。
+
+校准实际使用 **11 次请求、66,343 tokens、估算 0.002192496 USD**：输入 65,020、输出 1,323，其中缓存输入 56,832。输入、输出、总 token 和费用字段完整；提供方未返回独立 reasoning-token 数量，不能把该字段当作已知的零。费用使用已冻结的离峰配置费率计算，不是服务商发票。
+
+校准摘要的 26 个 `source_sha256` 与主试验启动时的执行源码逐一相同，当前执行提交为 `549ba88374181ec861bc80b99c75b9eb4a31cb00`。校准模型配置与主配置只有 `max_model_calls`、`max_total_tokens` 两个预算字段不同；模型别名、采样、工具协议、输出长度等保持相同。规范 JSON 哈希使用仓库 `_io.digest`，不是缩进文件的字节哈希。
+
+| 冻结对象 | SHA-256 |
+| --- | --- |
+| [主模型配置](../configs/deepseek_flash_round2.json)，含默认字段 | `3f6dd8f4b313da580f15c3a2d783cdabb13d9e3b50fa2ecd92ee712c6cc44448` |
+| [校准模型配置](../configs/deepseek_flash_round2_calibration.json)，含默认字段 | `213b4932360d3bb841b4789d92cea730c8bb7c5b0e0b0c878efe9e582cb53809` |
+| [主 StudyConfig](../configs/appworld_round2.json)，含默认字段 | `70acdece9899f0dc91df6f1b570fe2be25874a6ef68f01a38a5a9672e948a54e` |
+| 本地 `calibration_summary.json`（文件字节） | `a32a5f400d2063c56ed6939a4f5988a75e8ff730c877f3e113cbd070193d7d47` |
+
+原计划为独立 provider 预检预留一次请求；本轮实际没有另发该请求，已发生的额外调用只有以上校准。主试验上限已按实际扣减为 **2,789 次请求、23,933,657 tokens**，与校准合计仍不超过 2,800 次和 24,000,000 tokens。第一轮预检及其费用仍归第一轮，不能重复记入本轮。主配置每次输出上限 1,024，保守准入预留 1,048,576 tokens；本轮总费用上限仍为 10 USD。
+
+主试验目录是 `runs/local-live/deepseek-appworld-round2-001/`，重新采集全部 66 个 source 设计单元，不导入第一轮的 source 或费用账本。此处记录启动事实，尚不宣称主阶段全部完成、所有目标 harness 已冻结或 query 有任何成绩。实际启动命令见[真实运行记录第二轮章节](APPWORLD_LIVE_RUN.md#第二轮独立任务主试验运行中)。完成后须核验全部调用归属、query 前冻结、官方评分与执行健康、同 harness 分组及公开脱敏，再追加结果。

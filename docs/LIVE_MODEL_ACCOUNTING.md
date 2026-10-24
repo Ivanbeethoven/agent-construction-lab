@@ -63,6 +63,10 @@ labels. The final status includes `spending_limits`, `stopped_for_budget` and
 
 ## Micro-study request envelope
 
+This section records the first pilot's envelope. The independent second round
+uses the separate configuration and accounting described below; it does not
+reuse or subtract the first pilot's source calls.
+
 The frozen micro-study has three source tasks from one source generator and one
 target domain containing three support tasks and three query tasks. The support
 and query generators are distinct. With all eleven module candidates, one
@@ -126,3 +130,26 @@ Local tests in `tests/test_live_budget.py` exercise actual localhost HTTP,
 including pre-dispatch blocking, retries, missing usage, shared-ledger admission,
 restart accounting, DeepSeek cache fields, and study abort ownership. Their
 scripted responses are engineering validation only.
+
+## Independent AppWorld round two
+
+The fixed second-round design has 6 source tasks, 3 support tasks and 3 query
+tasks: at most 66 + 24 + 21 = 111 study episodes. Each actor episode allows at
+most 24 physical requests, including retries and a possible protocol correction;
+all requests have a 1,024-token output cap. The nominal envelope including one
+24-request calibration and a reserved single preflight is 2,693 calls. Global
+limits remain authoritative if builder or reflection behavior differs.
+
+The combined hard limits are 2,800 calls and 24,000,000 tokens. At peak rates of
+$0.30/M input and $1.20/M output, with no cache discount, their conservative
+cost bound is $9.78048, below the $10 round limit. The run starts on Saturday
+2026-10-24 and records the verified off-peak rates ($0.15/M input, $0.003/M cached
+input, $0.60/M output). Prices are estimates, not a provider invoice.
+[Official pricing](https://api-docs.deepseek.com/quick_start/pricing/).
+
+One independent train calibration actually used 11 calls, 66,343 tokens and
+$0.002192496. No separate paid preflight was used. Therefore the frozen main
+configuration admits at most 2,789 calls and 23,933,657 tokens, with a 1,048,576
+token per-request admission reserve. Every used token and call remains counted;
+an unsuccessful attempt cannot reset this spending pool by changing directories.
+The calibration outcome is recorded separately from benchmark performance.

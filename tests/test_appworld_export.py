@@ -3,6 +3,7 @@
 No real model, AppWorld task or in-progress study is accessed by this suite.
 """
 import copy
+import csv
 from dataclasses import asdict, replace
 import hashlib
 import json
@@ -173,6 +174,17 @@ class AppWorldExportTests(unittest.TestCase):
 
     def _resume_export(self):
         return self.export(preflight_report=self.probe, calibration_summary=self.calibration)
+
+    def _enable_finish_audit(self):
+        self.model = replace(self.model, actor_protocol="v2_required_tools", actor_protocol_max_repairs=1)
+        for row in self.episodes:
+            row.update(actor_protocol="v2_required_tools", finish_mode="explicit_tool" if row["finished"] else None,
+                explicit_finish_count=int(row["finished"]), auto_final_count=0, protocol_violation_count=0,
+                protocol_repairs_used=0, protocol_repair_requests=0, protocol_repair_attempt_ids=[])
+        self.queries = copy.deepcopy([row for row in self.episodes if row["stage"] == "query"])
+        self._write_records()
+        write_json(self.run / "model_config.json", asdict(self.model))
+        self._provenance()
 
     def test_public_export_strips_all_private_fields_and_preserves_metrics(self):
         result = self.export()
@@ -428,6 +440,143 @@ class AppWorldExportTests(unittest.TestCase):
         self._write_records()
         with self.assertRaisesRegex(ValueError, "health flags"):
             self.export()
+
+    def test_legacy_finish_audit_remains_unknown_instead_of_becoming_zero(self):
+        result = self.export()
+        audit = result["execution_health"]["overall"]["finish_audit"]
+        self.assertEqual(audit["unknown_legacy_episodes"], 6)
+        self.assertIsNone(audit["explicit_finish_count"])
+        self.assertIsNone(audit["protocol_repairs_used"])
+        self.assertEqual(result["model_config"]["actor_protocol"], "v1")
+        self.assertEqual(result["stage_execution_health"]["source"]["episodes"], 1)
+        self.assertEqual(result["stage_execution_health"]["support"]["episodes"], 0)
+        with (self.out / "query_metrics.csv").open(encoding="utf-8", newline="") as stream:
+            rows = list(csv.DictReader(stream))
+        self.assertEqual(rows[0]["finish_audit_available"], "False")
+        self.assertEqual(rows[0]["explicit_finish_count"], "")
+
+    def test_v2_stage_health_and_finish_counts_are_recomputed_from_owned_episodes(self):
+        self._enable_finish_audit()
+        support = copy.deepcopy(self.episodes[0])
+        support.update(episode_id="support-episode", task_id="support_1", domain="target.apps", stage="support", condition="F",
+                       execution_healthy=False, finished=False, finish_mode=None, explicit_finish_count=0,
+                       failure_type="invalid_action", protocol_violation_count=2, protocol_repairs_used=1, protocol_repair_requests=1)
+        attempts = []
+        for index in range(2):
+            attempt = copy.deepcopy(self.usage[0])
+            attempt["attempt_id"] = f"attempt-{len(self.usage)+1:08d}"
+            self.usage.append(attempt)
+            attempts.append(attempt["attempt_id"])
+        support.update(attempt_ids=attempts, protocol_repair_attempt_ids=[attempts[-1]])
+        self.episodes.append(support)
+        self._write_records()
+        result = self.export()
+        self.assertEqual(result["model_config"]["actor_protocol"], "v2_required_tools")
+        self.assertEqual(result["model_config"]["actor_protocol_max_repairs"], 1)
+        stages = result["stage_execution_health"]
+        self.assertEqual(stages["source"]["finish_audit"]["explicit_finish_count"], 1)
+        self.assertEqual(stages["query"]["finish_audit"]["explicit_finish_count"], 6)
+        self.assertEqual(stages["support"]["episodes"], 1)
+        self.assertEqual(stages["support"]["execution_healthy"], {"true": 0, "false": 1})
+        self.assertEqual(stages["support"]["finish_audit"]["protocol_violation_count"], 2)
+        self.assertEqual(stages["support"]["finish_audit"]["protocol_repair_requests"], 1)
+        self.assertEqual(stages["support"]["finish_audit"]["finish_modes"], {"unfinished": 1})
+        with (self.out / "query_metrics.csv").open(encoding="utf-8", newline="") as stream:
+            row = next(csv.DictReader(stream))
+        self.assertEqual(row["finish_mode"], "explicit_tool")
+        self.assertEqual(row["explicit_finish_count"], "1")
+        self.assertEqual(row["protocol_repair_requests"], "0")
+        self.assertNotIn(PRIVATE, (self.out / "report.json").read_text(encoding="utf-8"))
+
+    def test_v2_finish_audit_is_required_for_every_episode(self):
+        self.model = replace(self.model, actor_protocol="v2_required_tools")
+        write_json(self.run / "model_config.json", asdict(self.model))
+        self._provenance()
+        with self.assertRaisesRegex(ValueError, "Incomplete finish protocol"):
+            self.export()
+
+    def test_finish_modes_and_counter_types_cannot_publish_untrusted_values(self):
+        self._enable_finish_audit()
+        for field, value in (("finish_mode", PRIVATE), ("protocol_violation_count", True), ("explicit_finish_count", -1)):
+            with self.subTest(field=field):
+                before = self.episodes[0][field]
+                self.episodes[0][field] = value
+                self._write_records()
+                with self.assertRaises(ValueError):
+                    self.export()
+                self.episodes[0][field] = before
+        self.assertFalse(self.out.exists())
+
+    def test_claimed_protocol_repair_count_must_match_the_physical_ledger(self):
+        self._enable_finish_audit()
+        self.episodes[0].update(protocol_violation_count=1, protocol_repairs_used=1, protocol_repair_requests=1,
+                                protocol_repair_attempt_ids=[])
+        self._write_records()
+        with self.assertRaisesRegex(ValueError, "differs from physical requests"):
+            self.export()
+
+    def test_protocol_repair_cannot_claim_another_episodes_call(self):
+        self._enable_finish_audit()
+        self.episodes[0].update(protocol_violation_count=1, protocol_repairs_used=1, protocol_repair_requests=1,
+                                protocol_repair_attempt_ids=self.episodes[1]["attempt_ids"])
+        self._write_records()
+        with self.assertRaisesRegex(ValueError, "belong uniquely"):
+            self.export()
+
+    def test_protocol_outcome_counts_cannot_exceed_owned_physical_requests(self):
+        self._enable_finish_audit()
+        self.episodes[0]["protocol_violation_count"] = 2
+        self._write_records()
+        with self.assertRaisesRegex(ValueError, "outcomes exceed"):
+            self.export()
+
+    def test_calibration_publishes_only_safe_v2_finish_and_health_fields(self):
+        self._enable_finish_audit()
+        calibration = self.root / "v2-calibration.json"
+        write_json(calibration, {"valid_task_outcome": True, "success": True, "score": 1.0, "tool_steps": 1,
+            "execution_healthy": True, "finished": True, "failure_type": None,
+            "actor_protocol": "v2_required_tools", "finish_mode": "explicit_tool", "explicit_finish_count": 1,
+            "auto_final_count": 0, "protocol_violation_count": 1, "protocol_repairs_used": 1, "protocol_repair_requests": 1,
+            "usage": {"input_tokens": 100, "output_tokens": 20, "total_tokens": 120, "cached_input_tokens": 80, "model_calls": 2},
+            "instruction": PRIVATE, "trace": PRIVATE, "answer": PRIVATE, "protocol_repair_attempt_ids": [PRIVATE]})
+        result = self.export(calibration_summary=calibration)
+        safe = result["extra_validation"]["calibration"]
+        self.assertTrue(safe["finish_audit_available"])
+        self.assertEqual(safe["protocol_repair_requests"], 1)
+        self.assertEqual(safe["actor_protocol"], "v2_required_tools")
+        self.assertEqual(safe["finish_mode"], "explicit_tool")
+        self.assertTrue(safe["execution_healthy"])
+        self.assertTrue(safe["finished"])
+        self.assertNotIn("protocol_repair_attempt_ids", safe)
+        self.assertNotIn(PRIVATE, (self.out / "report.json").read_text(encoding="utf-8"))
+
+    def test_manifest_limitations_count_two_source_generators_without_claiming_feature_diversity(self):
+        task = {"task_id": "secondsource_1", "generator_id": "secondsource", "domain_id": "source.apps",
+                "split": "source", "benchmark_split": "train"}
+        self.public["tasks"].append(task)
+        self.local["tasks"].append(copy.deepcopy(task))
+        self.local["public_manifest_sha256"] = digest(self.public)
+        episode = copy.deepcopy(self.episodes[0])
+        attempt = copy.deepcopy(self.usage[0])
+        attempt["attempt_id"] = f"attempt-{len(self.usage)+1:08d}"
+        episode.update(episode_id="second-source", task_id="secondsource_1", attempt_ids=[attempt["attempt_id"]])
+        self.usage.append(attempt)
+        self.episodes.append(episode)
+        self._write_records()
+        write_json(self.public_path, self.public)
+        write_json(self.run / "task_manifest.json", self.local)
+        self._provenance()
+        result = self.export()
+        design = result["manifest_design"]
+        self.assertEqual(design["source"], {"tasks": 2, "generators": 2, "domains": 1, "public_feature_vectors": 1})
+        self.assertTrue(design["constant_public_features"])
+        self.assertEqual(design["query"]["tasks"], 3)
+        text = "\n".join(result["limitations"])
+        self.assertIn("2 个 generator", text)
+        self.assertNotIn("一个源 generator", text)
+        self.assertIn("同一公开特征向量", text)
+        self.assertIn("不能证明 F 的条件学习或迁移收益", text)
+        self.assertIn("2 个 generator", (self.out / "README.md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

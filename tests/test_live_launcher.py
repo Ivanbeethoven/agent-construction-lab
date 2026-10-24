@@ -167,6 +167,37 @@ class CCSwitchLauncherTests(CredentialFixtures):
         self.assertEqual(command[-4:], ["--resume-from", "runs/local-live/old", "--resume-anchor", "b" * 64])
         self.assertNotIn(FAKE_KEY, repr(command))
 
+    def test_calibration_24_step_limit_is_forwarded_without_changing_credential_boundary(self):
+        database = self.make_database()
+        before = _snapshot(self.root)
+        result, convert, run = self.invoke(database, calibration_task="fixture_train_1", calibration_max_steps="24")
+        self.assertEqual(result, 7)
+        convert.assert_called_once()
+        run.assert_called_once()
+        command = run.call_args.args[0]
+        self.assertEqual(command[-4:], ["--calibration-task", "fixture_train_1", "--calibration-max-steps", "24"])
+        self.assertNotIn(FAKE_KEY, repr(command))
+        self.assertEqual(json.loads(run.call_args.kwargs["input"]), {"api_key": FAKE_KEY})
+        self.assertEqual(before, _snapshot(self.root))
+
+    def test_calibration_step_limits_0_and_101_are_rejected_before_database_access(self):
+        for steps in (0, 101):
+            with self.subTest(steps=steps):
+                argv = ["run_with_ccswitch.py", "--database", str(self.root / "never-open.db"),
+                        "--distribution", "Fixture-Ubuntu", "--python", "/fixture/python",
+                        "--model-config", "never-read.json", "--appworld-root", "/fixture/data",
+                        "--out", "runs/local-live/fixture", "--calibration-max-steps", str(steps)]
+                with patch("sys.argv", argv), redirect_stderr(io.StringIO()), \
+                        patch.object(launcher.sqlite3, "connect") as connect, \
+                        patch.object(launcher.subprocess, "run") as child, \
+                        patch.object(Path, "read_text") as read_config:
+                    with self.assertRaises(SystemExit) as raised:
+                        launcher.main()
+                self.assertEqual(raised.exception.code, 2)
+                read_config.assert_not_called()
+                connect.assert_not_called()
+                child.assert_not_called()
+
     def test_wslpath_failure_or_invalid_output_never_starts_credential_child(self):
         database = self.make_database()
         cases = [(b"/fixture/workspace\n", 1), (b"relative/path\n", 0), (b"", 0),
@@ -215,10 +246,12 @@ class CCSwitchLauncherTests(CredentialFixtures):
 
 class AppWorldLiveCredentialTests(CredentialFixtures):
     def invoke(self, *, initial_environment=None, credential=None, readiness=None,
-               doctor_error=None, study_error=None, study=False):
+               doctor_error=None, study_error=None, study=False, calibration_max_steps=None):
         fake_environment = dict(initial_environment or {})
         argv = ["run_appworld_live.py", "--credentials-stdin", "--model-config", str(self.model_path),
                 "--appworld-root", "/fixture/data", "--out", str(self.root / "run")]
+        if calibration_max_steps is not None:
+            argv += ["--calibration-max-steps", str(calibration_max_steps)]
         if study:
             manifest = self.root / "manifest.json"
             study_config = self.root / "study.json"
@@ -276,6 +309,27 @@ class AppWorldLiveCredentialTests(CredentialFixtures):
         self.assertEqual(restored, previous)
         doctor.assert_called_once()
         study.assert_not_called()
+
+    def test_calibration_24_step_limit_reaches_readiness_without_running_an_episode(self):
+        result, restored, seen, doctor, study = self.invoke(calibration_max_steps=24)
+        self.assertEqual(result, 1)
+        self.assertEqual(restored, {})
+        self.assertEqual(seen[0][TEST_ENV], FAKE_KEY)
+        doctor.assert_called_once()
+        study.assert_not_called()
+
+    def test_calibration_step_limits_0_and_101_are_rejected_before_credentials_or_execution(self):
+        previous = {TEST_ENV: FAKE_PREVIOUS}
+        for steps in (0, 101):
+            with self.subTest(steps=steps):
+                result, restored, seen, doctor, study = self.invoke(
+                    initial_environment=previous, calibration_max_steps=steps)
+                self.assertIsInstance(result, SystemExit)
+                self.assertEqual(result.code, 2)
+                self.assertEqual(restored, previous)
+                self.assertEqual(seen, [])
+                doctor.assert_not_called()
+                study.assert_not_called()
 
     def test_doctor_failure_removes_previously_absent_environment_credential(self):
         result, restored, seen, _, study = self.invoke(initial_environment={"UNRELATED_TEST_SETTING": "unchanged"})

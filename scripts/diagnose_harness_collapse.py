@@ -13,13 +13,15 @@ from importlib.metadata import version
 import json
 import math
 from pathlib import Path
+import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from agent_construction_lab._io import canonical_json, digest, write_json
-from agent_construction_lab.fixed_model.constructors import ConstructorLibrary, _basis, construct_domain, make_harness
+from agent_construction_lab.fixed_model.constructors import ConstructorConfig, ConstructorLibrary, _basis, candidate_module_sets, construct_domain, make_harness
+from agent_construction_lab.fixed_model.client import ModelConfig, aggregate_usage
 from agent_construction_lab.fixed_model.spec import validate_harness, validate_manifest, RUNTIME_FILES
 from agent_construction_lab.fixed_model.study import StudyConfig
 
@@ -118,7 +120,7 @@ def support_callbacks(episodes, manifest, config, search):
     return callbacks
 
 
-def diagnose_data(manifest, config, library_value, episodes, constructions, searches, harnesses, ledger):
+def diagnose_data(manifest, config, library_value, episodes, constructions, searches, harnesses, ledger, *, fresh=False):
     """Analyze approved fields only; callers may include unrelated private keys."""
     manifest = validate_manifest(manifest)
     library = ConstructorLibrary.from_dict(library_value)
@@ -163,21 +165,53 @@ def diagnose_data(manifest, config, library_value, episodes, constructions, sear
             and callbacks[0]["harness_sha256"] == callbacks[1]["harness_sha256"]
             and callbacks[1]["objective"] == callbacks[2]["objective"])
         selected_hash = digest(search["selected_harness"])
+        single_accepted_round = (len(callbacks) == 4 and audit["reflection_calls"] == 1
+            and audit["invalid_candidate_evaluations"] == 0
+            and callbacks[0]["harness_sha256"] == callbacks[1]["harness_sha256"]
+            and callbacks[2]["harness_sha256"] == callbacks[3]["harness_sha256"]
+            and callbacks[2]["objective"] > callbacks[1]["objective"])
+        accepted_detail = {}
         if single_equal_round:
             _require(selected_hash == callbacks[0]["harness_sha256"]
                 and search["selected_score"] == callbacks[0]["objective"], "Equal proposal did not preserve the initial validation winner")
             for callback, role in zip(callbacks, ("initial_full_validation", "parent_remeasurement", "reflected_proposal")):
                 callback["inferred_role"] = role
+        elif single_accepted_round:
+            validation = (callbacks[0], callbacks[3])
+            maximum = max(row["objective"] for row in validation)
+            _require(math.isclose(search["selected_score"], maximum, rel_tol=1e-10, abs_tol=1e-9) and any(row["harness_sha256"] == selected_hash
+                and row["objective"] == maximum for row in validation),
+                "Selected harness/score is not a full-validation winner")
+            for callback, role in zip(callbacks, ("initial_full_validation", "parent_remeasurement",
+                                                   "reflected_proposal", "proposal_full_validation")):
+                callback["inferred_role"] = role
+            accepted_detail = dict(single_accepted_round=True,
+                proposal_wins_full_validation=callbacks[3]["objective"] > callbacks[0]["objective"],
+                selected_from_full_validation=True)
         optimizations.append(dict(condition=search["condition"], callbacks=callbacks,
             audit={key: audit[key] for key in ("actual_evaluations", "candidate_evaluation_requests", "invalid_candidate_evaluations",
                 "reflection_calls", "cache_evaluation", "gepa_metric_calls", "unused_evaluation_budget")},
             selected_harness_sha256=selected_hash, selected_score=search["selected_score"],
             unique_evaluated_harnesses=len({row["harness_sha256"] for row in callbacks}),
             single_equal_round=single_equal_round,
-            proposal_accepted=False if single_equal_round else None,
+            proposal_accepted=False if single_equal_round else True if single_accepted_round else None,
             selection_explanation="Equal parent/proposal score fails default strict improvement; initial full-validation winner is retained."
-                if single_equal_round else "Consult the recorded callback sequence; no single-round rejection inference was made.",
-            role_evidence="Callback grouping is checked against recorded task/seed order; roles and rejection are reconstructed from pinned GEPA control flow, not saved rejection events."))
+                if single_equal_round else
+                "The third callback improves on the remeasured parent, so the proposal is accepted for a fourth full-validation callback. Selection uses the best initial/proposal full-validation score, not the third callback score."
+                if single_accepted_round else "Consult the recorded callback sequence; no single-round rejection inference was made.",
+            role_evidence="Callback grouping is checked against recorded task/seed order; roles and rejection are reconstructed from pinned GEPA control flow, not saved rejection events.",
+            **accepted_detail))
+    limitations = ["One source generator and constant public features cannot identify cross-domain conditional effects.",
+            "Zero fitted residual variance on constant zero labels is not evidence of generalization or low epistemic uncertainty.",
+            "Native task completion and actor ending-protocol validity are different fields; protocol failures are retained.",
+            "Identical harnesses are not evidence of equivalent algorithms or zero achievable feedback-optimization benefit.",
+            "No task text, profiles, harness text, traces, provider bodies or query outcomes are copied into this report."]
+    if fresh:
+        generators = len({t["generator_id"] for t in manifest["tasks"] if t["split"] == "source"})
+        domains = len({row["domain_id"] for row in records})
+        features = len({canonical_json(row["features"]) for row in records})
+        limitations[:2] = [f"Source contains {generators} generators, {domains} domains and {features} public feature vectors; generator count alone does not establish conditional transfer effects.",
+            "Source-fit residuals and support callbacks are in-sample diagnostic evidence, not evidence of query generalization or low epistemic uncertainty."]
     return dict(schema_version=1, kind="source_support_harness_diagnosis", no_new_model_calls=True, query_outcomes_used=False,
         source=dict(episodes=len(source), records=len(records), tasks=len({r["task_id"] for r in records}),
             generators=len({t["generator_id"] for t in manifest["tasks"] if t["split"] == "source"}),
@@ -190,11 +224,7 @@ def diagnose_data(manifest, config, library_value, episodes, constructions, sear
             source_data_sha256=library.source_data_sha256),
         harnesses=builds, equal_harness_groups=[dict(harness_sha256=key, conditions=sorted(value)) for key, value in sorted(groups.items())],
         numeric_constructors=numerics, selector=selectors, feedback_optimization=optimizations,
-        limitations=["One source generator and constant public features cannot identify cross-domain conditional effects.",
-            "Zero fitted residual variance on constant zero labels is not evidence of generalization or low epistemic uncertainty.",
-            "Native task completion and actor ending-protocol validity are different fields; protocol failures are retained.",
-            "Identical harnesses are not evidence of equivalent algorithms or zero achievable feedback-optimization benefit.",
-            "No task text, profiles, harness text, traces, provider bodies or query outcomes are copied into this report."])
+        limitations=limitations)
 
 
 def _gepa_evidence():
@@ -219,7 +249,7 @@ def _historical_harness(directory, entry, provenance):
     return validate_harness(harness)
 
 
-def diagnose_run(run, original_run):
+def _diagnose_resumed_run(run, original_run):
     run, original = Path(run).resolve(), Path(original_run).resolve()
     status = _json(run / "run_status.json")
     _require(status.get("completed") is True, "Only a completed run can be diagnosed")
@@ -263,15 +293,148 @@ def diagnose_run(run, original_run):
     return report
 
 
+def _project_hashes():
+    return {path.relative_to(ROOT).as_posix(): _sha(path)
+            for path in sorted((ROOT / "agent_construction_lab").rglob("*.py"))}
+
+
+def _fresh_source_pairs(manifest, config, source):
+    """Reconstruct the exact registered paired source table from real episodes."""
+    expected = []
+    combinations = candidate_module_sets(config.max_modules)
+    index = 0
+    for task in (task for task in manifest["tasks"] if task["split"] == "source"):
+        for seed in config.source_seeds:
+            _require(index < len(source), "Registered source episode is missing")
+            baseline = source[index]
+            for modules in combinations:
+                _require(index < len(source), "Registered source episode is missing")
+                row = source[index]
+                harness = make_harness(modules)
+                _require(row.get("task_id") == task["task_id"] and row.get("domain") == task["domain_id"]
+                    and row.get("execution_seed") == seed and row.get("construction_seed") is None
+                    and row.get("condition") == ("source_intervention" if modules else "source_baseline")
+                    and row.get("harness") == harness and row.get("harness_sha256") == digest(harness),
+                    "Source task/seed/intervention differs from the registered design")
+                expected.append(dict(task_id=task["task_id"], domain_id=task["domain_id"], split="source", role="source",
+                    seed=seed, baseline_seed=seed, features=manifest["domains"][task["domain_id"]]["features"], modules=list(modules),
+                    baseline_success=baseline["success"], success=row["success"], baseline_score=baseline["score"], score=row["score"],
+                    baseline_cost=baseline["usage"]["total_tokens"], cost=row["usage"]["total_tokens"],
+                    baseline_episode_id=baseline["episode_id"], episode_id=row["episode_id"]))
+                index += 1
+    _require(index == len(source), "Unregistered or duplicated source episodes")
+    return expected
+
+
+def _diagnose_fresh_run(run):
+    run = Path(run).resolve()
+    # The only read before the completed gate: never probe an active run.
+    status = _json(run / "run_status.json")
+    _require(status.get("completed") is True and status.get("mock_model") is False,
+             "Only a completed non-mock run can be diagnosed")
+    _require(not (run / "resume_amendment.json").exists(), "Resumed runs require --original-run")
+    names = ("task_manifest.json", "study_config.json", "model_config.json", "constructor_library.json", "source_pairs.jsonl",
+             "episodes.jsonl", "model_usage.jsonl", "constructions.jsonl", "run_provenance.json", "run_status.json")
+    optional = "support_searches.jsonl"
+    if (run / optional).exists():
+        names += (optional,)
+    _require(all((run / name).is_file() and not (run / name).is_symlink() for name in names), "Evidence must be ordinary files")
+    before = {name: _sha(run / name) for name in names}
+    _require(status == _json(run / "run_status.json"), "Run status changed before diagnosis")
+    manifest_value, config_value, model_value = (_json(run / name) for name in ("task_manifest.json", "study_config.json", "model_config.json"))
+    provenance = _json(run / "run_provenance.json")
+    for field, value in (("manifest_sha256", manifest_value), ("study_config_sha256", config_value), ("model_config_sha256", model_value)):
+        _require(provenance.get(field) == digest(value), "Run configuration provenance mismatch")
+    current = _project_hashes()
+    _require(provenance.get("source_sha256") == current, "Use the recorded runtime revision for exact numerical reconstruction")
+    revision = provenance.get("code_revision")
+    _require(revision is None or isinstance(revision, str) and re.fullmatch(r"[0-9a-f]{40,64}", revision), "Invalid code revision")
+    manifest, config, model = validate_manifest(manifest_value), StudyConfig.from_dict(config_value), ModelConfig.from_dict(model_value)
+    _require(manifest["benchmark"] == "appworld" and model.expected_response_model and model.model_snapshot
+             and "mock" not in model.model.lower(), "Fresh diagnosis requires a real fixed-model AppWorld run")
+    # Exclude query rows before accessing any numerical result or private field.
+    episodes = [row for row in _lines(run / "episodes.jsonl") if row["stage"] in {"source", "support"}]
+    ledger = _lines(run / "model_usage.jsonl")
+    ledger_ids = {row["attempt_id"]: row for row in ledger}
+    _require(len(ledger_ids) == len(ledger), "Duplicate physical attempt IDs")
+    _require(aggregate_usage(ledger) == status["usage"], "Run status usage differs from the physical ledger")
+    roles = {task["task_id"]: (task["domain_id"], task["split"]) for task in manifest["tasks"]}
+    _require(len({row["episode_id"] for row in episodes}) == len(episodes), "Duplicate source/support episode IDs")
+    for row in episodes:
+        _require(roles.get(row.get("task_id")) == (row.get("domain"), row["stage"])
+            and row.get("valid_task_outcome") is True and not row.get("infrastructure_error")
+            and type(row.get("success")) is bool and type(row.get("score")) in (int, float)
+            and math.isfinite(row["score"]) and 0 <= row["score"] <= 1,
+            "Invalid source/support task outcome or role")
+        _require(row.get("failure_type") in {None, "task_not_solved", "step_budget_exhausted", "context_budget_exhausted", "invalid_action"},
+                 "Unknown public failure category")
+        _require(all(value in ledger_ids for value in row["attempt_ids"]), "Episode attempt is missing from physical ledger")
+        _require(row["usage"] == aggregate_usage([ledger_ids[value] for value in row["attempt_ids"]]), "Episode usage differs from physical ledger")
+    source = [row for row in episodes if row["stage"] == "source"]
+    pairs = _lines(run / "source_pairs.jsonl")
+    _require(pairs == _fresh_source_pairs(manifest, config, source), "Source pairs differ from registered source episodes")
+    library_value = _json(run / "constructor_library.json")
+    rebuilt = ConstructorLibrary.from_source(pairs, ConstructorConfig(config.ridge_alpha, config.cost_weight, config.max_modules))
+    _require(library_value == rebuilt.to_dict(), "Source library differs from paired evidence or study configuration")
+    builds = _lines(run / "constructions.jsonl")
+    conditions = set(config.methods) - {name for name in config.methods if "+R" in name}
+    conditions.update(name.split("+")[0] for name in config.methods if "+R" in name)
+    conditions.update(f"{name}@{budget}" for name in config.methods if "+R" in name for budget in config.rsi_budgets)
+    if config.ablations:
+        conditions.add("F")
+        conditions.update("F-" + ablation for ablation in config.ablations)
+    expected_builds = {(task["domain_id"], seed, condition) for task in manifest["tasks"] if task["split"] == "query"
+                       for seed in config.construction_seeds for condition in conditions}
+    build_keys = [(row["domain"], row["construction_seed"], row["condition"]) for row in builds]
+    _require(len(set(build_keys)) == len(build_keys) and set(build_keys) == expected_builds, "Frozen construction coverage differs from registered design")
+    harnesses = {}
+    for row in builds:
+        directory = (run / row["path"]).resolve()
+        _require(directory.is_relative_to(run), "Construction path escapes evidence directory")
+        for name in ("manifest.json", "harness.json"):
+            path = directory / name
+            _require(path.is_file() and not path.is_symlink(), "Frozen artifacts must be ordinary files")
+            before[path.relative_to(run).as_posix()] = _sha(path)
+        harnesses[row["path"]] = _historical_harness(directory, row, provenance)
+    owners = Counter(value for row in episodes + builds for value in row["attempt_ids"])
+    _require(all(value in ledger_ids and count == 1 for value, count in owners.items()), "Source/support/construction attempt ownership differs")
+    searches = _lines(run / optional) if optional in names else []
+    _require(not any("+R" in name for name in config.methods) or searches, "Missing support search evidence")
+    search_keys = [(row["domain"], row["construction_seed"], row["condition"]) for row in searches]
+    _require(len(set(search_keys)) == len(search_keys) and set(search_keys) == {key for key in expected_builds if "+R@" in key[2]},
+             "Support search coverage differs from registered design")
+    _require({(row["domain"], row["construction_seed"], row["condition"]) for row in episodes if row["stage"] == "support"}
+             <= set(search_keys), "Unregistered support callback episodes")
+    for search in searches:
+        matching = [row for row in builds if (row["condition"], row["domain"], row["construction_seed"])
+                    == (search["condition"], search["domain"], search["construction_seed"])]
+        _require(len(matching) == 1 and matching[0]["harness_sha256"] == digest(search["selected_harness"]),
+                 "Support selection differs from its frozen construction")
+    report = diagnose_data(manifest, config, library_value, episodes, builds, searches, harnesses, ledger, fresh=True)
+    report["evidence"] = dict(run_id=status["run_id"], fresh_run=True, code_revision=revision,
+        run_file_sha256=before, project_source_sha256=current, source_pairs_match_actual_episodes=True,
+        numerical_reconstruction_source_matches=True, frozen_runtime_matches_run_provenance=True, gepa=_gepa_evidence())
+    _require(all(_sha(run / name) == expected for name, expected in before.items())
+             and (run / optional).exists() == (optional in names) and _project_hashes() == current,
+             "Evidence changed during diagnosis")
+    return report
+
+
+def diagnose_run(run, original_run=None):
+    if original_run is None:
+        return _diagnose_fresh_run(run)
+    return _diagnose_resumed_run(run, original_run)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", required=True)
-    parser.add_argument("--original-run", required=True)
+    parser.add_argument("--original-run", help="Required only for a source-resumed run")
     parser.add_argument("--out", required=True)
     args = parser.parse_args(argv)
     output = Path(args.out).resolve()
     _require(not output.exists(), "Diagnostic output already exists; evidence is never overwritten")
-    _require(not any(output.is_relative_to(Path(path).resolve()) for path in (args.run, args.original_run)),
+    _require(not any(output.is_relative_to(Path(path).resolve()) for path in (args.run, args.original_run) if path is not None),
              "Diagnostic output must be outside immutable evidence directories")
     report = diagnose_run(args.run, args.original_run)
     write_json(output, report)

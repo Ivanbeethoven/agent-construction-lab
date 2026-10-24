@@ -66,17 +66,17 @@ python scripts/export_appworld_results.py \
 
 Windows 与 WSL/Linux 在启动修复后的真实运行前均通过 208 项单元/集成测试。公开导出的后续诊断增强不改变执行源码、任务、提示或实际成绩；其检查记录见根目录 `APPWORLD_VALIDATION.json`。原重建验收记录单独保留。
 
-## 第二轮独立任务主试验运行中
+## 第二轮独立任务主试验已完成
 
-2026-10-24，第二轮使用提交 `549ba88374181ec861bc80b99c75b9eb4a31cb00` 启动 `runs/local-live/deepseek-appworld-round2-001/`。本节仅记录已完成的校准和启动事实；主试验结果尚待完成后审计。完整任务选择、隔离规则、预算与哈希见[第二轮计划](APPWORLD_ROUND2.md)。第一轮原始记录和公开结果均保留，不用第二轮结果覆盖。
+2026-10-24，第二轮使用提交 `549ba88374181ec861bc80b99c75b9eb4a31cb00` 完成 `runs/local-live/deepseek-appworld-round2-001/`，正常退出并通过公开导出校验。完整任务选择、隔离规则、预算与哈希见[第二轮计划和结果](APPWORLD_ROUND2.md)。第一轮原始记录和公开结果均保留，不用第二轮结果覆盖。
 
 本轮排除所有第一轮接触的 generator，固定六个 source、三个 support、三个 query 任务，另留 `692c77d` 整组作独立协议校准。与第一轮相比，actor 协议改为 `v2_required_tools`，最多一次纠正；纠正消耗本 episode 的 24 步额度。每请求最多输出 1,024 tokens。任务组、步数、输出上限和协议同时变化，不能用跨轮成绩差异孤立估计协议修复效果。当前特征仍为常量；相同 harness 也不能被解释成不同优化策略。
 
 校准仅运行 `692c77d_1`，使用[校准配置](../configs/deepseek_flash_round2_calibration.json)，上限 24 步。记录显示有效官方评分成功、显式 `finish`、正常执行，0 次协议违规、0 次纠正、0 次失败请求。实际消耗 **11 次请求、66,343 tokens、估算 0.002192496 USD**。校准记录的全部 26 个执行源码哈希与主试验启动源码一致；该校准不是 query 结果。启动器的 24 步转发和两个入口对 0/101 的拒绝在 Windows、WSL 各通过 18 项凭据隔离测试，测试没有真实 API 调用。
 
-第二轮没有新增独立付费预检，因此[主模型配置](../configs/deepseek_flash_round2.json)从总限额扣除校准后为 **2,789 次请求、23,933,657 tokens**；主阶段与校准合计上限仍是 2,800 次、24,000,000 tokens、10 USD。两份模型配置仅预算字段不同。运行结束后按实际账本分别列出主阶段、校准和项目累计支出，不能复制第一轮累计账本相加。
+第二轮没有新增独立付费预检，因此[主模型配置](../configs/deepseek_flash_round2.json)从总限额扣除校准后为 **2,789 次请求、23,933,657 tokens**；主阶段与校准合计上限仍是 2,800 次、24,000,000 tokens、10 USD。两份模型配置仅预算字段不同。下文按实际账本分别列出主阶段、校准和项目累计支出，没有复制第一轮累计账本相加。
 
-以下是已启动的主命令记录；本地原始目录由现有进程持有，不覆盖或重复启动：
+以下是已执行的主命令记录；现有本地原始证据目录不覆盖或重复启动：
 
 ```powershell
 .venv/Scripts/python.exe scripts/run_with_ccswitch.py `
@@ -90,4 +90,12 @@ Windows 与 WSL/Linux 在启动修复后的真实运行前均通过 208 项单�
   --out runs/local-live/deepseek-appworld-round2-001
 ```
 
-主模型配置规范哈希为 `3f6dd8f4b313da580f15c3a2d783cdabb13d9e3b50fa2ecd92ee712c6cc44448`，StudyConfig 规范哈希为 `70acdece9899f0dc91df6f1b570fe2be25874a6ef68f01a38a5a9672e948a54e`，均与本地运行目录中保存的配置一致。任务和 query 前冻结约束遵循[固定协议](FIXED_MODEL_PROTOCOL.md)。截至本次文档更新，没有读取主运行的 query 成绩或文案，也未报告未知结果。
+主模型配置规范哈希为 `3f6dd8f4b313da580f15c3a2d783cdabb13d9e3b50fa2ecd92ee712c6cc44448`，StudyConfig 规范哈希为 `70acdece9899f0dc91df6f1b570fe2be25874a6ef68f01a38a5a9672e948a54e`，均与本地运行目录中保存的配置一致。任务和 query 前冻结约束遵循[固定协议](FIXED_MODEL_PROTOCOL.md)。主试验完成后才读取公开成绩补充本节，未读取任务文案调整选择。
+
+[第二轮公开报告](../reports/appworld/2026-10-24-deepseek-round2/README.md)记录实际 **66 source、18 support、21 query，共 105 个 episode**。七份目标 harness 在 query 前冻结，全部物理调用归属唯一，各条件的 query 配对键相同，执行源码哈希与 provenance 一致。主试验共 **1,676 次请求、11,474,187 tokens、估算 0.295036803 USD**；加校准后第二轮为 **1,687 次、11,540,530 tokens、0.297229299 USD**。再加第一轮已披露的 0.150052395 USD，项目两轮共 **0.447281694 USD**，没有重复计入第一轮失败构造或导入 source 的费用。
+
+第二轮 query 的官方终态成功次数为 G 2/3、D 1/3、S 2/3、V 3/3、F 2/3、G+R@4 3/3、F+R@4 3/3。21 次均获有效终态评分；20 次健康且显式 finish，S 的另 1 次耗尽 24 步。其余四次失败属于显式结束但 `task_not_solved`；全部 16 次成功都健康结束。source 成功 25/66、显式结束 35/66，31 次耗尽步数中有 1 次官方评分已成功；support 成功 4/18，18 次均显式结束。主试验没有协议违规、纠正或自动结束，也没有失败模型请求；未触发纠正分支意味着本轮不能评价该分支的实际收益。
+
+[构造诊断](../reports/appworld/2026-10-24-round2-harness-diagnosis.json)只使用 source/support 证据：七条件对应三种最终 harness。F、V 都从非全零 source 标签唯一选出 c07（`plan`、`error_repair`），S 的一次模型选择也返回 c07；F+R@4 最终保留同一产物。G 与 G+R@4 共用通用基线，D 单独使用直接构造的提示及 `plan`、`verify`。两个 R 分支各运行三次 support callback、一次反思，均评估了新 proposal，但最终未改变初始 harness。因此同组条件的成绩差异不能解释为方法或反馈优化增益。
+
+本轮仍只有两个 source generator、一个公开特征向量和一个 query generator 的三个变体。它完成了真实工程验收，并不构成 F 优越或跨域迁移的证据；也不能把与第一轮的差异单独归因于结束协议。费用为配置估算，模型别名和 API 不传 seed 的限制仍然存在。

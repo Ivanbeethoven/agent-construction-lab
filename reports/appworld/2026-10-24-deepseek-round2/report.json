@@ -1,0 +1,1227 @@
+{
+  "schema_version": 1,
+  "completed": true,
+  "mock_model": false,
+  "benchmark": "appworld",
+  "scope": "small_engineering_pilot_not_statistical_evidence",
+  "limitations": [
+    "本结果仅为真实模型与 AppWorld 的小规模工程试验；不是官方排行榜成绩。",
+    "费用由配置费率和提供方 token 用量估算，不是官方账单；预检及校准费用另列。",
+    "DeepSeek 返回的模型别名不证明底层权重不可变，文档版本声明不等同于快照证明。",
+    "send_seed=False 时种子仅作实验配对索引，不保证模型输出确定性。",
+    "同一域和构造种子下使用相同 harness 的条件，其执行成绩差异不能归因为方法增益。",
+    "任务成功是 AppWorld 官方终态评分的结果；成功不等于执行健康或已显式结束。",
+    "公开导出不包含任务原文、轨迹、提示、模拟账户密码或私有评估细节。",
+    "Source 包含 2 个 generator、6 个任务、1 个域和 1 种公开特征向量；generator 数量不等于独立特征条件的重复。",
+    "所有已注册 source/support/query 域使用同一公开特征向量；此设计不能证明 F 的条件学习或迁移收益。",
+    "Query 包含 1 个目标域、1 个 generator、3 个任务；域数量不足以支持强统计推断；单域 bootstrap 区间不能解释为显著性证据。"
+  ],
+  "verification": {
+    "frozen_harnesses": 7,
+    "paired_query_keys_match": true,
+    "physical_attempts_have_unique_owners": true,
+    "source_hashes_match_current": true
+  },
+  "provenance": {
+    "manifest_sha256": "ee53c683c4a19edd8ae0b951447d3b2df5b392ea341a9d5238b41d0cd48ae126",
+    "model_config_sha256": "3f6dd8f4b313da580f15c3a2d783cdabb13d9e3b50fa2ecd92ee712c6cc44448",
+    "study_config_sha256": "70acdece9899f0dc91df6f1b570fe2be25874a6ef68f01a38a5a9672e948a54e",
+    "code_revision": "549ba88374181ec861bc80b99c75b9eb4a31cb00",
+    "source_sha256": {
+      "agent_construction_lab/__init__.py": "fe25d5159538d1069a5da38fdeedc457c9b6b46a3b16762d72fbe7a0543b445a",
+      "agent_construction_lab/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "agent_construction_lab/_io.py": "b900a12176258da773fee0a201091d176d1c6d0b405bed96eb43761093851cf2",
+      "agent_construction_lab/artifacts.py": "f7b53edbd0ca60e92345e971a2652ecb223d95184e22c3fec5f6ca5ee2fdf23f",
+      "agent_construction_lab/bridge.py": "ef7aae152e0d5cbd4d8dce5a040b1c5962f41403f187c6dc6923004c397f56a7",
+      "agent_construction_lab/cli.py": "5c74750e575b2fdde0a9cca7e448278dc0691c7bb89862bd769b4338456c0de3",
+      "agent_construction_lab/contracts.py": "4b084ce2bbe77eee845c8bd8ea2d3cbbd6341df5b2b1886c0d6ea3c77d58a7da",
+      "agent_construction_lab/experiments.py": "68a9058ad2ccc4f3c7ffd79200701b51f2d5832dabc21a76317a4bcfba1c2521",
+      "agent_construction_lab/fixed_model/__init__.py": "c84c2d073aa476ddd2f9460dcf60c863a014dcc51f021b7689b5a585460d613a",
+      "agent_construction_lab/fixed_model/__main__.py": "6f0dc68e797987483371db98d867adfeccfaabb43740e7296ea936dcab2fbe05",
+      "agent_construction_lab/fixed_model/appworld_process.py": "0eb1454a48e24ca8c123cca781944b85eadddf831845356f2600465f48dd6a58",
+      "agent_construction_lab/fixed_model/client.py": "8401568e86c89cfebe40effa6447455c7845b7af09daea2a9c6cfcd0f9320f7d",
+      "agent_construction_lab/fixed_model/code_policy.py": "139852c584674356f57df763ad5d456ce17887cc73e50502d71df35df7c6ccb3",
+      "agent_construction_lab/fixed_model/constructors.py": "4041261569985d3268147e997a3673783d0425a59c9570d9f0f571c56ede7c15",
+      "agent_construction_lab/fixed_model/environment_worker.py": "6ade1e62903b2993c30a08d24bb6af103f7e26d0d0c04d6249b2edd2e2bc9588",
+      "agent_construction_lab/fixed_model/environments.py": "b9322c4fc1b46ca86c2260850266b4cc5d68e434437772353f01e93c561e2928",
+      "agent_construction_lab/fixed_model/executor.py": "683c79035979036dcfe9fb622ca682a64eed3917718ffbf33febdd9025fe95fe",
+      "agent_construction_lab/fixed_model/gepa_adapter.py": "b3a4e501236b9f37034f9a6753a6343d3233c58b836b49dc3bcae3bba4c2776d",
+      "agent_construction_lab/fixed_model/mock_server.py": "16c8e564a307761d90f18cf13fd1a2f46196f2d45655a890cd5c7047b5e63723",
+      "agent_construction_lab/fixed_model/spec.py": "5f7ff8193726161cd586db92f0d7d2c95f0b0431b0c307b831608663d249cbb5",
+      "agent_construction_lab/fixed_model/study.py": "488bf63e87f183686e2361b0df5a696afc60b4e566d2c8de1aee48c7cf8bf59e",
+      "agent_construction_lab/fixtures.py": "f82a06a7190b654548c0b01bb62ed2a5a9832b32581888b6083100b59288eff0",
+      "agent_construction_lab/learning.py": "68a97a2046a622b2a5fd88ec0fb7b51bca5c31fd190fc4c9d1111be31903eedf",
+      "agent_construction_lab/runtime.py": "e7f478205c4ac434a22280d5f98de500884a70f6aa500ff7525dca912f5f08ef",
+      "agent_construction_lab/search.py": "a77f91655be56be589939f16effb4591c554d438a14c639f83f88d046e18b53e",
+      "agent_construction_lab/worker.py": "ab2894ae1edc108f018dca7429823798378d9df68202087a01d39f9f303e60a8"
+    }
+  },
+  "public_manifest_sha256": "0c00c00b93477de336d28dac7dfe5eac0f59c04d419cd82467f0f1508f394c9d",
+  "public_manifest": {
+    "schema_version": 1,
+    "benchmark": "appworld",
+    "official_protocol": false,
+    "group_disjoint_support_query": true,
+    "domains": {
+      "source.personal_apps": {
+        "features": {
+          "documented_api_environment": 1.0,
+          "stateful_application_world": 1.0
+        }
+      },
+      "target.personal_apps": {
+        "features": {
+          "documented_api_environment": 1.0,
+          "stateful_application_world": 1.0
+        }
+      }
+    },
+    "tasks": [
+      {
+        "task_id": "ce359b5_1",
+        "generator_id": "ce359b5",
+        "domain_id": "source.personal_apps",
+        "split": "source",
+        "benchmark_split": "train",
+        "public_spec_sha256": "619ffa4fa117ba5a9f4049a7cc0374e5182d572a3c2c0bf713bf8ee37c02b461"
+      },
+      {
+        "task_id": "ce359b5_2",
+        "generator_id": "ce359b5",
+        "domain_id": "source.personal_apps",
+        "split": "source",
+        "benchmark_split": "train",
+        "public_spec_sha256": "da2f01e9434cb501cc0ca634acf0fd25602015b59dea4b783def829317529288"
+      },
+      {
+        "task_id": "ce359b5_3",
+        "generator_id": "ce359b5",
+        "domain_id": "source.personal_apps",
+        "split": "source",
+        "benchmark_split": "train",
+        "public_spec_sha256": "81f097a8d82eaeb467645e8a66b3315adcb1da9328ae1e8917f2c70524d77a6a"
+      },
+      {
+        "task_id": "27e1026_1",
+        "generator_id": "27e1026",
+        "domain_id": "source.personal_apps",
+        "split": "source",
+        "benchmark_split": "train",
+        "public_spec_sha256": "3435369f781eb1e918fa98462660e8a9c8ec6e8f3b84cf06bf18e35fc418ba34"
+      },
+      {
+        "task_id": "27e1026_2",
+        "generator_id": "27e1026",
+        "domain_id": "source.personal_apps",
+        "split": "source",
+        "benchmark_split": "train",
+        "public_spec_sha256": "6d0ffb17ac3cb33a05953ea15cece6112bbb6f01ba98a7e85aa691e4d050bc36"
+      },
+      {
+        "task_id": "27e1026_3",
+        "generator_id": "27e1026",
+        "domain_id": "source.personal_apps",
+        "split": "source",
+        "benchmark_split": "train",
+        "public_spec_sha256": "d35c0ff1a23ce4435b8d33ecc3deb5ba19a0dec400bf6be9ca0d040deefd1fc0"
+      },
+      {
+        "task_id": "6bdbc26_1",
+        "generator_id": "6bdbc26",
+        "domain_id": "target.personal_apps",
+        "split": "support",
+        "benchmark_split": "dev",
+        "public_spec_sha256": "8eb9c8744983027fce0fea8f7db6f941bcc5fb5428e39b7b950c6fba5993b28b"
+      },
+      {
+        "task_id": "6bdbc26_2",
+        "generator_id": "6bdbc26",
+        "domain_id": "target.personal_apps",
+        "split": "support",
+        "benchmark_split": "dev",
+        "public_spec_sha256": "ee4c9a9397a960ac4ca493376745cdc36671dc7abeec4a40292ecf3480c218e6"
+      },
+      {
+        "task_id": "6bdbc26_3",
+        "generator_id": "6bdbc26",
+        "domain_id": "target.personal_apps",
+        "split": "support",
+        "benchmark_split": "dev",
+        "public_spec_sha256": "e8c0afd8fdf493d0f1845888994282121c9f0920910eb9f35abe012b5db5f49e"
+      },
+      {
+        "task_id": "6171bbc_1",
+        "generator_id": "6171bbc",
+        "domain_id": "target.personal_apps",
+        "split": "query",
+        "benchmark_split": "dev",
+        "public_spec_sha256": "496e7329ebbb3190e791f4b889ded78218bb4a5a391e8f48730a8bee12458ffb"
+      },
+      {
+        "task_id": "6171bbc_2",
+        "generator_id": "6171bbc",
+        "domain_id": "target.personal_apps",
+        "split": "query",
+        "benchmark_split": "dev",
+        "public_spec_sha256": "0bd42f137b5bd17b78a61e70a3acbae769ba6eab1adf6e85140a859824792e95"
+      },
+      {
+        "task_id": "6171bbc_3",
+        "generator_id": "6171bbc",
+        "domain_id": "target.personal_apps",
+        "split": "query",
+        "benchmark_split": "dev",
+        "public_spec_sha256": "5d4efbe399136914d147830f7fa4b5d36306a895e9d50189305a10da1ad3bdfc"
+      }
+    ],
+    "selection": {
+      "seed": 20261025,
+      "version": "appworld-engineering-round2-v1",
+      "instruction_content_used_for_selection": false,
+      "held_out_instructions_read": false,
+      "official_test_lists_read": false,
+      "excluded_calibration_generators": [
+        "692c77d",
+        "82e2fac"
+      ]
+    }
+  },
+  "model_config": {
+    "model": "deepseek-flash",
+    "model_snapshot": "DeepSeek-V4.1-Flash-1017 (provider-documented on 2026-10-24; mutable API alias)",
+    "expected_response_model": "deepseek-flash",
+    "temperature": 0,
+    "top_p": null,
+    "reasoning_effort": "none",
+    "max_output_tokens": 1024,
+    "max_tokens_parameter": "max_tokens",
+    "send_seed": false,
+    "use_tools": true,
+    "retries": 0,
+    "timeout": 120,
+    "input_price_per_million": 0.15,
+    "output_price_per_million": 0.6,
+    "cached_input_price_per_million": 0.003,
+    "pricing_version": "DeepSeek official rate card 2026-10-24; Saturday off-peak USD/1M; verified before round 2",
+    "max_model_calls": 2789,
+    "max_total_tokens": 23933657,
+    "request_token_reserve": 1048576,
+    "actor_protocol": "v2_required_tools",
+    "actor_protocol_max_repairs": 1
+  },
+  "study_config": {
+    "source_seeds": [
+      101
+    ],
+    "execution_seeds": [
+      101
+    ],
+    "support_seeds": [
+      101
+    ],
+    "construction_seeds": [
+      17
+    ],
+    "rsi_budgets": [
+      4
+    ],
+    "methods": [
+      "G",
+      "D",
+      "S",
+      "V",
+      "F",
+      "G+R",
+      "F+R"
+    ],
+    "ablations": [],
+    "max_steps": 24,
+    "max_context_chars": 60000,
+    "max_modules": 2,
+    "bootstrap_samples": 100,
+    "ridge_alpha": 2.0,
+    "cost_weight": 0.0,
+    "require_complete_token_usage": true,
+    "source_summary_max_chars": 24000,
+    "support_feedback_max_chars": 24000,
+    "appworld_timeout_seconds": 60,
+    "appworld_initialization_timeout_seconds": 120,
+    "remote_environment_url": null
+  },
+  "dependency_versions": {
+    "appworld": "0.1.3.post1",
+    "gepa": "0.1.4"
+  },
+  "methods": {
+    "D": {
+      "episodes": 3,
+      "tasks": 3,
+      "domains": 1,
+      "domain_equal_success": 0.3333333333333333,
+      "domain_bootstrap_95ci": [
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "insufficient_domains_for_strong_inference": true,
+      "mean_tool_steps": 10.333333333333334,
+      "failure_types": {
+        "task_not_solved": 2
+      },
+      "source_cost_included": true,
+      "cold_total_tokens_including_source": 9409560,
+      "source_amortized_total_tokens_per_query_episode": 3136520.0,
+      "measured_method_usage": {
+        "attempts": 35,
+        "model_calls": 35,
+        "failed_attempts": 0,
+        "input_tokens": 212581,
+        "output_tokens": 3947,
+        "total_tokens": 216528,
+        "cached_input_tokens": 184832,
+        "reasoning_tokens": null,
+        "cost_usd": 0.007085046,
+        "latency_seconds": 39.40102964900052
+      }
+    },
+    "F": {
+      "episodes": 3,
+      "tasks": 3,
+      "domains": 1,
+      "domain_equal_success": 0.6666666666666666,
+      "domain_bootstrap_95ci": [
+        0.6666666666666666,
+        0.6666666666666666
+      ],
+      "insufficient_domains_for_strong_inference": true,
+      "mean_tool_steps": 10.0,
+      "failure_types": {
+        "task_not_solved": 1
+      },
+      "source_cost_included": true,
+      "cold_total_tokens_including_source": 9376882,
+      "source_amortized_total_tokens_per_query_episode": 3125627.3333333335,
+      "measured_method_usage": {
+        "attempts": 33,
+        "model_calls": 33,
+        "failed_attempts": 0,
+        "input_tokens": 180240,
+        "output_tokens": 3610,
+        "total_tokens": 183850,
+        "cached_input_tokens": 155904,
+        "reasoning_tokens": null,
+        "cost_usd": 0.006284112,
+        "latency_seconds": 36.829010544000994
+      }
+    },
+    "F+R@4": {
+      "episodes": 3,
+      "tasks": 3,
+      "domains": 1,
+      "domain_equal_success": 1.0,
+      "domain_bootstrap_95ci": [
+        1.0,
+        1.0
+      ],
+      "insufficient_domains_for_strong_inference": true,
+      "mean_tool_steps": 10.0,
+      "failure_types": {},
+      "source_cost_included": true,
+      "cold_total_tokens_including_source": 9644383,
+      "source_amortized_total_tokens_per_query_episode": 3214794.3333333335,
+      "measured_method_usage": {
+        "attempts": 106,
+        "model_calls": 106,
+        "failed_attempts": 0,
+        "input_tokens": 443075,
+        "output_tokens": 8276,
+        "total_tokens": 451351,
+        "cached_input_tokens": 374272,
+        "reasoning_tokens": null,
+        "cost_usd": 0.016408866,
+        "latency_seconds": 106.99381811599687
+      }
+    },
+    "G": {
+      "episodes": 3,
+      "tasks": 3,
+      "domains": 1,
+      "domain_equal_success": 0.6666666666666666,
+      "domain_bootstrap_95ci": [
+        0.6666666666666666,
+        0.6666666666666666
+      ],
+      "insufficient_domains_for_strong_inference": true,
+      "mean_tool_steps": 16.666666666666668,
+      "failure_types": {
+        "task_not_solved": 1
+      },
+      "source_cost_included": false,
+      "cold_total_tokens_including_source": 316307,
+      "source_amortized_total_tokens_per_query_episode": 105435.66666666667,
+      "measured_method_usage": {
+        "attempts": 53,
+        "model_calls": 53,
+        "failed_attempts": 0,
+        "input_tokens": 311048,
+        "output_tokens": 5259,
+        "total_tokens": 316307,
+        "cached_input_tokens": 283136,
+        "reasoning_tokens": null,
+        "cost_usd": 0.008191608,
+        "latency_seconds": 59.24665264000123
+      }
+    },
+    "G+R@4": {
+      "episodes": 3,
+      "tasks": 3,
+      "domains": 1,
+      "domain_equal_success": 1.0,
+      "domain_bootstrap_95ci": [
+        1.0,
+        1.0
+      ],
+      "insufficient_domains_for_strong_inference": true,
+      "mean_tool_steps": 11.666666666666666,
+      "failure_types": {},
+      "source_cost_included": false,
+      "cold_total_tokens_including_source": 605772,
+      "source_amortized_total_tokens_per_query_episode": 201924.0,
+      "measured_method_usage": {
+        "attempts": 130,
+        "model_calls": 130,
+        "failed_attempts": 0,
+        "input_tokens": 595834,
+        "output_tokens": 9938,
+        "total_tokens": 605772,
+        "cached_input_tokens": 524531,
+        "reasoning_tokens": null,
+        "cost_usd": 0.018231843,
+        "latency_seconds": 133.46766072200035
+      }
+    },
+    "S": {
+      "episodes": 3,
+      "tasks": 3,
+      "domains": 1,
+      "domain_equal_success": 0.6666666666666666,
+      "domain_bootstrap_95ci": [
+        0.6666666666666666,
+        0.6666666666666666
+      ],
+      "insufficient_domains_for_strong_inference": true,
+      "mean_tool_steps": 14.333333333333334,
+      "failure_types": {
+        "step_budget_exhausted": 1
+      },
+      "source_cost_included": true,
+      "cold_total_tokens_including_source": 9503819,
+      "source_amortized_total_tokens_per_query_episode": 3167939.6666666665,
+      "measured_method_usage": {
+        "attempts": 46,
+        "model_calls": 46,
+        "failed_attempts": 0,
+        "input_tokens": 304914,
+        "output_tokens": 5873,
+        "total_tokens": 310787,
+        "cached_input_tokens": 280704,
+        "reasoning_tokens": null,
+        "cost_usd": 0.007997412,
+        "latency_seconds": 54.681411078001474
+      }
+    },
+    "V": {
+      "episodes": 3,
+      "tasks": 3,
+      "domains": 1,
+      "domain_equal_success": 1.0,
+      "domain_bootstrap_95ci": [
+        1.0,
+        1.0
+      ],
+      "insufficient_domains_for_strong_inference": true,
+      "mean_tool_steps": 11.0,
+      "failure_types": {},
+      "source_cost_included": true,
+      "cold_total_tokens_including_source": 9389592,
+      "source_amortized_total_tokens_per_query_episode": 3129864.0,
+      "measured_method_usage": {
+        "attempts": 36,
+        "model_calls": 36,
+        "failed_attempts": 0,
+        "input_tokens": 192805,
+        "output_tokens": 3755,
+        "total_tokens": 196560,
+        "cached_input_tokens": 177408,
+        "reasoning_tokens": null,
+        "cost_usd": 0.005094774,
+        "latency_seconds": 39.48240605799856
+      }
+    }
+  },
+  "paired_differences": {
+    "D - F": {
+      "mean_difference": -0.3333333333333333,
+      "domain_bootstrap_95ci": [
+        -0.3333333333333333,
+        -0.3333333333333333
+      ],
+      "domains": 1
+    },
+    "D - F+R@4": {
+      "mean_difference": -0.6666666666666667,
+      "domain_bootstrap_95ci": [
+        -0.6666666666666667,
+        -0.6666666666666667
+      ],
+      "domains": 1
+    },
+    "D - G": {
+      "mean_difference": -0.3333333333333333,
+      "domain_bootstrap_95ci": [
+        -0.3333333333333333,
+        -0.3333333333333333
+      ],
+      "domains": 1
+    },
+    "D - G+R@4": {
+      "mean_difference": -0.6666666666666667,
+      "domain_bootstrap_95ci": [
+        -0.6666666666666667,
+        -0.6666666666666667
+      ],
+      "domains": 1
+    },
+    "D - S": {
+      "mean_difference": -0.3333333333333333,
+      "domain_bootstrap_95ci": [
+        -0.3333333333333333,
+        -0.3333333333333333
+      ],
+      "domains": 1
+    },
+    "D - V": {
+      "mean_difference": -0.6666666666666667,
+      "domain_bootstrap_95ci": [
+        -0.6666666666666667,
+        -0.6666666666666667
+      ],
+      "domains": 1
+    },
+    "F - F+R@4": {
+      "mean_difference": -0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "F - G": {
+      "mean_difference": 0.0,
+      "domain_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "domains": 1
+    },
+    "F - G+R@4": {
+      "mean_difference": -0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "F - S": {
+      "mean_difference": 0.0,
+      "domain_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "domains": 1
+    },
+    "F - V": {
+      "mean_difference": -0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "F+R@4 - G": {
+      "mean_difference": 0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        0.33333333333333337,
+        0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "F+R@4 - G+R@4": {
+      "mean_difference": 0.0,
+      "domain_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "domains": 1
+    },
+    "F+R@4 - S": {
+      "mean_difference": 0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        0.33333333333333337,
+        0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "F+R@4 - V": {
+      "mean_difference": 0.0,
+      "domain_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "domains": 1
+    },
+    "G - G+R@4": {
+      "mean_difference": -0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "G - S": {
+      "mean_difference": 0.0,
+      "domain_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "domains": 1
+    },
+    "G - V": {
+      "mean_difference": -0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "G+R@4 - S": {
+      "mean_difference": 0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        0.33333333333333337,
+        0.33333333333333337
+      ],
+      "domains": 1
+    },
+    "G+R@4 - V": {
+      "mean_difference": 0.0,
+      "domain_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "domains": 1
+    },
+    "S - V": {
+      "mean_difference": -0.33333333333333337,
+      "domain_bootstrap_95ci": [
+        -0.33333333333333337,
+        -0.33333333333333337
+      ],
+      "domains": 1
+    }
+  },
+  "harness_equivalence_groups": [
+    {
+      "domain": "target.personal_apps",
+      "construction_seed": 17,
+      "harness_sha256": "385c421b7c5700843b1f1d59da2408443abeb7ae18818a66d7746861444d6466",
+      "conditions": [
+        "D"
+      ],
+      "query_episodes": 3,
+      "shared_across_conditions": false
+    },
+    {
+      "domain": "target.personal_apps",
+      "construction_seed": 17,
+      "harness_sha256": "7ba90301afc6241b28923f531265b3a849edfbe42058bbf8830ad9dc4ac16384",
+      "conditions": [
+        "F",
+        "F+R@4",
+        "S",
+        "V"
+      ],
+      "query_episodes": 12,
+      "shared_across_conditions": true
+    },
+    {
+      "domain": "target.personal_apps",
+      "construction_seed": 17,
+      "harness_sha256": "cc95f632b45cf2ced718d173296713f281fe9d2c2e4d398b6fd122531c331cd0",
+      "conditions": [
+        "G",
+        "G+R@4"
+      ],
+      "query_episodes": 6,
+      "shared_across_conditions": true
+    }
+  ],
+  "execution_health": {
+    "overall": {
+      "query_episodes": 21,
+      "task_successes": 16,
+      "valid_task_outcome": {
+        "true": 21,
+        "false": 0
+      },
+      "execution_healthy": {
+        "true": 20,
+        "false": 1
+      },
+      "finished": {
+        "true": 20,
+        "false": 1
+      },
+      "clean_finishes": 20,
+      "failure_types": {
+        "none": 16,
+        "step_budget_exhausted": 1,
+        "task_not_solved": 4
+      },
+      "success_with_execution_issue": 0,
+      "finish_audit": {
+        "audited_episodes": 21,
+        "unknown_legacy_episodes": 0,
+        "finish_modes": {
+          "explicit_tool": 20,
+          "unfinished": 1
+        },
+        "known_counts": {
+          "explicit_finish_count": 20,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        },
+        "explicit_finish_count": 20,
+        "auto_final_count": 0,
+        "protocol_violation_count": 0,
+        "protocol_repairs_used": 0,
+        "protocol_repair_requests": 0
+      }
+    },
+    "by_condition": {
+      "D": {
+        "query_episodes": 3,
+        "task_successes": 1,
+        "valid_task_outcome": {
+          "true": 3,
+          "false": 0
+        },
+        "execution_healthy": {
+          "true": 3,
+          "false": 0
+        },
+        "finished": {
+          "true": 3,
+          "false": 0
+        },
+        "clean_finishes": 3,
+        "failure_types": {
+          "none": 1,
+          "task_not_solved": 2
+        },
+        "success_with_execution_issue": 0,
+        "finish_audit": {
+          "audited_episodes": 3,
+          "unknown_legacy_episodes": 0,
+          "finish_modes": {
+            "explicit_tool": 3
+          },
+          "known_counts": {
+            "explicit_finish_count": 3,
+            "auto_final_count": 0,
+            "protocol_violation_count": 0,
+            "protocol_repairs_used": 0,
+            "protocol_repair_requests": 0
+          },
+          "explicit_finish_count": 3,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        }
+      },
+      "F": {
+        "query_episodes": 3,
+        "task_successes": 2,
+        "valid_task_outcome": {
+          "true": 3,
+          "false": 0
+        },
+        "execution_healthy": {
+          "true": 3,
+          "false": 0
+        },
+        "finished": {
+          "true": 3,
+          "false": 0
+        },
+        "clean_finishes": 3,
+        "failure_types": {
+          "none": 2,
+          "task_not_solved": 1
+        },
+        "success_with_execution_issue": 0,
+        "finish_audit": {
+          "audited_episodes": 3,
+          "unknown_legacy_episodes": 0,
+          "finish_modes": {
+            "explicit_tool": 3
+          },
+          "known_counts": {
+            "explicit_finish_count": 3,
+            "auto_final_count": 0,
+            "protocol_violation_count": 0,
+            "protocol_repairs_used": 0,
+            "protocol_repair_requests": 0
+          },
+          "explicit_finish_count": 3,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        }
+      },
+      "F+R@4": {
+        "query_episodes": 3,
+        "task_successes": 3,
+        "valid_task_outcome": {
+          "true": 3,
+          "false": 0
+        },
+        "execution_healthy": {
+          "true": 3,
+          "false": 0
+        },
+        "finished": {
+          "true": 3,
+          "false": 0
+        },
+        "clean_finishes": 3,
+        "failure_types": {
+          "none": 3
+        },
+        "success_with_execution_issue": 0,
+        "finish_audit": {
+          "audited_episodes": 3,
+          "unknown_legacy_episodes": 0,
+          "finish_modes": {
+            "explicit_tool": 3
+          },
+          "known_counts": {
+            "explicit_finish_count": 3,
+            "auto_final_count": 0,
+            "protocol_violation_count": 0,
+            "protocol_repairs_used": 0,
+            "protocol_repair_requests": 0
+          },
+          "explicit_finish_count": 3,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        }
+      },
+      "G": {
+        "query_episodes": 3,
+        "task_successes": 2,
+        "valid_task_outcome": {
+          "true": 3,
+          "false": 0
+        },
+        "execution_healthy": {
+          "true": 3,
+          "false": 0
+        },
+        "finished": {
+          "true": 3,
+          "false": 0
+        },
+        "clean_finishes": 3,
+        "failure_types": {
+          "none": 2,
+          "task_not_solved": 1
+        },
+        "success_with_execution_issue": 0,
+        "finish_audit": {
+          "audited_episodes": 3,
+          "unknown_legacy_episodes": 0,
+          "finish_modes": {
+            "explicit_tool": 3
+          },
+          "known_counts": {
+            "explicit_finish_count": 3,
+            "auto_final_count": 0,
+            "protocol_violation_count": 0,
+            "protocol_repairs_used": 0,
+            "protocol_repair_requests": 0
+          },
+          "explicit_finish_count": 3,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        }
+      },
+      "G+R@4": {
+        "query_episodes": 3,
+        "task_successes": 3,
+        "valid_task_outcome": {
+          "true": 3,
+          "false": 0
+        },
+        "execution_healthy": {
+          "true": 3,
+          "false": 0
+        },
+        "finished": {
+          "true": 3,
+          "false": 0
+        },
+        "clean_finishes": 3,
+        "failure_types": {
+          "none": 3
+        },
+        "success_with_execution_issue": 0,
+        "finish_audit": {
+          "audited_episodes": 3,
+          "unknown_legacy_episodes": 0,
+          "finish_modes": {
+            "explicit_tool": 3
+          },
+          "known_counts": {
+            "explicit_finish_count": 3,
+            "auto_final_count": 0,
+            "protocol_violation_count": 0,
+            "protocol_repairs_used": 0,
+            "protocol_repair_requests": 0
+          },
+          "explicit_finish_count": 3,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        }
+      },
+      "S": {
+        "query_episodes": 3,
+        "task_successes": 2,
+        "valid_task_outcome": {
+          "true": 3,
+          "false": 0
+        },
+        "execution_healthy": {
+          "true": 2,
+          "false": 1
+        },
+        "finished": {
+          "true": 2,
+          "false": 1
+        },
+        "clean_finishes": 2,
+        "failure_types": {
+          "none": 2,
+          "step_budget_exhausted": 1
+        },
+        "success_with_execution_issue": 0,
+        "finish_audit": {
+          "audited_episodes": 3,
+          "unknown_legacy_episodes": 0,
+          "finish_modes": {
+            "explicit_tool": 2,
+            "unfinished": 1
+          },
+          "known_counts": {
+            "explicit_finish_count": 2,
+            "auto_final_count": 0,
+            "protocol_violation_count": 0,
+            "protocol_repairs_used": 0,
+            "protocol_repair_requests": 0
+          },
+          "explicit_finish_count": 2,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        }
+      },
+      "V": {
+        "query_episodes": 3,
+        "task_successes": 3,
+        "valid_task_outcome": {
+          "true": 3,
+          "false": 0
+        },
+        "execution_healthy": {
+          "true": 3,
+          "false": 0
+        },
+        "finished": {
+          "true": 3,
+          "false": 0
+        },
+        "clean_finishes": 3,
+        "failure_types": {
+          "none": 3
+        },
+        "success_with_execution_issue": 0,
+        "finish_audit": {
+          "audited_episodes": 3,
+          "unknown_legacy_episodes": 0,
+          "finish_modes": {
+            "explicit_tool": 3
+          },
+          "known_counts": {
+            "explicit_finish_count": 3,
+            "auto_final_count": 0,
+            "protocol_violation_count": 0,
+            "protocol_repairs_used": 0,
+            "protocol_repair_requests": 0
+          },
+          "explicit_finish_count": 3,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        }
+      }
+    }
+  },
+  "stage_execution_health": {
+    "source": {
+      "episodes": 66,
+      "task_successes": 25,
+      "valid_task_outcome": {
+        "true": 66,
+        "false": 0
+      },
+      "execution_healthy": {
+        "true": 35,
+        "false": 31
+      },
+      "finished": {
+        "true": 35,
+        "false": 31
+      },
+      "clean_finishes": 35,
+      "failure_types": {
+        "none": 24,
+        "step_budget_exhausted": 31,
+        "task_not_solved": 11
+      },
+      "success_with_execution_issue": 1,
+      "finish_audit": {
+        "audited_episodes": 66,
+        "unknown_legacy_episodes": 0,
+        "finish_modes": {
+          "explicit_tool": 35,
+          "unfinished": 31
+        },
+        "known_counts": {
+          "explicit_finish_count": 35,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        },
+        "explicit_finish_count": 35,
+        "auto_final_count": 0,
+        "protocol_violation_count": 0,
+        "protocol_repairs_used": 0,
+        "protocol_repair_requests": 0
+      }
+    },
+    "support": {
+      "episodes": 18,
+      "task_successes": 4,
+      "valid_task_outcome": {
+        "true": 18,
+        "false": 0
+      },
+      "execution_healthy": {
+        "true": 18,
+        "false": 0
+      },
+      "finished": {
+        "true": 18,
+        "false": 0
+      },
+      "clean_finishes": 18,
+      "failure_types": {
+        "none": 4,
+        "task_not_solved": 14
+      },
+      "success_with_execution_issue": 0,
+      "finish_audit": {
+        "audited_episodes": 18,
+        "unknown_legacy_episodes": 0,
+        "finish_modes": {
+          "explicit_tool": 18
+        },
+        "known_counts": {
+          "explicit_finish_count": 18,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        },
+        "explicit_finish_count": 18,
+        "auto_final_count": 0,
+        "protocol_violation_count": 0,
+        "protocol_repairs_used": 0,
+        "protocol_repair_requests": 0
+      }
+    },
+    "query": {
+      "episodes": 21,
+      "task_successes": 16,
+      "valid_task_outcome": {
+        "true": 21,
+        "false": 0
+      },
+      "execution_healthy": {
+        "true": 20,
+        "false": 1
+      },
+      "finished": {
+        "true": 20,
+        "false": 1
+      },
+      "clean_finishes": 20,
+      "failure_types": {
+        "none": 16,
+        "step_budget_exhausted": 1,
+        "task_not_solved": 4
+      },
+      "success_with_execution_issue": 0,
+      "finish_audit": {
+        "audited_episodes": 21,
+        "unknown_legacy_episodes": 0,
+        "finish_modes": {
+          "explicit_tool": 20,
+          "unfinished": 1
+        },
+        "known_counts": {
+          "explicit_finish_count": 20,
+          "auto_final_count": 0,
+          "protocol_violation_count": 0,
+          "protocol_repairs_used": 0,
+          "protocol_repair_requests": 0
+        },
+        "explicit_finish_count": 20,
+        "auto_final_count": 0,
+        "protocol_violation_count": 0,
+        "protocol_repairs_used": 0,
+        "protocol_repair_requests": 0
+      }
+    }
+  },
+  "manifest_design": {
+    "source": {
+      "tasks": 6,
+      "generators": 2,
+      "domains": 1,
+      "public_feature_vectors": 1
+    },
+    "support": {
+      "tasks": 3,
+      "generators": 1,
+      "domains": 1,
+      "public_feature_vectors": 1
+    },
+    "query": {
+      "tasks": 3,
+      "generators": 1,
+      "domains": 1,
+      "public_feature_vectors": 1
+    },
+    "registered_public_feature_vectors": 1,
+    "constant_public_features": true
+  },
+  "total_actual_usage": {
+    "attempts": 1676,
+    "model_calls": 1676,
+    "failed_attempts": 0,
+    "input_tokens": 11267358,
+    "output_tokens": 206829,
+    "total_tokens": 11474187,
+    "cached_input_tokens": 10334451,
+    "reasoning_tokens": null,
+    "cost_usd": 0.295036803,
+    "latency_seconds": 1917.8076939239975
+  },
+  "source_usage": {
+    "attempts": 1237,
+    "model_calls": 1237,
+    "failed_attempts": 0,
+    "input_tokens": 9026861,
+    "output_tokens": 166171,
+    "total_tokens": 9193032,
+    "cached_input_tokens": 8353664,
+    "reasoning_tokens": null,
+    "cost_usd": 0.225743142,
+    "latency_seconds": 1447.7057051169975
+  },
+  "actual_episode_counts": {
+    "source": 66,
+    "support": 18,
+    "query": 21
+  },
+  "extra_validation": {
+    "environment_validation": {
+      "model_calls": 0,
+      "completed": true,
+      "fresh_worlds": 2,
+      "elapsed_seconds": 11.22150510999927,
+      "initial_score": 0.0,
+      "official_scoring_observed": true,
+      "public_api_execution_nonempty": true,
+      "public_state_changed": true,
+      "reset_restored_initial_public_state": true,
+      "reset_restored_same_score": true,
+      "host_file_read_rejected": true
+    },
+    "calibration": {
+      "success": true,
+      "score": 1.0,
+      "tool_steps": 10,
+      "failure_type": null,
+      "model_calls": 11,
+      "usage": {
+        "input_tokens": 65020,
+        "output_tokens": 1323,
+        "total_tokens": 66343,
+        "cached_input_tokens": 56832,
+        "reasoning_tokens": null,
+        "cost_usd": 0.002192496
+      },
+      "cost_basis": "study_configured_rates_applied_to_calibration_usage",
+      "finish_audit_available": true,
+      "finish_mode": "explicit_tool",
+      "explicit_finish_count": 1,
+      "auto_final_count": 0,
+      "protocol_violation_count": 0,
+      "protocol_repairs_used": 0,
+      "protocol_repair_requests": 0,
+      "actor_protocol": "v2_required_tools",
+      "valid_task_outcome": true,
+      "execution_healthy": true,
+      "finished": true
+    },
+    "additional_spend": {
+      "model_calls": 11,
+      "total_tokens": 66343,
+      "cost_usd": 0.002192496,
+      "supplied_reports_only": true
+    }
+  }
+}
